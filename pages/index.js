@@ -1,8 +1,7 @@
-import React from 'react'
-import { useQuerySubscription, renderMetaTags } from 'react-datocms';
+import React from 'react';
+import { useQuerySubscription } from 'react-datocms';
 
-import request from '../lib/datocms';
-
+import request from '@/lib/datocms';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -32,17 +31,14 @@ export async function getStaticProps({ preview = false }) {
   };
 }
 
-
 export default function Home({ subscription }) {
   const {
     data: { homepage },
   } = useQuerySubscription(subscription);
 
-  console.log({ homepage })
+  console.log({ homepage });
 
-  return (
-    <div>homepage</div>
-  );
+  return <div>homepage</div>;
 
   // return (
   //   <Layout darkNav navigation={navigation} allBanners={allBanners}>
