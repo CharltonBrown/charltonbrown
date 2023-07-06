@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Savoy';
+  src: url('/fonts/Fontspring-DEMO-Savoy-Roman.eot');
+  src: url('/fonts/Fontspring-DEMO-Savoy-Roman.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/Fontspring-DEMO-Savoy-Roman.woff2') format('woff2'),
+    url('/fonts/Fontspring-DEMO-Savoy-Roman.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
