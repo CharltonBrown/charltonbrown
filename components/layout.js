@@ -8,7 +8,7 @@ export default function Layout({ children, title }) {
         <title>{title} - Charlton Brown</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      {children}
+      <main className="font-serif">{children}</main>
     </>
   );
 }

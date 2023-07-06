@@ -1,14 +1,18 @@
-import React from 'react'
-import { useQuerySubscription, renderMetaTags } from 'react-datocms';
+import React from 'react';
+import { useQuerySubscription } from 'react-datocms';
+import Link from 'next/link';
 
-import request from '../../lib/datocms';
-
+import request from '@/lib/datocms';
+import Layout from '@/components/layout';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query ProjectsQuery {
-            allProjects	{
+            allProjects {
+              id
+              description
+              slug
               title
             }
           }
@@ -32,15 +36,23 @@ export async function getStaticProps({ preview = false }) {
   };
 }
 
-
-export default function Home({ subscription }) {
+export default function Projects({ subscription }) {
   const {
-    data: { allProjects },
+    data: { allProjects: projects },
   } = useQuerySubscription(subscription);
 
-  console.log({ allProjects })
+  console.log({ projects });
 
   return (
-    <div>projects</div>
+    <Layout>
+      <div className="p-8">projects</div>
+      <ul>
+        {projects.map((project) => (
+          <li key={project.id}>
+            <Link href={`/projects/${project.slug}`}>{project.title}</Link>
+          </li>
+        ))}
+      </ul>
+    </Layout>
   );
 }

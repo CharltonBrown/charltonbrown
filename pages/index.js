@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
+import Layout from '@/components/layout';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -38,13 +39,9 @@ export default function Home({ subscription }) {
 
   console.log({ homepage });
 
-  return <div className="p-8">homepage</div>;
-
-  // return (
-  //   <Layout darkNav navigation={navigation} allBanners={allBanners}>
-  //     <Head>{renderMetaTags(homepage.seo)}</Head>
-  //     <ModularContent content={homepage.content} />
-  //     <PreFooter />
-  //   </Layout>
-  // );
+  return (
+    <Layout>
+      <div className="p-8">homepage</div>
+    </Layout>
+  );
 }
