@@ -38,7 +38,7 @@ export default function Home({ subscription }) {
 
   console.log({ homepage });
 
-  return <div>homepage</div>;
+  return <div className="p-8">homepage</div>;
 
   // return (
   //   <Layout darkNav navigation={navigation} allBanners={allBanners}>
