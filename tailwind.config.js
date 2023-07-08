@@ -8,6 +8,9 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
+      alabaster: {
+        DEFAULT: 'rgb(var(--color-alabaster-100) / <alpha-value>)',
+      },
       bone: {
         DEFAULT: 'rgb(var(--color-bone-100) / <alpha-value>)',
       },
@@ -16,6 +19,12 @@ module.exports = {
       },
       white: {
         DEFAULT: 'rgb(var(--color-white-100) / <alpha-value>)',
+      },
+      gray: {
+        DEFAULT: 'rgb(var(--color-gray-100) / <alpha-value>)',
+      },
+      gallery: {
+        DEFAULT: 'rgb(var(--color-gallery-100) / <alpha-value>)',
       },
     },
     fontFamily: {

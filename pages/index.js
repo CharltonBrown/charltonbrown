@@ -51,7 +51,6 @@ export async function getStaticProps({ preview = false }) {
 export default function Home({ subscription }) {
   const {
     data: {
-      homepage,
       homepage: {
         blockOneLabel,
         blockOneBody,
@@ -65,8 +64,6 @@ export default function Home({ subscription }) {
       },
     },
   } = useQuerySubscription(subscription);
-
-  console.log({ homepage });
 
   return (
     <Layout>
