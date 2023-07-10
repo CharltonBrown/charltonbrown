@@ -26,6 +26,9 @@ module.exports = {
       gallery: {
         DEFAULT: 'rgb(var(--color-gallery-100) / <alpha-value>)',
       },
+      silver: {
+        DEFAULT: 'rgb(var(--color-silver-100) / <alpha-value>)',
+      },
     },
     fontFamily: {
       serif: ['Savoy', 'serif'],

@@ -1,9 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
 
+import FooterNavigation from '@/components/footerNavigation';
 import useElementOnScreen from '@/hooks/useElementOnScreen';
 
-export default function Footer() {
+export default function Footer({ footerNavigation }) {
   const [containerRef, isVisible] = useElementOnScreen({
     root: null,
     rootMargin: '0px',
@@ -12,10 +13,7 @@ export default function Footer() {
 
   return (
     <>
-      <div
-        ref={containerRef}
-        className="relative bg-black h-4 w-full pb-[calc(100vh)]"
-      />
+      <div ref={containerRef} className="w-full pb-[calc(100vh)]" />
       <footer
         className={clsx(
           isVisible ? 'visible' : 'invisible',
@@ -77,7 +75,7 @@ export default function Footer() {
               </p>
             </div>
           </div>
-          <p className="shrink">bottom nav here</p>
+          <FooterNavigation footerNavigation={footerNavigation} />
         </div>
       </footer>
     </>

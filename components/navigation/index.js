@@ -1,37 +1,24 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 import Logo from '@/components/logo';
 import Burger from '@/components/burger';
-import Link from 'next/link';
 
-const NavList = ({ className }) => (
+const NavList = ({ className, navigation }) => (
   <navigation className={className}>
     <ul className="flex flex-col h-full justify-center text-2xl md:flex-row md:text-xl md:justify-between md:h-auto">
-      <li className="md:px-4">
-        <Link href="/projects" className="block py-2 md:p-0">
-          Projects
-        </Link>
-      </li>
-      <li className="md:px-4">
-        <Link href="/about-us" className="block py-2 md:p-0">
-          About us
-        </Link>
-      </li>
-      <li className="md:px-4">
-        <Link href="/services" className="block py-2 md:p-0">
-          Services
-        </Link>
-      </li>
-      <li className="md:pl-4">
-        <Link href="/contact" className="block py-2 md:p-0">
-          Contact
-        </Link>
-      </li>
+      {navigation.map((link) => (
+        <li className="md:px-4" key={link.id}>
+          <Link href={link.href} className="block py-2 md:p-0">
+            {link.text}
+          </Link>
+        </li>
+      ))}
     </ul>
   </navigation>
 );
 
-export default function Navigation() {
+export default function Navigation({ navigation }) {
   const [activeMobileNav, setActiveMobileNav] = useState(false);
 
   const handleClick = () => {
@@ -44,10 +31,13 @@ export default function Navigation() {
       <Burger className="md:hidden z-50 relative" onClick={handleClick} />
       {activeMobileNav && (
         <div className="bg-white absolute inset-0 flex align-center justify-center">
-          <NavList className="text-center" />
+          <NavList navigation={navigation} className="text-center" />
         </div>
       )}
-      <NavList className="hidden md:flex items-center" />
+      <NavList
+        navigation={navigation}
+        className="hidden md:flex items-center"
+      />
     </header>
   );
 }

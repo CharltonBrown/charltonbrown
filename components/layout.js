@@ -4,7 +4,13 @@ import Head from 'next/head';
 import Navigation from '@/components/navigation';
 import Footer from '@/components/footer';
 
-export default function Layout({ children, title }) {
+export default function Layout({
+  children,
+  footerNavigation,
+  mainNavigation,
+  title,
+}) {
+  console.log({ footerNavigation });
   return (
     <>
       <Head>
@@ -12,9 +18,9 @@ export default function Layout({ children, title }) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <main className="font-serif">
-        <Navigation />
+        <Navigation navigation={mainNavigation} />
         {children}
-        <Footer />
+        <Footer footerNavigation={footerNavigation} />
       </main>
     </>
   );

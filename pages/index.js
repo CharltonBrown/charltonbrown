@@ -5,6 +5,8 @@ import request from '@/lib/datocms';
 import { responsiveImageFragment } from '@/lib/fragments';
 import Layout from '@/components/layout';
 import HeroSlider from '@/components/hero-slider';
+import mainNavigationFragment from '@/components/navigation/fragment';
+import footerNavigationFragment from '@/components/footerNavigation/fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -26,6 +28,8 @@ export async function getStaticProps({ preview = false }) {
               blockThreeLabel
               blockThreeBody(markdown: true)
             }
+            ${mainNavigationFragment}
+            ${footerNavigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -62,11 +66,16 @@ export default function Home({ subscription }) {
         quote,
         sliderImages,
       },
+      mainNavigation,
+      footerNavigation,
     },
   } = useQuerySubscription(subscription);
 
   return (
-    <Layout>
+    <Layout
+      mainNavigation={mainNavigation.links}
+      footerNavigation={footerNavigation.links}
+    >
       <HeroSlider images={sliderImages} />
       <div className="relative mt-[calc(100vh)] z-50">
         <div className="flex flex-col items-center w-full p-7 bg-bone mt-[400px] text-center">
