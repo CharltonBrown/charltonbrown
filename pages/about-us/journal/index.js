@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
+import mainNavigationFragment from '@/components/navigation/fragment';
+import footerNavigationFragment from '@/components/footerNavigation/fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -15,6 +17,8 @@ export async function getStaticProps({ preview = false }) {
               id
               slug
             }
+            ${mainNavigationFragment}
+            ${footerNavigationFragment}
           }
         `,
     preview,
@@ -38,21 +42,27 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Posts({ subscription }) {
   const {
-    data: { allPosts: posts },
+    data: { allPosts: posts, mainNavigation, footerNavigation },
   } = useQuerySubscription(subscription);
 
   console.log({ posts });
 
   return (
-    <Layout>
-      <div className="p-8">posts</div>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <Link href={`/about-us/journal/${post.slug}`}>{post.heading}</Link>
-          </li>
-        ))}
-      </ul>
+    <Layout
+      mainNavigation={mainNavigation.links}
+      footerNavigation={footerNavigation.links}
+    >
+      <div className="relative bg-black p-8 text-white mt-[300px] z-50">
+        <ul>
+          {posts.map((post) => (
+            <li key={post.id}>
+              <Link href={`/about-us/journal/${post.slug}`}>
+                {post.heading}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </Layout>
   );
 }

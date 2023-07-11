@@ -5,17 +5,17 @@ import Logo from '@/components/logo';
 import Burger from '@/components/burger';
 
 const NavList = ({ className, navigation }) => (
-  <navigation className={className}>
+  <nav className={className}>
     <ul className="flex flex-col h-full justify-center text-2xl md:flex-row md:text-xl md:justify-between md:h-auto">
       {navigation.map((link) => (
         <li className="md:px-4" key={link.id}>
-          <Link href={link.href} className="block py-2 md:p-0">
+          <Link href={`/${link.href}`} className="block py-2 md:p-0">
             {link.text}
           </Link>
         </li>
       ))}
     </ul>
-  </navigation>
+  </nav>
 );
 
 export default function Navigation({ navigation }) {

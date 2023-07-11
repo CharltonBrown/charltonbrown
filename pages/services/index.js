@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
+import mainNavigationFragment from '@/components/navigation/fragment';
+import footerNavigationFragment from '@/components/footerNavigation/fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -11,10 +13,11 @@ export async function getStaticProps({ preview = false }) {
           query ServicesQuery {
             allServices {
               id
-              description
               slug
               title
             }
+            ${mainNavigationFragment}
+            ${footerNavigationFragment}
           }
         `,
     preview,
@@ -36,23 +39,27 @@ export async function getStaticProps({ preview = false }) {
   };
 }
 
-export default function Home({ subscription }) {
+export default function Services({ subscription }) {
   const {
-    data: { allProjects: projects },
+    data: { allServices: services, mainNavigation, footerNavigation },
   } = useQuerySubscription(subscription);
 
-  console.log({ projects });
+  console.log({ services });
 
   return (
-    <Layout>
-      <div className="p-8">projects</div>
-      <ul>
-        {projects.map((project) => (
-          <li key={project.id}>
-            <Link href={`/projects/${project.slug}`}>{project.title}</Link>
-          </li>
-        ))}
-      </ul>
+    <Layout
+      mainNavigation={mainNavigation.links}
+      footerNavigation={footerNavigation.links}
+    >
+      <div className="relative bg-black p-8 text-white mt-[300px] z-50">
+        <ul>
+          {services.map((service) => (
+            <li key={service.id}>
+              <Link href={`/services/${service.slug}`}>{service.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </Layout>
   );
 }

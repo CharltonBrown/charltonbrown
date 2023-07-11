@@ -3,12 +3,14 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
+import mainNavigationFragment from '@/components/navigation/fragment';
+import footerNavigationFragment from '@/components/footerNavigation/fragment';
 
 export async function getStaticPaths() {
-  const data = await request({ query: '{ allService { slug } }' });
+  const data = await request({ query: '{ allServices { slug } }' });
 
   return {
-    paths: data.allServices.map((post) => `/services/${post.slug}`),
+    paths: data.allServices.map((service) => `/services/${service.slug}`),
     fallback: false,
   };
 }
@@ -19,10 +21,10 @@ export async function getStaticProps({ params, preview = false }) {
           query ServicesBySlug($slug: String) {
             services(filter: {slug: {eq: $slug}}) {
               id
-              description
-              slug
               title
             }
+            ${mainNavigationFragment}
+            ${footerNavigationFragment}
           }          
         `,
     preview,
@@ -49,13 +51,16 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Service({ subscription }) {
   const {
-    data: { service },
+    data: { service, mainNavigation, footerNavigation },
   } = useQuerySubscription(subscription);
 
   console.log({ service });
 
   return (
-    <Layout>
+    <Layout
+      mainNavigation={mainNavigation.links}
+      footerNavigation={footerNavigation.links}
+    >
       <div className="p-8">service</div>
     </Layout>
   );

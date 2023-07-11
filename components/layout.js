@@ -10,7 +10,6 @@ export default function Layout({
   mainNavigation,
   title,
 }) {
-  console.log({ footerNavigation });
   return (
     <>
       <Head>

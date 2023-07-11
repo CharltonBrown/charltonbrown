@@ -3,6 +3,8 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
+import mainNavigationFragment from '@/components/navigation/fragment';
+import footerNavigationFragment from '@/components/footerNavigation/fragment';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allPosts { slug } }' });
@@ -22,6 +24,8 @@ export async function getStaticProps({ params, preview = false }) {
               heading
               id
             }
+            ${mainNavigationFragment}
+            ${footerNavigationFragment}
           }          
         `,
     preview,
@@ -48,13 +52,16 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Posts({ subscription }) {
   const {
-    data: { post },
+    data: { post, mainNavigation, footerNavigation },
   } = useQuerySubscription(subscription);
 
   console.log({ post });
 
   return (
-    <Layout>
+    <Layout
+      mainNavigation={mainNavigation.links}
+      footerNavigation={footerNavigation.links}
+    >
       <div className="p-8">post</div>
     </Layout>
   );
