@@ -3,6 +3,8 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
+import mainNavigationFragment from '@/components/navigation/fragment';
+import footerNavigationFragment from '@/components/footerNavigation/fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -17,6 +19,8 @@ export async function getStaticProps({ preview = false }) {
               phone
               position
             }
+            ${mainNavigationFragment}
+            ${footerNavigationFragment}
           }
         `,
     preview,
@@ -40,13 +44,16 @@ export async function getStaticProps({ preview = false }) {
 
 export default function People({ subscription }) {
   const {
-    data: { allPeople: people },
+    data: { allPeople: people, mainNavigation, footerNavigation },
   } = useQuerySubscription(subscription);
 
   console.log({ people });
 
   return (
-    <Layout>
+    <Layout
+      mainNavigation={mainNavigation.links}
+      footerNavigation={footerNavigation.links}
+    >
       <div className="p-8">people</div>
     </Layout>
   );
