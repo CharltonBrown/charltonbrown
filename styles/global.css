@@ -11,3 +11,12 @@
   --color-gallery-100: 237 236 235;
   --color-silver-100: 187 187 187;
 }
+
+html {
+	@apply font-savoy;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

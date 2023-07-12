@@ -31,7 +31,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      serif: ['Savoy', 'serif'],
+      savoy: ['savoyregular', 'serif'],
     },
   },
   plugins: [],

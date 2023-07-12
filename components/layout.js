@@ -16,11 +16,9 @@ export default function Layout({
         <title>{title ? `${title} - Charlton Brown` : 'Charlton Brown'}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <main className="font-serif">
-        <Navigation navigation={mainNavigation} />
-        {children}
-        <Footer footerNavigation={footerNavigation} />
-      </main>
+      <Navigation navigation={mainNavigation} />
+      <main>{children}</main>
+      <Footer footerNavigation={footerNavigation} />
     </>
   );
 }
