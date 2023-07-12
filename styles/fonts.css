@@ -1,9 +1,34 @@
 @font-face {
-  font-family: 'Savoy';
-  src: url('/fonts/Fontspring-DEMO-Savoy-Roman.eot');
-  src: url('/fonts/Fontspring-DEMO-Savoy-Roman.eot?#iefix') format('embedded-opentype'),
-    url('/fonts/Fontspring-DEMO-Savoy-Roman.woff2') format('woff2'),
-    url('/fonts/Fontspring-DEMO-Savoy-Roman.woff') format('woff');
+  font-family: 'savoybold';
+  src: url('/fonts/savoy-bold-webfont.woff2') format('woff2'),
+       url('/fonts/savoy-bold-webfont.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'savoyitalic';
+  src: url('/fonts/savoy-italic-webfont.woff2') format('woff2'),
+       url('/fonts/savoy-italic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'savoyregular';
+  src: url('/fonts/savoy-regular-webfont.woff2') format('woff2'),
+       url('/fonts/savoy-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'savoyroman';
+  src: url('/fonts/savoy-roman-webfont.woff2') format('woff2'),
+       url('/fonts/savoy-roman-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
