@@ -2,18 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Colors named via https://chir.ag/projects/name-that-color */
+
 :root {
-  --color-black-100: 27 25 25;
+  --color-black-100: 27 25 25; /* #1B1919 cod-gray*/
   --color-white-100: 255 255 255;
-  --color-bone-100: 226 207 192;
-  --color-alabaster-100: 250 249 249;
-  --color-gray-100: 143 143 143;
-  --color-gallery-100: 237 236 235;
-  --color-silver-100: 187 187 187;
+  --color-bone-100: 226 207 192; /* #E2CFC0 */
+  --color-alabaster-100: 250 249 249; /* #FAF9F9 */
+  --color-gray-100: 143 143 143; /* #8F8F8F */
+  --color-gallery-100: 237 236 235; /* #EDECEB */
+  --color-silver-100: 187 187 187; /* #BBBBBB */
 }
 
 html {
 	@apply font-savoy;
+  @apply text-black;
 }
 
 body {

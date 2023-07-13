@@ -26,7 +26,7 @@ export default function Navigation({ navigation }) {
   };
 
   return (
-    <header className="fixed top-0 flex z-30 justify-between w-full p-5 md:p-7 lg:p-10 text-white">
+    <header className="fixed top-0 flex z-100 justify-between w-full p-5 md:p-7 lg:p-10 text-white">
       <Logo />
       <Burger className="md:hidden z-50 relative" onClick={handleClick} />
       {activeMobileNav && (
