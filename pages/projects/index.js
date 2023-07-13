@@ -1,9 +1,10 @@
 import React from 'react';
 import { useQuerySubscription } from 'react-datocms';
-import Link from 'next/link';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
+import ProjectsGrid from '@/components/projectsGrid';
+import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
 
@@ -16,10 +17,24 @@ export async function getStaticProps({ preview = false }) {
               description
               slug
               title
+              mainImage {
+                responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
+                  ...responsiveImageFragment
+                }
+              }
+              projectType {
+                id
+                typeTitle
+              }
+            }
+            allProjectTypes {
+              typeTitle
+              id
             }
             ${mainNavigationFragment}
             ${footerNavigationFragment}
           }
+          ${responsiveImageFragment}
         `,
     preview,
   };
@@ -42,7 +57,12 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Projects({ subscription }) {
   const {
-    data: { allProjects: projects, mainNavigation, footerNavigation },
+    data: {
+      allProjects: projects,
+      allProjectTypes: projectTypes,
+      mainNavigation,
+      footerNavigation,
+    },
   } = useQuerySubscription(subscription);
 
   console.log({ projects });
@@ -52,14 +72,9 @@ export default function Projects({ subscription }) {
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <div className="relative bg-black p-8 text-white mt-[300px] z-50">
-        <ul>
-          {projects.map((project) => (
-            <li key={project.id}>
-              <Link href={`/projects/${project.slug}`}>{project.title}</Link>
-            </li>
-          ))}
-        </ul>
+      <h1 className="sr-only">Projects</h1>
+      <div className="p-8">
+        <ProjectsGrid projects={projects} projectTypes={projectTypes} />
       </div>
     </Layout>
   );

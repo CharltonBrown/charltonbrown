@@ -17,7 +17,7 @@ export default function Layout({
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Navigation navigation={mainNavigation} />
-      <main>{children}</main>
+      <main className="relative bg-white z-50">{children}</main>
       <Footer footerNavigation={footerNavigation} />
     </>
   );
