@@ -14,7 +14,6 @@ export async function getStaticProps({ preview = false }) {
           query ProjectsQuery {
             allProjects {
               id
-              description
               slug
               title
               mainImage {
@@ -64,8 +63,6 @@ export default function Projects({ subscription }) {
       footerNavigation,
     },
   } = useQuerySubscription(subscription);
-
-  console.log({ projects });
 
   return (
     <Layout
