@@ -31,7 +31,7 @@ export default function ProjectsGrid({ projects, projectTypes }) {
           </ul>
         </nav>
       </aside>
-      <div className="pl-8">
+      <div className="pt-[200px] pl-8">
         {chunks.map((chunk) => (
           <div
             className={clsx(
