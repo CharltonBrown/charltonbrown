@@ -5,10 +5,7 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-<<<<<<< HEAD
 import AboutUsNav from '@/components/aboutUsNav';
-=======
->>>>>>> f3900ad (Add PeopleGrid component)
 import PeopleGrid from '@/components/peopleGrid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
