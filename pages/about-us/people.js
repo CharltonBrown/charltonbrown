@@ -4,9 +4,11 @@ import Image from 'next/image';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
+import AboutUsNav from '@/components/aboutUsNav';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -26,6 +28,7 @@ export async function getStaticProps({ preview = false }) {
                 }
               }
             }
+            ${aboutUsNavigationFragment}
             ${mainNavigationFragment}
             ${footerNavigationFragment}
           }
@@ -52,7 +55,12 @@ export async function getStaticProps({ preview = false }) {
 
 export default function People({ subscription }) {
   const {
-    data: { allPeople: people, mainNavigation, footerNavigation },
+    data: {
+      allPeople: people,
+      mainNavigation,
+      footerNavigation,
+      aboutUsNavigation,
+    },
   } = useQuerySubscription(subscription);
 
   console.log({ people });
@@ -63,34 +71,10 @@ export default function People({ subscription }) {
       footerNavigation={footerNavigation.links}
     >
       <h1 className="sr-only">People</h1>
-
       <div className="p-8">
         <div className="flex">
           <aside className="w-[220px] h-screen sticky top-0 flex flex-col justify-center">
-            <nav>
-              <ul className="flex flex-col">
-                <li>
-                  <button type="button" className="text-xl text-silver ">
-                    About us
-                  </button>
-                </li>
-                <li>
-                  <button type="button" className="text-xl text-silver ">
-                    People
-                  </button>
-                </li>
-                <li>
-                  <button type="button" className="text-xl text-silver ">
-                    Journal
-                  </button>
-                </li>
-                <li>
-                  <button type="button" className="text-xl text-silver ">
-                    Careers
-                  </button>
-                </li>
-              </ul>
-            </nav>
+            <AboutUsNav links={aboutUsNavigation.links} />
           </aside>
           <div className="pt-[200px] pl-8 grid grid-cols-4 gap-12">
             {people.map((person) => (
