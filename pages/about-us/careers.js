@@ -3,8 +3,10 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
+import AboutUsNav from '@/components/aboutUsNav';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -13,6 +15,7 @@ export async function getStaticProps({ preview = false }) {
             careersPage {
               heading
             }
+            ${aboutUsNavigationFragment}
             ${mainNavigationFragment}
             ${footerNavigationFragment}
           }
@@ -38,7 +41,7 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Careers({ subscription }) {
   const {
-    data: { careers, mainNavigation, footerNavigation },
+    data: { careers, mainNavigation, footerNavigation, aboutUsNavigation },
   } = useQuerySubscription(subscription);
 
   console.log({ careers });
@@ -48,7 +51,15 @@ export default function Careers({ subscription }) {
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <div className="p-8">careers</div>
+      <h1 className="sr-only">Careers</h1>
+      <div className="p-8">
+        <div className="flex">
+          <aside className="w-[220px] h-screen sticky top-0 flex flex-col justify-center">
+            <AboutUsNav links={aboutUsNavigation.links} />
+          </aside>
+          <div className="pt-[200px] pl-8 grow">something</div>
+        </div>
+      </div>
     </Layout>
   );
 }

@@ -1,11 +1,12 @@
 import React from 'react';
 import { useQuerySubscription } from 'react-datocms';
-import Link from 'next/link';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
+import AboutUsNav from '@/components/aboutUsNav';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -17,6 +18,7 @@ export async function getStaticProps({ preview = false }) {
               id
               slug
             }
+            ${aboutUsNavigationFragment}
             ${mainNavigationFragment}
             ${footerNavigationFragment}
           }
@@ -42,7 +44,12 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Posts({ subscription }) {
   const {
-    data: { allPosts: posts, mainNavigation, footerNavigation },
+    data: {
+      allPosts: posts,
+      mainNavigation,
+      footerNavigation,
+      aboutUsNavigation,
+    },
   } = useQuerySubscription(subscription);
 
   console.log({ posts });
@@ -52,16 +59,14 @@ export default function Posts({ subscription }) {
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <div className="relative bg-black p-8 text-white mt-[300px] z-50">
-        <ul>
-          {posts.map((post) => (
-            <li key={post.id}>
-              <Link href={`/about-us/journal/${post.slug}`}>
-                {post.heading}
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <h1 className="sr-only">Journal</h1>
+      <div className="p-8">
+        <div className="flex">
+          <aside className="w-[220px] h-screen sticky top-0 flex flex-col justify-center">
+            <AboutUsNav links={aboutUsNavigation.links} />
+          </aside>
+          <div className="pt-[200px] pl-8 grow">something</div>
+        </div>
       </div>
     </Layout>
   );
