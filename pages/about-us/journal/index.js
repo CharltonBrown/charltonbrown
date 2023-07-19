@@ -4,6 +4,8 @@ import { useQuerySubscription } from 'react-datocms';
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import AboutUsNav from '@/components/aboutUsNav';
+import OddEvenGrid from '@/components/oddEvenGrid';
+import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
@@ -11,17 +13,24 @@ import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
-          query peoplePageContent {
+          query journalContent {
             allPosts {
-              body
-              heading
               id
+              body
+              mainImage {
+                responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
+                  ...responsiveImageFragment
+                }
+              }
+              title
               slug
+              _createdAt
             }
             ${aboutUsNavigationFragment}
             ${mainNavigationFragment}
             ${footerNavigationFragment}
           }
+          ${responsiveImageFragment}
         `,
     preview,
   };
@@ -52,8 +61,6 @@ export default function Posts({ subscription }) {
     },
   } = useQuerySubscription(subscription);
 
-  console.log({ posts });
-
   return (
     <Layout
       mainNavigation={mainNavigation.links}
@@ -65,7 +72,13 @@ export default function Posts({ subscription }) {
           <aside className="w-[220px] h-screen sticky top-0 flex flex-col justify-center">
             <AboutUsNav links={aboutUsNavigation.links} />
           </aside>
-          <div className="pt-[200px] pl-8 grow">something</div>
+          <div className="pt-[200px] pl-8 grow">
+            <OddEvenGrid
+              items={posts}
+              parentSlug="about-us/journal"
+              type="journal"
+            />
+          </div>
         </div>
       </div>
     </Layout>
