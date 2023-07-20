@@ -1,10 +1,12 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import { useQuerySubscription } from 'react-datocms';
-import Image from 'next/image';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import AboutUsNav from '@/components/aboutUsNav';
+import PeopleGrid from '@/components/peopleGrid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
@@ -18,10 +20,11 @@ export async function getStaticProps({ preview = false }) {
               email
               id
               jobTitle
+              qualification
+              bio
               mobile
               name
               phone
-              position
               image {
                 responsiveImage(imgixParams: {fm: jpg, w: 500 }) {
                   ...responsiveImageFragment
@@ -63,8 +66,6 @@ export default function People({ subscription }) {
     },
   } = useQuerySubscription(subscription);
 
-  console.log({ people });
-
   return (
     <Layout
       mainNavigation={mainNavigation.links}
@@ -73,24 +74,11 @@ export default function People({ subscription }) {
       <h1 className="sr-only">People</h1>
       <div className="p-8">
         <div className="flex">
-          <aside className="w-[220px] h-screen sticky top-0 flex flex-col justify-center">
+          <aside className="w-[220px] hidden md:flex h-screen sticky top-0 flex-col justify-center">
             <AboutUsNav links={aboutUsNavigation.links} />
           </aside>
-          <div className="pt-[200px] pl-8 grid grid-cols-4 gap-12">
-            {people.map((person) => (
-              <article key={person.id} className="mb-4">
-                <Image
-                  className="object-cover mb-4"
-                  width={person.image.responsiveImage.width}
-                  height={person.image.responsiveImage.height}
-                  src={person.image.responsiveImage.src}
-                  alt={person.image.responsiveImage.alt}
-                />
-                <div className="flex flex-col">
-                  <h2 className="text-2xl">{person.name}</h2>
-                </div>
-              </article>
-            ))}
+          <div className="pt-[200px] md:pl-8 grow">
+            <PeopleGrid people={people} />
           </div>
         </div>
       </div>
