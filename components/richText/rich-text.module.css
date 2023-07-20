@@ -1,0 +1,59 @@
+.richText {
+  @apply leading-relaxed;
+}
+
+.richText > p,
+.richText > ul,
+.richText > ol,
+.richText > blockquote {
+  @apply mb-6 max-w-prose leading-normal;
+}
+
+.richText > h1 {
+  @apply text-3xl mt-12 mb-4 leading-snug relative;
+}
+
+.richText > h2 {
+  @apply text-2xl mt-8 mb-4 leading-snug relative;
+}
+
+.richText > h3 {
+  @apply text-xl mt-8 mb-4 leading-snug relative font-bold;
+}
+
+.richText > h4 {
+  @apply mt-8 mb-4 font-bold relative;
+}
+
+.richText p a:link,
+.richText li a:link {
+  @apply underline transition-colors duration-300;
+}
+
+.richText > h1:first-child,
+.richText > h2:first-child,
+.richText > h3:first-child,
+.richText > h4:first-child { 
+  @apply mt-0;
+}
+
+.richText > pre {
+  @apply max-w-4xl p-4 my-8 text-sm;
+}
+
+.richText > ul {
+  @apply list-disc list-outside pl-4;
+}
+
+.richText > blockquote {
+  @apply border-l-4 px-4 mx-4 border-black py-2 italic;
+}
+
+.richText hr {
+  @apply border-black my-12 w-1/2 mx-auto relative;
+}
+
+.richText hr:before {
+  @apply absolute -top-3 left-1/2 w-6 h-6 bg-black rounded-full border-4 border;
+  content: "";
+}

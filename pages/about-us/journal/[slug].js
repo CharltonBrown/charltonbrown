@@ -1,9 +1,11 @@
 import React from 'react';
 import { useQuerySubscription } from 'react-datocms';
+import Image from 'next/image';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import AboutUsNav from '@/components/aboutUsNav';
+import RichText from '@/components/richText';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
@@ -24,7 +26,9 @@ export async function getStaticProps({ params, preview = false }) {
           query PostBySlug($slug: String) {
             post(filter: {slug: {eq: $slug}}) {
               id
-              body
+              body {
+                value
+              }
               slug
               title
               mainImage {
@@ -67,8 +71,6 @@ export default function Posts({ subscription }) {
     data: { post, mainNavigation, footerNavigation, aboutUsNavigation },
   } = useQuerySubscription(subscription);
 
-  console.log({ post });
-
   return (
     <Layout
       mainNavigation={mainNavigation.links}
@@ -80,7 +82,26 @@ export default function Posts({ subscription }) {
           <aside className="w-[220px] h-screen sticky top-0 flex flex-col justify-center">
             <AboutUsNav links={aboutUsNavigation.links} />
           </aside>
-          <div className="pt-[200px] pl-8 grow">something</div>
+          <div className="pt-[200px] pl-8 grow">
+            <div className="lg:flex flex-row-reverse items-stretch">
+              <div className="relative">
+                <div className="lg:sticky top-1/2 -translate-y-1/2 lg:px-24">
+                  <Image
+                    className="object-contain mb-8"
+                    width={post.mainImage.responsiveImage.width}
+                    height={post.mainImage.responsiveImage.height}
+                    src={post.mainImage.responsiveImage.src}
+                    alt={post.mainImage.responsiveImage.alt}
+                  />
+                </div>
+              </div>
+
+              <div className="">
+                <h1 className="text-3xl mb-8">{post.title}</h1>
+                <RichText text={post.body} />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Layout>
