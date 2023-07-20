@@ -4,6 +4,7 @@ import { useQuerySubscription } from 'react-datocms';
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import AboutUsNav from '@/components/aboutUsNav';
+import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
@@ -22,14 +23,22 @@ export async function getStaticProps({ params, preview = false }) {
     query: `
           query PostBySlug($slug: String) {
             post(filter: {slug: {eq: $slug}}) {
+              id
               body
-              heading
+              slug
+              title
+              mainImage {
+                responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
+                  ...responsiveImageFragment
+                }
+              }
               id
             }
             ${aboutUsNavigationFragment}
             ${mainNavigationFragment}
             ${footerNavigationFragment}
-          }          
+          }   
+          ${responsiveImageFragment}       
         `,
     preview,
     variables: {

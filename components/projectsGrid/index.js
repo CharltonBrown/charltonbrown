@@ -1,8 +1,7 @@
 import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
-import clsx from 'clsx';
+
+import OddEvenGrid from '@/components/oddEvenGrid';
 
 export default function ProjectsGrid({ projects, projectTypes }) {
   const chunkSize = 2;
@@ -32,38 +31,7 @@ export default function ProjectsGrid({ projects, projectTypes }) {
         </nav>
       </aside>
       <div className="pt-[200px] pl-8">
-        {chunks.map((chunk) => (
-          <div
-            className={clsx(
-              chunk.projects.length > 1 && 'items-center',
-              'md:flex flex-nowrap gap-16',
-            )}
-            key={chunk.id}
-          >
-            {chunk.projects.map((project) => (
-              <article
-                key={project.id}
-                className="odd:w-[calc(50%+1.5rem)] even:w-[calc(50%-1.5rem)] mb-12"
-              >
-                <Link href={`/projects/${project.slug}`}>
-                  <Image
-                    className="object-cover mb-4"
-                    width={project.mainImage.responsiveImage.width}
-                    height={project.mainImage.responsiveImage.height}
-                    src={project.mainImage.responsiveImage.src}
-                    alt={project.mainImage.responsiveImage.alt}
-                  />
-                  <div className="flex flex-col">
-                    <h3 className="mb-1 text-gray">
-                      {project.projectType?.typeTitle}
-                    </h3>
-                    <h2 className="text-3xl">{project.title}</h2>
-                  </div>
-                </Link>
-              </article>
-            ))}
-          </div>
-        ))}
+        <OddEvenGrid items={projects} parentSlug="projects" type="projects" />
       </div>
     </div>
   );
