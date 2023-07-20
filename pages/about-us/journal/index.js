@@ -16,7 +16,9 @@ export async function getStaticProps({ preview = false }) {
           query journalContent {
             allPosts {
               id
-              body
+              body {
+                value
+              }
               mainImage {
                 responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
                   ...responsiveImageFragment
