@@ -3,19 +3,32 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
+import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
-          query ContactPageContent {
+          query contactPageContent {
             contact {
-              heading
+              textImageBlock {
+                id
+                body
+                heading
+                id
+                imageAlignment
+                image {
+                  responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
+                    ...responsiveImageFragment
+                  }
+                }
+              }
             }
             ${mainNavigationFragment}
             ${footerNavigationFragment}
           }
+          ${responsiveImageFragment}
         `,
     preview,
   };
@@ -36,7 +49,7 @@ export async function getStaticProps({ preview = false }) {
   };
 }
 
-export default function Home({ subscription }) {
+export default function Contact({ subscription }) {
   const {
     data: { contact, mainNavigation, footerNavigation },
   } = useQuerySubscription(subscription);
@@ -48,7 +61,7 @@ export default function Home({ subscription }) {
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <div className="p-8">contact</div>
+      <h1 className="sr-only">Contact us</h1>
     </Layout>
   );
 }
