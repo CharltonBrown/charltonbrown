@@ -1,28 +1,73 @@
-import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState } from 'react';
+import clsx from 'clsx';
 
 import OddEvenGrid from '@/components/oddEvenGrid';
 
-export default function ProjectsGrid({ projects, projectTypes }) {
-  const chunkSize = 2;
-  const chunks = [];
+const ALL_PROJECTS = 'All Projects';
 
-  for (let i = 0; i < projects.length; i += chunkSize) {
-    const chunk = {
-      id: uuidv4(),
-      projects: projects.slice(i, i + chunkSize),
-    };
-    chunks.push(chunk);
-  }
+export default function ProjectsGrid({ projects, projectTypes }) {
+  const [displayData, setDisplayData] = useState(projects);
+  const [activeType, setActiveType] = useState(ALL_PROJECTS);
+
+  const handleClick = (type) => {
+    if (type === activeType) return;
+    setActiveType(type);
+    setDisplayData([]);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
+    if (type === ALL_PROJECTS) {
+      setTimeout(() => {
+        setDisplayData(projects);
+      }, 400);
+      return;
+    }
+
+    const filteredData = projects.filter(
+      (project) => project.projectType.typeTitle === type,
+    );
+
+    setTimeout(() => {
+      setDisplayData(filteredData);
+    }, 400);
+  };
+
+  const filteredProjectTypes = projectTypes.filter((type) =>
+    projects.some(
+      (project) => project.projectType.typeTitle === type.typeTitle,
+    ),
+  );
 
   return (
-    <div className="flex">
+    <div className="flex" id="content">
       <aside className="w-[220px] h-screen sticky top-0 flex flex-col justify-center">
         <nav>
           <ul className="flex flex-col">
-            {projectTypes.map((type) => (
+            <li>
+              <button
+                type="button"
+                onClick={() => handleClick('All Projects')}
+                className={clsx(
+                  ALL_PROJECTS !== activeType && 'text-silver',
+                  'text-xl',
+                )}
+              >
+                {ALL_PROJECTS}
+              </button>
+            </li>
+            {filteredProjectTypes.map((type) => (
               <li key={type.id}>
-                <button type="button" className="text-xl text-silver ">
+                <button
+                  type="button"
+                  onClick={() => handleClick(type.typeTitle)}
+                  className={clsx(
+                    type.typeTitle !== activeType && 'text-silver',
+                    'text-xl',
+                  )}
+                >
                   {type.typeTitle}
                 </button>
               </li>
@@ -31,7 +76,11 @@ export default function ProjectsGrid({ projects, projectTypes }) {
         </nav>
       </aside>
       <div className="pt-[200px] pl-8">
-        <OddEvenGrid items={projects} parentSlug="projects" type="projects" />
+        <OddEvenGrid
+          items={displayData}
+          parentSlug="projects"
+          type="projects"
+        />
       </div>
     </div>
   );
