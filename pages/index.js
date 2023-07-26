@@ -7,6 +7,7 @@ import Layout from '@/components/layout';
 import HeroSlider from '@/components/hero-slider';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import MotifNavigation from '../components/motif-navigation';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -110,16 +111,17 @@ export default function Home({ subscription }) {
               }}
             />
           </div>
-          <div className="max-w-xl pt-8 pb-32">
-            <h2 className="uppercase text-xl mb-4 font-savoyBold tracking-wider">
+          <div className="pt-8 pb-32">
+            <h2 className="max-w-xl mx-auto uppercase text-xl mb-4 font-savoyBold tracking-wider">
               {blockThreeLabel}
             </h2>
             <div
-              className="text-xl"
+              className="max-w-xl mx-auto text-xl"
               dangerouslySetInnerHTML={{
                 __html: blockThreeBody,
               }}
             />
+            <MotifNavigation links={mainNavigation.links} />
           </div>
         </div>
       </div>
