@@ -15,7 +15,7 @@
 }
 
 html {
-	@apply font-savoy;
+	@apply font-savoyRegular;
   @apply text-black;
 }
 

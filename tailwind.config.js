@@ -31,7 +31,10 @@ module.exports = {
       },
     },
     fontFamily: {
-      savoy: ['savoyregular', 'serif'],
+      savoyBold: ['savoybold', 'serif'],
+      savoyItalic: ['savoyitalic', 'serif'],
+      savoyRegular: ['savoyregular', 'serif'],
+      savoyRoman: ['savoyroman', 'serif'],
       sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
     },
   },

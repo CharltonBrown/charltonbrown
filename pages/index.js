@@ -82,14 +82,16 @@ export default function Home({ subscription }) {
           <div className="max-w-xl pt-8 pb-32">
             <h2 className="text-4xl">{introLabel}</h2>
             <div
-              className="text-4xl"
+              className="text-4xl font-savoyItalic"
               dangerouslySetInnerHTML={{
                 __html: quote,
               }}
             />
           </div>
           <div className="max-w-xl pt-8 pb-32">
-            <h2 className="uppercase text-xl mb-4">{blockOneLabel}</h2>
+            <h2 className="uppercase text-xl mb-4 font-savoyBold tracking-wider">
+              {blockOneLabel}
+            </h2>
             <div
               className="text-xl"
               dangerouslySetInnerHTML={{
@@ -98,7 +100,9 @@ export default function Home({ subscription }) {
             />
           </div>
           <div className="max-w-xl pt-8 pb-32">
-            <h2 className="uppercase text-xl mb-4">{blockTwoLabel}</h2>
+            <h2 className="uppercase text-xl mb-4 font-savoyBold tracking-wider">
+              {blockTwoLabel}
+            </h2>
             <div
               className="text-xl"
               dangerouslySetInnerHTML={{
@@ -107,7 +111,9 @@ export default function Home({ subscription }) {
             />
           </div>
           <div className="max-w-xl pt-8 pb-32">
-            <h2 className="uppercase text-xl mb-4">{blockThreeLabel}</h2>
+            <h2 className="uppercase text-xl mb-4 font-savoyBold tracking-wider">
+              {blockThreeLabel}
+            </h2>
             <div
               className="text-xl"
               dangerouslySetInnerHTML={{

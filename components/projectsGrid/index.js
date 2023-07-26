@@ -43,10 +43,10 @@ export default function ProjectsGrid({ projects, projectTypes }) {
 
   return (
     <div className="flex" id="content">
-      <aside className="w-[220px] h-screen sticky top-0 flex flex-col justify-center">
+      <aside className="w-[320px] h-screen sticky top-0 flex flex-col justify-center">
         <nav>
           <ul className="flex flex-col">
-            <li>
+            <li className="mb-2">
               <button
                 type="button"
                 onClick={() => handleClick('All Projects')}
@@ -59,7 +59,7 @@ export default function ProjectsGrid({ projects, projectTypes }) {
               </button>
             </li>
             {filteredProjectTypes.map((type) => (
-              <li key={type.id}>
+              <li key={type.id} className="mb-2">
                 <button
                   type="button"
                   onClick={() => handleClick(type.typeTitle)}

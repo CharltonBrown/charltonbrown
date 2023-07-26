@@ -4,13 +4,11 @@ import Link from 'next/link';
 import { getAbsoluteUrl } from '@/lib/utils/vercel-utils';
 
 export default function AboutUsNav({ links }) {
-  console.log(getAbsoluteUrl());
-  console.log({ links });
   return (
     <nav>
       <ul className="flex flex-col">
         {links.map((link) => (
-          <li key={link.id}>
+          <li key={link.id} className="mb-2">
             <Link
               className="text-xl text-silver"
               href={`${getAbsoluteUrl()}/${link.href}`}
