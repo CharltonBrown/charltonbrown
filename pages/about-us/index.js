@@ -68,7 +68,7 @@ export default function About({ subscription }) {
       <h1 className="sr-only">About us</h1>
       <div className="p-8">
         <div className="flex">
-          <aside className="w-[220px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
+          <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
             <AboutUsNav links={aboutUsNavigation.links} />
           </aside>
           <div className="pt-[200px] pl-8 grow">

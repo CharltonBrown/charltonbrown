@@ -74,7 +74,7 @@ export default function People({ subscription }) {
       <h1 className="sr-only">People</h1>
       <div className="p-8">
         <div className="flex">
-          <aside className="w-[220px] hidden md:flex h-screen sticky top-0 flex-col justify-center">
+          <aside className="w-[320px] shrink-0 hidden md:flex h-screen sticky top-0 flex-col justify-center">
             <AboutUsNav links={aboutUsNavigation.links} />
           </aside>
           <div className="pt-[200px] md:pl-8 grow">

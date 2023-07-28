@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
+import { useContextSelector } from 'use-context-selector';
 
 import Navigation from '@/components/navigation';
 import Footer from '@/components/footer';
+import navColorContext from '@/lib/context/navColorContext';
 
 export default function Layout({
   children,
@@ -10,6 +12,15 @@ export default function Layout({
   mainNavigation,
   title,
 }) {
+  const setNavColor = useContextSelector(navColorContext, (v) => v[1]);
+
+  useEffect(() => {
+    setNavColor((s) => ({
+      ...s,
+      theme: 'dark',
+    }));
+  }, [setNavColor]);
+
   return (
     <>
       <Head>

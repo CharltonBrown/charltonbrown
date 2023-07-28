@@ -10,6 +10,7 @@ import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
+import FadeInBlock from '../../../components/fadeInBlock';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allPosts { slug } }' });
@@ -79,28 +80,30 @@ export default function Posts({ subscription }) {
       <h1 className="sr-only">Journal</h1>
       <div className="p-8">
         <div className="flex">
-          <aside className="w-[220px] h-screen sticky top-0 flex flex-col justify-center">
+          <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
             <AboutUsNav links={aboutUsNavigation.links} />
           </aside>
           <div className="pt-[200px] pl-8 grow">
-            <div className="lg:flex flex-row-reverse items-stretch">
-              <div className="relative">
-                <div className="lg:sticky top-1/2 -translate-y-1/2 lg:px-24">
-                  <Image
-                    className="object-contain mb-8"
-                    width={post.mainImage.responsiveImage.width}
-                    height={post.mainImage.responsiveImage.height}
-                    src={post.mainImage.responsiveImage.src}
-                    alt={post.mainImage.responsiveImage.alt}
-                  />
+            <FadeInBlock>
+              <div className="lg:flex flex-row-reverse items-stretch">
+                <div className="relative">
+                  <div className="lg:sticky top-1/2 -translate-y-1/2 lg:px-24">
+                    <Image
+                      className="object-contain mb-8"
+                      width={post.mainImage.responsiveImage.width}
+                      height={post.mainImage.responsiveImage.height}
+                      src={post.mainImage.responsiveImage.src}
+                      alt={post.mainImage.responsiveImage.alt}
+                    />
+                  </div>
+                </div>
+
+                <div className="">
+                  <h1 className="text-3xl mb-8">{post.title}</h1>
+                  <RichText text={post.body} />
                 </div>
               </div>
-
-              <div className="">
-                <h1 className="text-3xl mb-8">{post.title}</h1>
-                <RichText text={post.body} />
-              </div>
-            </div>
+            </FadeInBlock>
           </div>
         </div>
       </div>

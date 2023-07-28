@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import clsx from 'clsx';
+import FadeInBlock from '../fadeInBlock';
 
 export default function TextImageBlock({
   heading,
@@ -10,7 +11,7 @@ export default function TextImageBlock({
 }) {
   return (
     <article>
-      <div
+      <FadeInBlock
         className={clsx(
           'flex flex-col gap-12 lg:flex-row lg:items-center mb-32 lg:gap-24',
           imageAlignment === 'Left' && 'lg:flex-row-reverse',
@@ -34,7 +35,7 @@ export default function TextImageBlock({
             alt={image.responsiveImage.alt}
           />
         </div>
-      </div>
+      </FadeInBlock>
     </article>
   );
 }

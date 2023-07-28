@@ -1,8 +1,29 @@
 import React from 'react';
 import clsx from 'clsx';
+import { motion } from 'framer-motion';
 
 import FooterNavigation from '@/components/footerNavigation';
 import useElementOnScreen from '@/hooks/useElementOnScreen';
+import fadeVariants from '@/components/fadeInBlock/fadeVariants';
+
+const variants = {
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.5,
+      delayChildren: 0.5,
+    },
+  },
+  hidden: { opacity: 0 },
+};
+
+function FooterBlock({ children, className }) {
+  return (
+    <motion.div variants={fadeVariants} className={className}>
+      {children}
+    </motion.div>
+  );
+}
 
 export default function Footer({ footerNavigation }) {
   const [containerRef, isVisible] = useElementOnScreen({
@@ -16,20 +37,25 @@ export default function Footer({ footerNavigation }) {
       <div ref={containerRef} className="w-full pb-[calc(100vh)]" />
       <footer
         className={clsx(
-          isVisible ? 'visible' : 'invisible',
-          'fixed bottom-0 w-full h-screen  p-5 md:p-7 lg:p-10 bg-alabaster',
+          isVisible ? 'visible fixed' : 'invisible',
+          'bottom-0 w-full h-screen  p-5 md:p-7 lg:p-10 bg-alabaster',
         )}
       >
         <div className="flex flex-col h-full">
-          <div className="grow sm:grid sm:grid-cols-3 md:grid-cols-4 gap-16">
-            <div className="flex flex-col justify-center text-xl">
+          <motion.div
+            animate={isVisible && 'visible'}
+            initial="hidden"
+            variants={variants}
+            className="grow sm:grid sm:grid-cols-3 md:grid-cols-4 gap-16"
+          >
+            <FooterBlock className="flex flex-col justify-center text-xl">
               <h2 className="border-t border-gallery text-gray text-lg pt-4 mb-8">
                 Address
               </h2>
               <p>2 Back Lane, Hampstead</p>
               <p>London NW3 1HL</p>
-            </div>
-            <div className="flex flex-col justify-center  text-xl">
+            </FooterBlock>
+            <FooterBlock className="flex flex-col justify-center  text-xl">
               <h2 className="border-t border-gallery text-gray text-lg pt-4 mb-8">
                 Contact
               </h2>
@@ -41,8 +67,8 @@ export default function Footer({ footerNavigation }) {
               <p>
                 <a href="tel:+44 (0)20 7794 1234">+44 (0)20 7794 1234</a>
               </p>
-            </div>
-            <div className="hidden lg:flex flex-col justify-center  text-xl">
+            </FooterBlock>
+            <FooterBlock className="hidden lg:flex flex-col justify-center  text-xl">
               <h2 className="border-t border-gallery text-gray text-lg pt-4 mb-8">
                 Information
               </h2>
@@ -52,8 +78,8 @@ export default function Footer({ footerNavigation }) {
               <p>
                 <a href="/practice/people/">People</a>
               </p>
-            </div>
-            <div className="flex flex-col justify-center text-xl">
+            </FooterBlock>
+            <FooterBlock className="flex flex-col justify-center text-xl">
               <h2 className="border-t border-gallery text-gray text-lg pt-4 mb-8">
                 Social media
               </h2>
@@ -73,8 +99,8 @@ export default function Footer({ footerNavigation }) {
                   LinkedIn, opens in a new tab.
                 </a>
               </p>
-            </div>
-          </div>
+            </FooterBlock>
+          </motion.div>
           <FooterNavigation footerNavigation={footerNavigation} />
         </div>
       </footer>

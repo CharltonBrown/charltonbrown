@@ -17,14 +17,14 @@ export default function ServiceBlock({
       tabIndex="0"
       className="mb-16"
     >
-      <h2 className="text-2xl lg:text-3xl mb-8 uppercase text-center font-bold">
+      <h2 className="text-2xl lg:text-3xl mb-8 uppercase text-center font-savoyBold">
         {title}
       </h2>
       <div
         dangerouslySetInnerHTML={{
           __html: intro,
         }}
-        className="mx-auto mb-4 lg:text-xl text-center max-w-prose font-bold"
+        className="mx-auto mb-4 lg:text-xl text-center max-w-prose font-savoyBold"
       />
       <AnimatePresence>
         {open && (
@@ -39,7 +39,7 @@ export default function ServiceBlock({
               dangerouslySetInnerHTML={{
                 __html: body,
               }}
-              className="mx-auto mb-4 lg:text-xl text-center max-w-prose font-bold"
+              className="mx-auto mb-4 lg:text-xl text-center max-w-prose font-savoyBold"
             />
             <ol className="my-8 grid grid-flow-col grid-cols-2 grid-rows-3 list-decimal text-lg">
               {steps.map((step) => (

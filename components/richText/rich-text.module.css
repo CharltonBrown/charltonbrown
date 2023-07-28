@@ -18,11 +18,11 @@
 }
 
 .richText > h3 {
-  @apply text-xl mt-8 mb-4 leading-snug relative font-bold;
+  @apply text-xl mt-8 mb-4 leading-snug relative font-savoyBold;
 }
 
 .richText > h4 {
-  @apply mt-8 mb-4 font-bold relative;
+  @apply mt-8 mb-4 font-savoyBold relative;
 }
 
 .richText p a:link,

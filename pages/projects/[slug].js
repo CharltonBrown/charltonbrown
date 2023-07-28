@@ -83,30 +83,34 @@ export default function Project({ subscription }) {
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <div className="relative w-screen h-screen">
-        <Image
-          className={clsx(
-            imageOrientationClass(
-              project.mainImage.responsiveImage.aspectRatio,
-            ),
-          )}
-          src={project.mainImage.responsiveImage.src}
-          alt={project.mainImage.responsiveImage.alt}
-          fill
-        />
-      </div>
-      {project.images.map((image) => (
-        <div className="relative w-screen h-screen" key={image.id}>
+      <div className="relative max-h-screen overflow-y-scroll snap snap-y snap-mandatory">
+        <div className="relative w-screen h-screen snap-start">
           <Image
             className={clsx(
-              imageOrientationClass(image.responsiveImage.aspectRatio),
+              imageOrientationClass(
+                project.mainImage.responsiveImage.aspectRatio,
+              ),
+              'snap-center',
             )}
-            src={image.responsiveImage.src}
-            alt={image.responsiveImage.alt}
+            src={project.mainImage.responsiveImage.src}
+            alt={project.mainImage.responsiveImage.alt}
             fill
           />
         </div>
-      ))}
+        {project.images.map((image) => (
+          <div className="relative w-screen h-screen snap-start" key={image.id}>
+            <Image
+              className={clsx(
+                imageOrientationClass(image.responsiveImage.aspectRatio),
+                'snap-center',
+              )}
+              src={image.responsiveImage.src}
+              alt={image.responsiveImage.alt}
+              fill
+            />
+          </div>
+        ))}
+      </div>
     </Layout>
   );
 }

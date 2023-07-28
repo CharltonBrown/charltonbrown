@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
-import { motion, LayoutGroup } from 'framer-motion';
+
+import FadeInBlock from '@/components/fadeInBlock';
 
 export default function OddEvenGrid({ items, parentSlug, type }) {
   const chunkSize = 2;
@@ -22,25 +23,14 @@ export default function OddEvenGrid({ items, parentSlug, type }) {
   }, [items]);
 
   return (
-    <LayoutGroup>
+    <>
       {chunks.map((chunk) => (
-        <motion.div
+        <FadeInBlock
           className={clsx(
             chunk.items.length > 1 && 'items-center',
             'md:flex flex-nowrap gap-16 overflow-hidden',
           )}
           key={chunk.id}
-          layout
-          initial={{ opacity: 0, y: '100px' }}
-          animate={{
-            opacity: 1,
-            y: '0',
-            transition: {
-              ease: 'easeInOut',
-              duration: 1,
-            },
-          }}
-          exit={{ opacity: 0, y: '100px' }}
         >
           {chunk.items.map((item) => {
             const metaLabel = {
@@ -69,8 +59,8 @@ export default function OddEvenGrid({ items, parentSlug, type }) {
               </article>
             );
           })}
-        </motion.div>
+        </FadeInBlock>
       ))}
-    </LayoutGroup>
+    </>
   );
 }
