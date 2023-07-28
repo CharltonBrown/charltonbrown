@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import Modal from '@/components/modal';
 import PersonInfo from '@/components/personInfo';
+import FadeInBlock from '@/components/fadeInBlock';
 
 export default function PeopleGrid({ people }) {
   const [activePersonId, setActivePersonId] = useState('');
@@ -15,11 +16,11 @@ export default function PeopleGrid({ people }) {
   };
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 grid-flow-dense auto-cols-[repeat(auto-fit, 20rem)]">
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-10 grid-flow-dense auto-cols-[repeat(auto-fit, 20rem)]">
       {people.map((person) => (
-        <>
+        <FadeInBlock key={person.id}>
           <div
-            className="text-left"
+            className="text-left mb-12"
             onClick={() => handleClick(person.id)}
             onKeyDown={() => handleClick(person.id)}
             role="button"
@@ -34,6 +35,7 @@ export default function PeopleGrid({ people }) {
               />
             </div>
             <div className="flex flex-col">
+              <h3 className="mb-1 text-gray">{person.jobTitle}</h3>
               <h2 className="text-2xl">{person.name}</h2>
             </div>
           </div>
@@ -43,7 +45,7 @@ export default function PeopleGrid({ people }) {
           >
             <PersonInfo person={person} />
           </Modal>
-        </>
+        </FadeInBlock>
       ))}
     </div>
   );

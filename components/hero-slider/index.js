@@ -51,7 +51,7 @@ export default function HeroSlider({ images }) {
       <div
         className={clsx(
           isVisible ? 'visible' : 'invisible',
-          'fixed top-0 w-full h-screen overflow-hidden',
+          'fixed top-0 w-full h-screen',
         )}
       >
         <AliceCarousel

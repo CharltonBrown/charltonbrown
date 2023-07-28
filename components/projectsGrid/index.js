@@ -43,7 +43,7 @@ export default function ProjectsGrid({ projects, projectTypes }) {
 
   return (
     <div className="flex" id="content">
-      <aside className="w-[320px] h-screen sticky top-0 flex flex-col justify-center">
+      <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
         <nav>
           <ul className="flex flex-col">
             <li className="mb-2">
