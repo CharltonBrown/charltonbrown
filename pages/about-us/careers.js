@@ -65,25 +65,27 @@ export default function Careers({ subscription }) {
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <h1 className="sr-only">Careers</h1>
-      <div className="p-8">
-        <div className="flex">
-          <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
-            <AboutUsNav links={aboutUsNavigation.links} />
-          </aside>
-          <div className="pt-[200px] pl-8 grow">
-            {careersPage?.textImageBlock.map((block) => (
-              <TextImageBlock
-                key={block.id}
-                body={block.body}
-                heading={block.heading}
-                image={block.image}
-                imageAlignment={block.imageAlignment}
-              />
-            ))}
+      <main className="bg-white">
+        <h1 className="sr-only">Careers</h1>
+        <div className="p-8">
+          <div className="flex">
+            <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
+              <AboutUsNav links={aboutUsNavigation.links} />
+            </aside>
+            <div className="pt-[200px] pl-8 grow">
+              {careersPage?.textImageBlock.map((block) => (
+                <TextImageBlock
+                  key={block.id}
+                  body={block.body}
+                  heading={block.heading}
+                  image={block.image}
+                  imageAlignment={block.imageAlignment}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </Layout>
   );
 }

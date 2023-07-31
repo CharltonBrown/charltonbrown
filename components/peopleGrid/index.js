@@ -31,7 +31,7 @@ export default function PeopleGrid({ people }) {
                 className="object-cover"
                 fill
                 src={person.image.responsiveImage.src}
-                alt={person.image.responsiveImage.alt}
+                alt={person.image.responsiveImage.alt || person.name}
               />
             </div>
             <div className="flex flex-col">

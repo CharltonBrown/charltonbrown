@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { forwardRef, useRef } from 'react';
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 import FooterNavigation from '@/components/footerNavigation';
-import useElementOnScreen from '@/hooks/useElementOnScreen';
 import fadeVariants from '@/components/fadeInBlock/fadeVariants';
 
 const variants = {
@@ -19,31 +18,31 @@ const variants = {
 
 function FooterBlock({ children, className }) {
   return (
-    <motion.div variants={fadeVariants} className={className}>
+    <motion.div variants={fadeVariants} className={clsx(className, '')}>
       {children}
     </motion.div>
   );
 }
 
-export default function Footer({ footerNavigation }) {
-  const [containerRef, isVisible] = useElementOnScreen({
-    root: null,
-    rootMargin: '0px',
-    theshold: 1.0,
+const Footer = forwardRef(({ footerNavigation }, propRef) => {
+  const dummyFooterRef = useRef(null);
+  const footerRef = propRef !== null ? propRef : dummyFooterRef;
+  const footerIsInView = useInView(footerRef, {
+    margin: '0px 0px 0px 0px',
   });
 
   return (
     <>
-      <div ref={containerRef} className="w-full pb-[calc(100vh)]" />
+      {!propRef && <div ref={dummyFooterRef} className="w-full h-screen" />}
       <footer
         className={clsx(
-          isVisible ? 'visible fixed' : 'invisible',
-          'bottom-0 w-full h-screen  p-5 md:p-7 lg:p-10 bg-alabaster',
+          footerIsInView ? 'visible' : 'invisible',
+          'fixed bottom-0 w-full h-screen p-5 md:p-7 lg:p-10 bg-alabaster',
         )}
       >
         <div className="flex flex-col h-full">
           <motion.div
-            animate={isVisible && 'visible'}
+            animate={footerIsInView && 'visible'}
             initial="hidden"
             variants={variants}
             className="grow sm:grid sm:grid-cols-3 md:grid-cols-4 gap-16"
@@ -106,4 +105,7 @@ export default function Footer({ footerNavigation }) {
       </footer>
     </>
   );
-}
+});
+Footer.displayName = Footer;
+
+export default Footer;

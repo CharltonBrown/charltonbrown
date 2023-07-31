@@ -24,6 +24,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+#__next {
+  height: 100%;
+}
+
 @layer utilities {
   .snap {
     scroll-snap-type: var(--scroll-snap-direction) var(--scroll-snap-constraint);
@@ -36,5 +46,18 @@ body {
   }
   .snap-start {
     scroll-snap-align: start;
+  }
+
+  @variants responsive {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
   }
 }

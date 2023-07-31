@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuerySubscription } from 'react-datocms';
+import { useScroll, useMotionValueEvent } from 'framer-motion';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
@@ -64,15 +65,23 @@ export default function Projects({ subscription }) {
     },
   } = useQuerySubscription(subscription);
 
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    console.log('Page scroll: ', latest);
+  });
+
   return (
     <Layout
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <h1 className="sr-only">Projects</h1>
-      <div className="p-8">
-        <ProjectsGrid projects={projects} projectTypes={projectTypes} />
-      </div>
+      <main className="bg-white">
+        <h1 className="sr-only">Projects</h1>
+        <div className="p-8">
+          <ProjectsGrid projects={projects} projectTypes={projectTypes} />
+        </div>
+      </main>
     </Layout>
   );
 }

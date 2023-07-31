@@ -69,19 +69,21 @@ export default function Services({ subscription }) {
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <div className="relative p-8 pt-[200px]">
-        {serviceBlocks.map((service) => (
-          <ServiceBlock
-            key={service.id}
-            title={service.title}
-            intro={service.intro}
-            body={service.body}
-            steps={service.steps}
-            onClick={() => handleClick(service.id)}
-            open={activeService === service.id}
-          />
-        ))}
-      </div>
+      <main className="bg-white">
+        <div className="relative p-8 pt-[200px]">
+          {serviceBlocks.map((service) => (
+            <ServiceBlock
+              key={service.id}
+              title={service.title}
+              intro={service.intro}
+              body={service.body}
+              steps={service.steps}
+              onClick={() => handleClick(service.id)}
+              open={activeService === service.id}
+            />
+          ))}
+        </div>
+      </main>
     </Layout>
   );
 }

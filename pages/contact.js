@@ -61,7 +61,9 @@ export default function Contact({ subscription }) {
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <h1 className="sr-only">Contact us</h1>
+      <main className="bg-white">
+        <h1 className="sr-only">Contact us</h1>
+      </main>
     </Layout>
   );
 }
