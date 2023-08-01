@@ -7,7 +7,6 @@ import { useScroll, useMotionValueEvent } from 'framer-motion';
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import ScrollSnap from '@/components/scroll-snap';
-import FadeInBlock from '@/components/fadeInBlock';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';

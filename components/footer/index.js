@@ -18,7 +18,7 @@ const variants = {
 
 function FooterBlock({ children, className }) {
   return (
-    <motion.div variants={fadeVariants} className={clsx(className, '')}>
+    <motion.div variants={fadeVariants} className={clsx(className, 'isolate')}>
       {children}
     </motion.div>
   );
@@ -37,7 +37,7 @@ const Footer = forwardRef(({ footerNavigation }, propRef) => {
       <footer
         className={clsx(
           footerIsInView ? 'visible' : 'invisible',
-          'fixed bottom-0 w-full h-screen p-5 md:p-7 lg:p-10 bg-alabaster',
+          'sticky bottom-0 w-full h-screen p-5 md:p-7 lg:p-10 bg-alabaster',
         )}
       >
         <div className="flex flex-col h-full">

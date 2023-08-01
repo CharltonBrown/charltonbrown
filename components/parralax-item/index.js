@@ -36,6 +36,7 @@ export default function ParallaxItem({
 
     onResize();
     window.addEventListener('resize', onResize);
+    // eslint-disable-next-line consistent-return
     return () => window.removeEventListener('resize', onResize);
   }, [ref, range]);
 

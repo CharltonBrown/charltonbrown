@@ -8,6 +8,8 @@ import Layout from '@/components/layout';
 import HeroSlider from '@/components/hero-slider';
 import FadeInBlock from '@/components/fadeInBlock';
 import ScrollSnap from '@/components/scroll-snap';
+import Footer from '@/components/footer';
+
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/footerNavigation/fragment';
 import MotifNavigation from '../components/motif-navigation';
@@ -152,7 +154,9 @@ export default function Home({ subscription }) {
             </div>
           </ScrollSnap.Child>
           {/* Empty ScrollSnap.Child for footer snapping */}
-          <ScrollSnap.Child className="w-full h-screen" ref={footerRef} />
+          <ScrollSnap.Child>
+            <Footer footerNavigation={footerNavigation.links} />
+          </ScrollSnap.Child>
         </ScrollSnap>
       </main>
     </Layout>
