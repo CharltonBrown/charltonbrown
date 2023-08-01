@@ -4,10 +4,13 @@ import MotifOne from '../icons/motif-1';
 
 export default function MotifNavigation({ links }) {
   return (
-    <nav className="my-24">
-      <ul className="flex flew-row gap-20">
+    <nav className="mt-16">
+      <ul className="grid grid-cols-2 w-56 mx-auto gap-8 place-content-center lg:grid-cols-4 lg:w-auto">
         {links.map((link) => (
-          <li key={link.id}>
+          <li
+            key={link.id}
+            className="flex flex-col items-center w-24 lg:w-auto"
+          >
             <Link href={link.href}>
               <MotifOne className="w-24" />
             </Link>

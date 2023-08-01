@@ -77,36 +77,38 @@ export default function Posts({ subscription }) {
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <h1 className="sr-only">Journal</h1>
-      <div className="p-8">
-        <div className="flex">
-          <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
-            <AboutUsNav links={aboutUsNavigation.links} />
-          </aside>
-          <div className="pt-[200px] pl-8 grow">
-            <FadeInBlock>
-              <div className="lg:flex flex-row-reverse items-stretch">
-                <div className="relative">
-                  <div className="lg:sticky top-1/2 -translate-y-1/2 lg:px-24">
-                    <Image
-                      className="object-contain mb-8"
-                      width={post.mainImage.responsiveImage.width}
-                      height={post.mainImage.responsiveImage.height}
-                      src={post.mainImage.responsiveImage.src}
-                      alt={post.mainImage.responsiveImage.alt}
-                    />
+      <main className="bg-white">
+        <h1 className="sr-only">Journal</h1>
+        <div className="p-8">
+          <div className="flex">
+            <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
+              <AboutUsNav links={aboutUsNavigation.links} />
+            </aside>
+            <div className="pt-[200px] pl-8 grow">
+              <FadeInBlock>
+                <div className="lg:flex flex-row-reverse items-stretch">
+                  <div className="relative">
+                    <div className="lg:sticky top-1/2 -translate-y-1/2 lg:px-24">
+                      <Image
+                        className="object-contain mb-8"
+                        width={post.mainImage.responsiveImage.width}
+                        height={post.mainImage.responsiveImage.height}
+                        src={post.mainImage.responsiveImage.src}
+                        alt={post.mainImage.responsiveImage.alt}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="">
+                    <h1 className="text-3xl mb-8">{post.title}</h1>
+                    <RichText text={post.body} />
                   </div>
                 </div>
-
-                <div className="">
-                  <h1 className="text-3xl mb-8">{post.title}</h1>
-                  <RichText text={post.body} />
-                </div>
-              </div>
-            </FadeInBlock>
+              </FadeInBlock>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </Layout>
   );
 }

@@ -71,17 +71,19 @@ export default function People({ subscription }) {
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <h1 className="sr-only">People</h1>
-      <div className="p-8">
-        <div className="flex">
-          <aside className="w-[320px] shrink-0 hidden md:flex h-screen sticky top-0 flex-col justify-center">
-            <AboutUsNav links={aboutUsNavigation.links} />
-          </aside>
-          <div className="pt-[200px] md:pl-8 grow">
-            <PeopleGrid people={people} />
+      <main className="bg-white">
+        <h1 className="sr-only">People</h1>
+        <div className="p-8">
+          <div className="flex">
+            <aside className="w-[320px] shrink-0 hidden md:flex h-screen sticky top-0 flex-col justify-center">
+              <AboutUsNav links={aboutUsNavigation.links} />
+            </aside>
+            <div className="pt-[200px] md:pl-8 grow">
+              <PeopleGrid people={people} />
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </Layout>
   );
 }

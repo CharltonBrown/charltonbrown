@@ -10,7 +10,7 @@ export default function PersonInfo({ person }) {
           className="object-cover"
           fill
           src={person.image.responsiveImage.src}
-          alt={person.image.responsiveImage.alt}
+          alt={person.image.responsiveImage.alt || person.name}
         />
       </div>
       <div>

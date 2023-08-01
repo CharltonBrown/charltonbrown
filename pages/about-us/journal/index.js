@@ -68,21 +68,23 @@ export default function Posts({ subscription }) {
       mainNavigation={mainNavigation.links}
       footerNavigation={footerNavigation.links}
     >
-      <h1 className="sr-only">Journal</h1>
-      <div className="p-8">
-        <div className="flex">
-          <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
-            <AboutUsNav links={aboutUsNavigation.links} />
-          </aside>
-          <div className="pt-[200px] pl-8 grow">
-            <OddEvenGrid
-              items={posts}
-              parentSlug="about-us/journal"
-              type="journal"
-            />
+      <main className="bg-white">
+        <h1 className="sr-only">Journal</h1>
+        <div className="p-8">
+          <div className="flex">
+            <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
+              <AboutUsNav links={aboutUsNavigation.links} />
+            </aside>
+            <div className="pt-[200px] pl-8 grow">
+              <OddEvenGrid
+                items={posts}
+                parentSlug="about-us/journal"
+                type="journal"
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </Layout>
   );
 }
