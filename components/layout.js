@@ -27,6 +27,7 @@ export default function Layout({ children, mainNavigation, title }) {
       <div className={clsx(scrollSnap && 'overflow-hidden h-screen')}>
         <Navigation navigation={mainNavigation} />
         <div className="relative z-10">{children}</div>
+        {/* <Footer footerNavigation={footerNavigation} ref={footerRef} /> */}
       </div>
     </>
   );
