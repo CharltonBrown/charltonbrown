@@ -14,11 +14,6 @@ export default function ProjectsGrid({ projects, projectTypes }) {
     setActiveType(type);
     setDisplayData([]);
 
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-
     if (type === ALL_PROJECTS) {
       setTimeout(() => {
         setDisplayData(projects);
