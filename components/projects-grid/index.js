@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 
-import OddEvenGrid from '@/components/oddEvenGrid';
+import OddEvenGrid from '@/components/odd-even-grid';
 
 const ALL_PROJECTS = 'All Projects';
 

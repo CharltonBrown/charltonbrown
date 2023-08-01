@@ -3,11 +3,11 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import AboutUsNav from '@/components/aboutUsNav';
-import OddEvenGrid from '@/components/oddEvenGrid';
+import AboutUsNav from '@/components/about-us-navigation';
+import OddEvenGrid from '@/components/odd-even-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import footerNavigationFragment from '@/components/legal-navigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
 
 export async function getStaticProps({ preview = false }) {

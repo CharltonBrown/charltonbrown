@@ -4,10 +4,10 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import ProjectsGrid from '@/components/projectsGrid';
+import ProjectsGrid from '@/components/projects-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import footerNavigationFragment from '@/components/legal-navigation/fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {

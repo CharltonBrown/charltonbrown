@@ -9,7 +9,7 @@ import Layout from '@/components/layout';
 import ScrollSnap from '@/components/scroll-snap';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import footerNavigationFragment from '@/components/legal-navigation/fragment';
 import imageOrientation from '@/lib/utils/imageOrientation';
 
 export async function getStaticPaths() {

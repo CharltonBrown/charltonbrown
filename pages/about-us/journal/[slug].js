@@ -4,13 +4,13 @@ import Image from 'next/image';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import AboutUsNav from '@/components/aboutUsNav';
-import RichText from '@/components/richText';
+import AboutUsNav from '@/components/about-us-navigation';
+import RichText from '@/components/rich-text';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import footerNavigationFragment from '@/components/legal-navigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
-import FadeInBlock from '../../../components/fadeInBlock';
+import FadeInBlock from '../../../components/fade-in-block';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allPosts { slug } }' });

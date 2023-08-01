@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import clsx from 'clsx';
-import FadeInBlock from '../fadeInBlock';
+import FadeInBlock from '../fade-in-block';
 
 export default function TextImageBlock({
   heading,

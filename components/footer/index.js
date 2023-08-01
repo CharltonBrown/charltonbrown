@@ -2,8 +2,8 @@ import React, { forwardRef, useRef } from 'react';
 import clsx from 'clsx';
 import { motion, useInView } from 'framer-motion';
 
-import FooterNavigation from '@/components/footerNavigation';
-import fadeVariants from '@/components/fadeInBlock/fadeVariants';
+import FooterNavigation from '@/components/legal-navigation';
+import fadeVariants from '@/components/fade-in-block/fadeVariants';
 
 const variants = {
   visible: {

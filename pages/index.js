@@ -6,9 +6,9 @@ import request from '@/lib/datocms';
 import { responsiveImageFragment } from '@/lib/fragments';
 import Layout from '@/components/layout';
 import HeroSlider from '@/components/hero-slider';
-import FadeInBlock from '@/components/fadeInBlock';
+import FadeInBlock from '@/components/fade-in-block';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import footerNavigationFragment from '@/components/legal-navigation/fragment';
 import MotifNavigation from '@/components/motif-navigation';
 import FootnoteOne from '@/components/icons/footnotes/footnote-1';
 
