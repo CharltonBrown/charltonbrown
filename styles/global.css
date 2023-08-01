@@ -7,11 +7,25 @@
 :root {
   --color-black-100: 27 25 25; /* #1B1919 cod-gray*/
   --color-white-100: 255 255 255;
-  --color-bone-100: 226 207 192; /* #E2CFC0 */
+  
+  /* Grey */
   --color-alabaster-100: 250 249 249; /* #FAF9F9 */
   --color-gray-100: 143 143 143; /* #8F8F8F */
   --color-gallery-100: 237 236 235; /* #EDECEB */
   --color-silver-100: 187 187 187; /* #BBBBBB */
+
+  /* Beige/Brown */
+  --color-bone-100: 226 207 192; /* #E2CFC0 */
+  /* Yellow */
+  --color-casablanca-100: 243 186 75; /* #F3BA4B */
+  /* Dark Red */
+  --color-oldBrick-100: 152 29 43; /* #981D2B */
+  /* Blue/Gray */
+  --color-gullGray-100: 156 179 182; /* #9CB3B6 */
+  /* Dark Grey */
+  --color-nandor-100: 83 91 86; /* #535b56 */
+  /* Dark Green */
+  --color-fernFrond-100: 114 108 34; /* #726C22 */
 }
 
 html {
