@@ -70,7 +70,6 @@ export default function Projects({ subscription }) {
       footerNavigation,
     },
   } = useQuerySubscription(subscription);
-  console.log({ projects });
 
   // const { scrollY } = useScroll();
 

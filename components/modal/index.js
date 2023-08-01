@@ -11,7 +11,7 @@ export default function Modal({ isOpen, setIsOpen, children }) {
           open={isOpen}
           onClose={setIsOpen}
           as="div"
-          className="fixed inset-0 z-30 flex items-center justify-center overflow-y-auto"
+          className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto"
         >
           <div className="flex flex-col py-8 px-4 text-center">
             <Dialog.Overlay />
@@ -25,22 +25,22 @@ export default function Modal({ isOpen, setIsOpen, children }) {
               className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
               initial={{
                 opacity: 0,
-                scale: 0.75,
+                scale: 0.95,
               }}
               animate={{
                 opacity: 1,
                 scale: 1,
                 transition: {
                   ease: 'easeOut',
-                  duration: 0.15,
+                  duration: 0.25,
                 },
               }}
               exit={{
                 opacity: 0,
-                scale: 0.75,
+                scale: 0.95,
                 transition: {
                   ease: 'easeIn',
-                  duration: 0.15,
+                  duration: 0.25,
                 },
               }}
             >

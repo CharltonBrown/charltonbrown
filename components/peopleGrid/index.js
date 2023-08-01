@@ -16,7 +16,7 @@ export default function PeopleGrid({ people }) {
   };
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-10 grid-flow-dense auto-cols-[repeat(auto-fit, 20rem)]">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 grid-flow-dense auto-cols-[repeat(auto-fit, 20rem)]">
       {people.map((person) => (
         <FadeInBlock key={person.id}>
           <div
@@ -26,17 +26,30 @@ export default function PeopleGrid({ people }) {
             role="button"
             tabIndex="0"
           >
-            <div className="relative w-full min-h-[200px] md:min-h-[300px] lg:min-h-[400px] mb-4">
+            <div className="relative w-full mb-4">
               <Image
-                className="object-cover"
-                fill
                 src={person.image.responsiveImage.src}
                 alt={person.image.responsiveImage.alt || person.name}
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-full h-auto"
               />
             </div>
-            <div className="flex flex-col">
-              <h3 className="mb-1 text-gray">{person.jobTitle}</h3>
-              <h2 className="text-2xl">{person.name}</h2>
+            <div className="flex items-start">
+              {person.motif && (
+                <Image
+                  src={person.motif.svg.url}
+                  width={44}
+                  height={44}
+                  alt={`${person.text} icon`}
+                  className="border border-black mr-4 mb-4 shrink-0"
+                />
+              )}
+              <div className="flex flex-col">
+                <h3 className="text-silver">{person.jobTitle}</h3>
+                <h2 className="text-xl">{person.name}</h2>
+              </div>
             </div>
           </div>
           <Modal
