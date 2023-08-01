@@ -29,6 +29,23 @@ module.exports = {
       silver: {
         DEFAULT: 'rgb(var(--color-silver-100) / <alpha-value>)',
       },
+      casablanca: {
+        DEFAULT: 'rgb(var(--color-casablanca-100) / <alpha-value>)',
+      },
+      oldBrick: {
+        DEFAULT: 'rgb(var(--color-oldBrick-100) / <alpha-value>)',
+      },
+      gullGray: {
+        DEFAULT: 'rgb(var(--color-gullGray-100) / <alpha-value>)',
+      },
+      nandor: {
+        DEFAULT: 'rgb(var(--color-nandor-100) / <alpha-value>)',
+      },
+      fernFrond: {
+        DEFAULT: 'rgb(var(--color-fernFrond-100) / <alpha-value>)',
+      },
+      transparent: 'transparent',
+      current: 'currentColor',
     },
     fontFamily: {
       savoyBold: ['savoybold', 'serif'],
@@ -39,4 +56,7 @@ module.exports = {
     },
   },
   plugins: [],
+  variants: {
+    display: ['group-hover'],
+  },
 };

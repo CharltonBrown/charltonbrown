@@ -11,7 +11,7 @@ const NavList = ({ className, navigation }) => (
   <nav className={className}>
     <ul className="flex flex-col h-full justify-center text-2xl md:flex-row md:text-xl md:justify-between md:h-auto">
       {navigation.map((link) => (
-        <li className="md:px-3" key={link.id}>
+        <li className="md:px-3 last:md:pr-0" key={link.id}>
           <Link href={`/${link.href}`} className="block py-2 md:p-0">
             {link.text}
           </Link>

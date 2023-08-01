@@ -10,6 +10,11 @@ const mainNavigationFragment = `
         id
         href
         text
+        motif {
+          svg {
+            url
+          }
+        }
       }
     }
   }

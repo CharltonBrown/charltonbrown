@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useQuerySubscription } from 'react-datocms';
 import Image from 'next/image';
 import clsx from 'clsx';
-import { useScroll, useMotionValueEvent } from 'framer-motion';
+// import { useScroll, useMotionValueEvent } from 'framer-motion';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
@@ -76,11 +76,11 @@ export default function Project({ subscription }) {
   const footerRef = useRef(null);
   const scrollRef = useRef(null);
 
-  const { scrollY } = useScroll({ container: scrollRef });
+  // const { scrollY } = useScroll({ container: scrollRef });
 
-  useMotionValueEvent(scrollY, 'change', (latest) => {
-    console.log('Page scroll: ', latest);
-  });
+  // useMotionValueEvent(scrollY, 'change', (latest) => {
+  //   console.log('Page scroll: ', latest);
+  // });
 
   const imageOrientationClass = (aspectRatio) => {
     if (imageOrientation(aspectRatio) === 'portrait')

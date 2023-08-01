@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuerySubscription } from 'react-datocms';
-import { useScroll, useMotionValueEvent } from 'framer-motion';
+// import { useScroll, useMotionValueEvent } from 'framer-motion';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
@@ -25,6 +25,12 @@ export async function getStaticProps({ preview = false }) {
               projectType {
                 id
                 typeTitle
+              }
+              intro(markdown: true)
+              motif {
+                svg {
+                  url
+                }
               }
             }
             allProjectTypes {
@@ -65,11 +71,11 @@ export default function Projects({ subscription }) {
     },
   } = useQuerySubscription(subscription);
 
-  const { scrollY } = useScroll();
+  // const { scrollY } = useScroll();
 
-  useMotionValueEvent(scrollY, 'change', (latest) => {
-    console.log('Page scroll: ', latest);
-  });
+  // useMotionValueEvent(scrollY, 'change', (latest) => {
+  //   console.log('Page scroll: ', latest);
+  // });
 
   return (
     <Layout
