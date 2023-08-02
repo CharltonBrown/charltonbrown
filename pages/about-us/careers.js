@@ -7,6 +7,7 @@ import AboutUsNav from '@/components/about-us-navigation';
 import TextImageBlock from '@/components/text-image-block';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
+import footerFragment from '@/components/footer/fragment';
 import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
 import SubNavigation from '@/components/sub-navigation';
@@ -42,6 +43,7 @@ export async function getStaticProps({ preview = false }) {
             }
             ${aboutUsNavigationFragment}
             ${mainNavigationFragment}
+            ${footerFragment}
             ${legalNavigationFragment}
           }
           ${responsiveImageFragment}
@@ -67,7 +69,13 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Careers({ subscription }) {
   const {
-    data: { careersPage, mainNavigation, legalNavigation, aboutUsNavigation },
+    data: {
+      careersPage,
+      mainNavigation,
+      footer,
+      legalNavigation,
+      aboutUsNavigation,
+    },
   } = useQuerySubscription(subscription);
   const related = careersPage.related[0];
 
@@ -75,6 +83,7 @@ export default function Careers({ subscription }) {
     <Layout
       mainNavigation={mainNavigation.links}
       legalNavigation={legalNavigation.links}
+      footer={footer}
     >
       <main className="bg-white">
         <h1 className="sr-only">Careers</h1>

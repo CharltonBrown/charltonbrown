@@ -103,6 +103,7 @@ export default function Project({ subscription }) {
     <Layout
       mainNavigation={mainNavigation.links}
       legalNavigation={legalNavigation.links}
+      hideFooter
     >
       <main>
         <ScrollSnap ref={scrollRef}>

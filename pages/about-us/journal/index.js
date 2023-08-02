@@ -7,6 +7,7 @@ import AboutUsNav from '@/components/about-us-navigation';
 import OddEvenGrid from '@/components/odd-even-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
+import footerFragment from '@/components/footer/fragment';
 import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
 import SubNavigation from '@/components/sub-navigation';
@@ -32,6 +33,7 @@ export async function getStaticProps({ preview = false }) {
             }
             ${aboutUsNavigationFragment}
             ${mainNavigationFragment}
+            ${footerFragment}
             ${legalNavigationFragment}
           }
           ${responsiveImageFragment}
@@ -60,6 +62,7 @@ export default function Posts({ subscription }) {
     data: {
       allPosts: posts,
       mainNavigation,
+      footer,
       legalNavigation,
       aboutUsNavigation,
     },
@@ -69,6 +72,7 @@ export default function Posts({ subscription }) {
     <Layout
       mainNavigation={mainNavigation.links}
       legalNavigation={legalNavigation.links}
+      footer={footer}
     >
       <main className="bg-white">
         <h1 className="sr-only">Journal</h1>

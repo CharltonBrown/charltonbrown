@@ -8,7 +8,6 @@ import AboutUsNav from '@/components/about-us-navigation';
 import RichText from '@/components/rich-text';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
 import FadeInBlock from '@/components/fade-in-block';
 import SubNavigation from '@/components/sub-navigation';
@@ -43,7 +42,6 @@ export async function getStaticProps({ params, preview = false }) {
             }
             ${aboutUsNavigationFragment}
             ${mainNavigationFragment}
-            ${legalNavigationFragment}
           }   
           ${responsiveImageFragment}       
         `,
@@ -71,14 +69,11 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Posts({ subscription }) {
   const {
-    data: { post, mainNavigation, legalNavigation, aboutUsNavigation },
+    data: { post, mainNavigation, aboutUsNavigation },
   } = useQuerySubscription(subscription);
 
   return (
-    <Layout
-      mainNavigation={mainNavigation.links}
-      legalNavigation={legalNavigation.links}
-    >
+    <Layout mainNavigation={mainNavigation.links} hideFooter>
       <main className="bg-white">
         <h1 className="sr-only">Journal</h1>
         <Container>

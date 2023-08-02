@@ -9,6 +9,7 @@ import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
+import footerFragment from '@/components/footer/fragment';
 import SubNavigation from '@/components/sub-navigation';
 import Container from '@/components/container';
 import RelatedBlock from '@/components/related-block';
@@ -42,6 +43,7 @@ export async function getStaticProps({ preview = false }) {
             }
             ${aboutUsNavigationFragment}
             ${mainNavigationFragment}
+            ${footerFragment}
             ${legalNavigationFragment}
           }
           ${responsiveImageFragment}
@@ -67,7 +69,7 @@ export async function getStaticProps({ preview = false }) {
 
 export default function About({ subscription }) {
   const {
-    data: { about, mainNavigation, legalNavigation, aboutUsNavigation },
+    data: { about, mainNavigation, footer, legalNavigation, aboutUsNavigation },
   } = useQuerySubscription(subscription);
   const related = about.related[0];
 
@@ -75,6 +77,7 @@ export default function About({ subscription }) {
     <Layout
       mainNavigation={mainNavigation.links}
       legalNavigation={legalNavigation.links}
+      footer={footer}
     >
       <main className="bg-white">
         <h1 className="sr-only">About us</h1>

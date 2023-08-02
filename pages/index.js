@@ -8,6 +8,7 @@ import Layout from '@/components/layout';
 import HeroSlider from '@/components/hero-slider';
 import FadeInBlock from '@/components/fade-in-block';
 import mainNavigationFragment from '@/components/navigation/fragment';
+import footerFragment from '@/components/footer/fragment';
 import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import MotifNavigation from '@/components/motif-navigation';
 import FootnoteOne from '@/components/icons/footnotes/footnote-1';
@@ -34,6 +35,7 @@ export async function getStaticProps({ preview = false }) {
               blockThreeBody(markdown: true)
             }
             ${mainNavigationFragment}
+            ${footerFragment}
             ${legalNavigationFragment}
           }
           ${responsiveImageFragment}
@@ -72,6 +74,7 @@ export default function Home({ subscription }) {
         sliderImages,
       },
       mainNavigation,
+      footer,
       legalNavigation,
     },
   } = useQuerySubscription(subscription);
@@ -84,6 +87,7 @@ export default function Home({ subscription }) {
     <Layout
       mainNavigation={mainNavigation.links}
       legalNavigation={legalNavigation.links}
+      footer={footer}
     >
       <main>
         <h1 className="sr-only">Charlton Brown - Architecture & Interiors</h1>
