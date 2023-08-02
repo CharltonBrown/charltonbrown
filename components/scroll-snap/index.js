@@ -5,9 +5,10 @@ import { useContextSelector } from 'use-context-selector';
 import scrollSnapContext from '@/lib/context/scrollSnapContext';
 
 const getChildrenOnDisplayName = (children, displayName) =>
-  React.Children.map(children, (child) =>
-    child.type.displayName === displayName ? child : null,
-  );
+  React.Children.map(children, (child) => {
+    if (!child) return null;
+    return child.type.displayName === displayName ? child : null;
+  });
 
 const ScrollSnap = forwardRef(({ children, className }, ref) => {
   const child = getChildrenOnDisplayName(children, 'Child');

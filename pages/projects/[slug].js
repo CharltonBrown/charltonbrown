@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import ScrollSnap from '@/components/scroll-snap';
+import RelatedBlock from '@/components/related-block';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/legal-navigation/fragment';
@@ -41,6 +42,15 @@ export async function getStaticProps({ params, preview = false }) {
                   ...responsiveImageFragment
                 }
               }
+              relatedProject {
+                title
+                slug
+                mainImage {
+                  responsiveImage(imgixParams: {fm: jpg, w: 2000 }) {
+                    ...responsiveImageFragment
+                  }
+                }
+              }
             }
             ${mainNavigationFragment}
             ${footerNavigationFragment}
@@ -73,7 +83,6 @@ export default function Project({ subscription }) {
   const {
     data: { project, mainNavigation, footerNavigation },
   } = useQuerySubscription(subscription);
-  const footerRef = useRef(null);
   const scrollRef = useRef(null);
 
   // const { scrollY } = useScroll({ container: scrollRef });
@@ -124,8 +133,16 @@ export default function Project({ subscription }) {
               />
             </ScrollSnap.Child>
           ))}
-          {/* Empty ScrollSnap.Child for footer snapping */}
-          <ScrollSnap.Child className="w-full h-screen" ref={footerRef} />
+          {project.relatedProject && (
+            <ScrollSnap.Child className="w-full h-screen">
+              <RelatedBlock
+                title={project.relatedProject.title}
+                slug={project.relatedProject.slug}
+                image={project.relatedProject.mainImage}
+                label="Related project"
+              />
+            </ScrollSnap.Child>
+          )}
         </ScrollSnap>
       </main>
     </Layout>
