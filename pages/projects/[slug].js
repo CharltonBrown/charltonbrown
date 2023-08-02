@@ -10,7 +10,7 @@ import ScrollSnap from '@/components/scroll-snap';
 import RelatedBlock from '@/components/related-block';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/legal-navigation/fragment';
+import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import imageOrientation from '@/lib/utils/imageOrientation';
 
 export async function getStaticPaths() {
@@ -53,7 +53,7 @@ export async function getStaticProps({ params, preview = false }) {
               }
             }
             ${mainNavigationFragment}
-            ${footerNavigationFragment}
+            ${legalNavigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -81,7 +81,7 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Project({ subscription }) {
   const {
-    data: { project, mainNavigation, footerNavigation },
+    data: { project, mainNavigation, legalNavigation },
   } = useQuerySubscription(subscription);
   const scrollRef = useRef(null);
 
@@ -102,7 +102,8 @@ export default function Project({ subscription }) {
   return (
     <Layout
       mainNavigation={mainNavigation.links}
-      footerNavigation={footerNavigation.links}
+      legalNavigation={legalNavigation.links}
+      hideFooter
     >
       <main>
         <ScrollSnap ref={scrollRef}>

@@ -7,7 +7,8 @@ import Layout from '@/components/layout';
 import ProjectsGrid from '@/components/projects-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/legal-navigation/fragment';
+import footerFragment from '@/components/footer/fragment';
+import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import Container from '@/components/container';
 
 export async function getStaticProps({ preview = false }) {
@@ -39,7 +40,8 @@ export async function getStaticProps({ preview = false }) {
               id
             }
             ${mainNavigationFragment}
-            ${footerNavigationFragment}
+            ${footerFragment}
+            ${legalNavigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -68,7 +70,8 @@ export default function Projects({ subscription }) {
       allProjects: projects,
       allProjectTypes: projectTypes,
       mainNavigation,
-      footerNavigation,
+      footer,
+      legalNavigation,
     },
   } = useQuerySubscription(subscription);
 
@@ -81,7 +84,8 @@ export default function Projects({ subscription }) {
   return (
     <Layout
       mainNavigation={mainNavigation.links}
-      footerNavigation={footerNavigation.links}
+      legalNavigation={legalNavigation.links}
+      footer={footer}
     >
       <main className="bg-white">
         <h1 className="sr-only">Projects</h1>

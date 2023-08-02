@@ -9,7 +9,8 @@ import AboutUsNav from '@/components/about-us-navigation';
 import PeopleGrid from '@/components/people-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/legal-navigation/fragment';
+import footerFragment from '@/components/footer/fragment';
+import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
 import Container from '@/components/container';
 import SubNavigation from '@/components/sub-navigation';
@@ -40,7 +41,8 @@ export async function getStaticProps({ preview = false }) {
             }
             ${aboutUsNavigationFragment}
             ${mainNavigationFragment}
-            ${footerNavigationFragment}
+            ${footerFragment}
+            ${legalNavigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -68,7 +70,8 @@ export default function People({ subscription }) {
     data: {
       allPeople: people,
       mainNavigation,
-      footerNavigation,
+      footer,
+      legalNavigation,
       aboutUsNavigation,
     },
   } = useQuerySubscription(subscription);
@@ -76,7 +79,8 @@ export default function People({ subscription }) {
   return (
     <Layout
       mainNavigation={mainNavigation.links}
-      footerNavigation={footerNavigation.links}
+      legalNavigation={legalNavigation.links}
+      footer={footer}
     >
       <main className="bg-white">
         <h1 className="sr-only">People</h1>

@@ -1,32 +1,30 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useQuerySubscription } from 'react-datocms';
+import Image from 'next/image';
+import { motion, useInView } from 'framer-motion';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/legal-navigation/fragment';
+import footerBlockFragment from '@/components/footer-block/fragment';
+import FooterBlock from '@/components/footer-block';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query contactPageContent {
             contact {
-              textImageBlock {
-                id
-                body
-                heading
-                id
-                imageAlignment
-                image {
-                  responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
-                    ...responsiveImageFragment
-                  }
+              image {
+                responsiveImage(imgixParams: {fm: jpg, w: 2000 }) {
+                  ...responsiveImageFragment
                 }
+              }
+              blocks {
+                ${footerBlockFragment}
               }
             }
             ${mainNavigationFragment}
-            ${footerNavigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -49,20 +47,60 @@ export async function getStaticProps({ preview = false }) {
   };
 }
 
+const variants = {
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.5,
+      delayChildren: 0.5,
+    },
+  },
+  hidden: { opacity: 0 },
+};
+
 export default function Contact({ subscription }) {
   const {
-    data: { contact, mainNavigation, footerNavigation },
+    data: { contact, mainNavigation },
   } = useQuerySubscription(subscription);
-
-  console.log({ contact });
+  const ref = useRef(null);
+  const contentIsInView = useInView(ref, {
+    margin: '0px 0px 0px 0px',
+  });
 
   return (
-    <Layout
-      mainNavigation={mainNavigation.links}
-      footerNavigation={footerNavigation.links}
-    >
+    <Layout mainNavigation={mainNavigation.links} hideFooter>
       <main className="bg-white">
         <h1 className="sr-only">Contact us</h1>
+        <div className="flex flex-col lg:flex-row">
+          <div className="relative h-[70vw] md:h-screen md:grow">
+            <Image
+              src={contact.image.responsiveImage.src}
+              alt={contact.image.responsiveImage.alt}
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div
+            className="w-5xl py-20 px-10 lg:w-[700px] lg:h-screen lg:flex lg:items-center lg:pl-12"
+            ref={ref}
+          >
+            <motion.div
+              animate={contentIsInView && 'visible'}
+              initial="hidden"
+              variants={variants}
+              className="pt-24 md:grid md:grid-cols-2 gap-12 lg:gap-16 items-start"
+            >
+              {contact.blocks.map((block) => (
+                <FooterBlock
+                  key={block.id}
+                  heading={block.heading}
+                  body={block.body}
+                  className="mb-8 lg:mb-0"
+                />
+              ))}
+            </motion.div>
+          </div>
+        </div>
       </main>
     </Layout>
   );

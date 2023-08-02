@@ -11,9 +11,11 @@ import scrollSnapContext from '@/lib/context/scrollSnapContext';
 export default function Layout({
   children,
   mainNavigation,
+  footer,
   title,
-  footerNavigation,
+  legalNavigation,
   footerRef,
+  hideFooter,
 }) {
   const setNavColor = useContextSelector(navColorContext, (v) => v[1]);
   const scrollSnap = useContextSelector(scrollSnapContext, (v) => v[0].active);
@@ -34,7 +36,12 @@ export default function Layout({
       <div className={clsx(scrollSnap && 'overflow-hidden h-screen')}>
         <Navigation navigation={mainNavigation} />
         <div className="relative z-10">{children}</div>
-        <Footer footerNavigation={footerNavigation} ref={footerRef} />
+        <Footer
+          footer={footer}
+          legalNavigation={legalNavigation}
+          ref={footerRef}
+          hideFooter={hideFooter}
+        />
       </div>
     </>
   );

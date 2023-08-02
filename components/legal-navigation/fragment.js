@@ -1,5 +1,5 @@
-const footerNavigationFragment = `
-  footerNavigation {
+const legalNavigationFragment = `
+  legalNavigation {
     links {
       ... on ExternalLinkRecord {
         id
@@ -15,4 +15,4 @@ const footerNavigationFragment = `
   }
 `;
 
-export default footerNavigationFragment;
+export default legalNavigationFragment;

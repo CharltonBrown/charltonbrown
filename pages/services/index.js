@@ -4,7 +4,8 @@ import { useQuerySubscription } from 'react-datocms';
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/legal-navigation/fragment';
+import footerFragment from '@/components/footer/fragment';
+import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import ServiceBlock from '@/components/service-block';
 import Container from '@/components/container';
 
@@ -25,7 +26,8 @@ export async function getStaticProps({ preview = false }) {
               }
             }
             ${mainNavigationFragment}
-            ${footerNavigationFragment}
+            ${footerFragment}
+            ${legalNavigationFragment}
           }
         `,
     preview,
@@ -52,7 +54,8 @@ export default function Services({ subscription }) {
     data: {
       servicesPage: { serviceBlocks },
       mainNavigation,
-      footerNavigation,
+      footer,
+      legalNavigation,
     },
   } = useQuerySubscription(subscription);
   const [activeService, setActiveService] = useState('');
@@ -68,7 +71,8 @@ export default function Services({ subscription }) {
   return (
     <Layout
       mainNavigation={mainNavigation.links}
-      footerNavigation={footerNavigation.links}
+      legalNavigation={legalNavigation.links}
+      footer={footer}
     >
       <main className="bg-white">
         <h1 className="sr-only">Services</h1>
