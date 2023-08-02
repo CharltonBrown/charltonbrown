@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 
 import OddEvenGrid from '@/components/odd-even-grid';
+import SubNavigation from '@/components/sub-navigation';
 
 const ALL_PROJECTS = 'All Projects';
 
@@ -37,8 +38,8 @@ export default function ProjectsGrid({ projects, projectTypes }) {
   );
 
   return (
-    <div className="flex" id="content">
-      <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
+    <div className="flex">
+      <SubNavigation>
         <nav>
           <ul className="flex flex-col">
             <li className="mb-2">
@@ -46,8 +47,8 @@ export default function ProjectsGrid({ projects, projectTypes }) {
                 type="button"
                 onClick={() => handleClick('All Projects')}
                 className={clsx(
+                  'text-lg tracking-wider hover:text-black focus:text-black transition',
                   ALL_PROJECTS !== activeType && 'text-silver',
-                  'text-xl',
                 )}
               >
                 {ALL_PROJECTS}
@@ -59,8 +60,8 @@ export default function ProjectsGrid({ projects, projectTypes }) {
                   type="button"
                   onClick={() => handleClick(type.typeTitle)}
                   className={clsx(
+                    'text-lg tracking-wider hover:text-black focus:text-black transition',
                     type.typeTitle !== activeType && 'text-silver',
-                    'text-xl',
                   )}
                 >
                   {type.typeTitle}
@@ -69,7 +70,7 @@ export default function ProjectsGrid({ projects, projectTypes }) {
             ))}
           </ul>
         </nav>
-      </aside>
+      </SubNavigation>
       <div className="pt-[200px] pl-8">
         <OddEvenGrid
           items={displayData}

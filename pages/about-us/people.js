@@ -11,6 +11,8 @@ import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/legal-navigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
+import Container from '@/components/container';
+import SubNavigation from '@/components/sub-navigation';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -78,16 +80,16 @@ export default function People({ subscription }) {
     >
       <main className="bg-white">
         <h1 className="sr-only">People</h1>
-        <div className="p-8">
+        <Container>
           <div className="flex">
-            <aside className="w-[320px] shrink-0 hidden md:flex h-screen sticky top-0 flex-col justify-center">
+            <SubNavigation>
               <AboutUsNav links={aboutUsNavigation.links} />
-            </aside>
+            </SubNavigation>
             <div className="pt-[200px] md:pl-8 grow">
               <PeopleGrid people={people} />
             </div>
           </div>
-        </div>
+        </Container>
       </main>
     </Layout>
   );

@@ -8,6 +8,7 @@ import ProjectsGrid from '@/components/projects-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerNavigationFragment from '@/components/legal-navigation/fragment';
+import Container from '@/components/container';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -84,9 +85,9 @@ export default function Projects({ subscription }) {
     >
       <main className="bg-white">
         <h1 className="sr-only">Projects</h1>
-        <div className="p-8">
+        <Container>
           <ProjectsGrid projects={projects} projectTypes={projectTypes} />
-        </div>
+        </Container>
       </main>
     </Layout>
   );
