@@ -11,6 +11,7 @@ import footerNavigationFragment from '@/components/legal-navigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
 import SubNavigation from '@/components/sub-navigation';
 import Container from '@/components/container';
+import RelatedBlock from '@/components/related-block';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -23,6 +24,15 @@ export async function getStaticProps({ preview = false }) {
                 heading
                 id
                 imageAlignment
+                image {
+                  responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
+                    ...responsiveImageFragment
+                  }
+                }
+              }
+              related {
+                title
+                url
                 image {
                   responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
                     ...responsiveImageFragment
@@ -59,6 +69,7 @@ export default function About({ subscription }) {
   const {
     data: { about, mainNavigation, footerNavigation, aboutUsNavigation },
   } = useQuerySubscription(subscription);
+  const related = about.related[0];
 
   return (
     <Layout
@@ -85,6 +96,16 @@ export default function About({ subscription }) {
             </div>
           </div>
         </Container>
+        {about.related && (
+          <div className="w-full h-screen">
+            <RelatedBlock
+              title={related.title}
+              slug={related.url}
+              image={related.image}
+              label="Related content"
+            />
+          </div>
+        )}
       </main>
     </Layout>
   );

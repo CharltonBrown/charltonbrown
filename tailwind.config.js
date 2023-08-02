@@ -44,6 +44,9 @@ module.exports = {
       fernFrond: {
         DEFAULT: 'rgb(var(--color-fernFrond-100) / <alpha-value>)',
       },
+      wildSand: {
+        DEFAULT: 'rgb(var(--color-wildSand-100) / <alpha-value>)',
+      },
       transparent: 'transparent',
       current: 'currentColor',
     },
