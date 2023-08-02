@@ -49,7 +49,9 @@ export default function SubNavigation({ children }) {
           )}
         </AnimatePresence>
         <div className="flex items-center justify-center shrink-0">
-          <button onClick={cycleOpen}>{open ? 'Close' : 'Open'}</button>
+          <button type="button" onClick={cycleOpen}>
+            {open ? 'Close' : 'Open'}
+          </button>
         </div>
       </div>
 

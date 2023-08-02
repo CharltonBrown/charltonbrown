@@ -16,6 +16,7 @@ export default function Layout({
   legalNavigation,
   footerRef,
   hideFooter,
+  hideHeader,
 }) {
   const setNavColor = useContextSelector(navColorContext, (v) => v[1]);
   const scrollSnap = useContextSelector(scrollSnapContext, (v) => v[0].active);
@@ -34,7 +35,7 @@ export default function Layout({
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className={clsx(scrollSnap && 'overflow-hidden h-screen')}>
-        <Navigation navigation={mainNavigation} />
+        <Navigation navigation={mainNavigation} hideHeader={hideHeader} />
         <div className="relative z-10">{children}</div>
         <Footer
           footer={footer}

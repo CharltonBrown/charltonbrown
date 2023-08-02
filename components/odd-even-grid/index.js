@@ -40,7 +40,10 @@ export default function OddEvenGrid({ items, parentSlug, type }) {
                 key={item.id}
                 className="lg:odd:w-[calc(50%+1.5rem)] lg:even:w-[calc(50%-1.5rem)] mb-24"
               >
-                <Link href={`/${parentSlug}/${item.slug}`}>
+                <Link
+                  href={`/${parentSlug}/[slug]`}
+                  as={`/${parentSlug}/${item.slug}`}
+                >
                   <Image
                     className="object-cover mb-4"
                     width={item.mainImage.responsiveImage.width}
