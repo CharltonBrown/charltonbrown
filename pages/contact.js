@@ -5,7 +5,7 @@ import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/legal-navigation/fragment';
+import legalNavigationFragment from '@/components/legal-navigation/fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -26,7 +26,7 @@ export async function getStaticProps({ preview = false }) {
               }
             }
             ${mainNavigationFragment}
-            ${footerNavigationFragment}
+            ${legalNavigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -51,7 +51,7 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Contact({ subscription }) {
   const {
-    data: { contact, mainNavigation, footerNavigation },
+    data: { contact, mainNavigation, legalNavigation },
   } = useQuerySubscription(subscription);
 
   console.log({ contact });
@@ -59,7 +59,7 @@ export default function Contact({ subscription }) {
   return (
     <Layout
       mainNavigation={mainNavigation.links}
-      footerNavigation={footerNavigation.links}
+      legalNavigation={legalNavigation.links}
     >
       <main className="bg-white">
         <h1 className="sr-only">Contact us</h1>

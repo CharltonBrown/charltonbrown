@@ -2,7 +2,7 @@ import React, { forwardRef, useRef } from 'react';
 import clsx from 'clsx';
 import { motion, useInView } from 'framer-motion';
 
-import FooterNavigation from '@/components/legal-navigation';
+import LegalNavigation from '@/components/legal-navigation';
 import Container from '@/components/container';
 import fadeVariants from '@/components/fade-in-block/fadeVariants';
 
@@ -25,7 +25,7 @@ function FooterBlock({ children, className }) {
   );
 }
 
-const Footer = forwardRef(({ footerNavigation }, propRef) => {
+const Footer = forwardRef(({ legalNavigation }, propRef) => {
   const dummyFooterRef = useRef(null);
   const footerRef = propRef !== null ? propRef : dummyFooterRef;
   const footerIsInView = useInView(footerRef, {
@@ -101,7 +101,7 @@ const Footer = forwardRef(({ footerNavigation }, propRef) => {
               </p>
             </FooterBlock>
           </motion.div>
-          <FooterNavigation footerNavigation={footerNavigation} />
+          <LegalNavigation legalNavigation={legalNavigation} />
         </Container>
       </footer>
     </>

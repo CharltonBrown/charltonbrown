@@ -12,7 +12,7 @@ export default function Layout({
   children,
   mainNavigation,
   title,
-  footerNavigation,
+  legalNavigation,
   footerRef,
 }) {
   const setNavColor = useContextSelector(navColorContext, (v) => v[1]);
@@ -34,7 +34,7 @@ export default function Layout({
       <div className={clsx(scrollSnap && 'overflow-hidden h-screen')}>
         <Navigation navigation={mainNavigation} />
         <div className="relative z-10">{children}</div>
-        <Footer footerNavigation={footerNavigation} ref={footerRef} />
+        <Footer legalNavigation={legalNavigation} ref={footerRef} />
       </div>
     </>
   );

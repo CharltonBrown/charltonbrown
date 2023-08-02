@@ -1,14 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 
-export default function FooterNavigation({ footerNavigation }) {
+export default function LegalNavigation({ legalNavigation }) {
   return (
     <nav className="w-full">
       <ul className="flex justify-center gap-8 md:gap-12">
         <li className="text-silver">
           Copyright © {new Date().getFullYear()} Charlton Brown
         </li>
-        {footerNavigation.map((link) => (
+        {legalNavigation.map((link) => (
           <li key={link.id}>
             <Link
               href={`/${link.href}`}
