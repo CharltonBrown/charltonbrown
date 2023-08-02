@@ -76,3 +76,17 @@ body {
     }
   }
 }
+
+
+#nprogress {
+  color: black !important;
+}
+
+#nprogress .bar {
+  background: black !important;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: black !important;
+  border-left-color: black !important;
+}

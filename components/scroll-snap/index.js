@@ -1,6 +1,7 @@
-import React, { useEffect, forwardRef } from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { useContextSelector } from 'use-context-selector';
+// import { useInView } from 'react-intersection-observer';
 
 import scrollSnapContext from '@/lib/context/scrollSnapContext';
 
@@ -10,7 +11,7 @@ const getChildrenOnDisplayName = (children, displayName) =>
     return child.type.displayName === displayName ? child : null;
   });
 
-const ScrollSnap = forwardRef(({ children, className }, ref) => {
+const ScrollSnap = ({ children, className }) => {
   const child = getChildrenOnDisplayName(children, 'Child');
   const setScrollSnap = useContextSelector(scrollSnapContext, (v) => v[1]);
 
@@ -27,7 +28,6 @@ const ScrollSnap = forwardRef(({ children, className }, ref) => {
 
   return (
     <div
-      ref={ref}
       className={clsx(
         className,
         'relative z-10 max-h-screen snap snap-y snap-mandatory overflow-y-scroll',
@@ -36,16 +36,18 @@ const ScrollSnap = forwardRef(({ children, className }, ref) => {
       {child}
     </div>
   );
-});
+};
 ScrollSnap.displayName = ScrollSnap;
 
-const Child = forwardRef(({ children, className }, ref) => {
-  return (
-    <div className={clsx(className, 'snap-start')} ref={ref}>
-      {children}
-    </div>
-  );
-});
+const Child = ({ children, className }) => {
+  // const { ref, inView, entry } = useInView({
+  //   /* Optional options */
+  //   threshold: 0,
+  // });
+
+  // console.log({ inView, entry });
+  return <div className={clsx(className, 'snap-start')}>{children}</div>;
+};
 Child.displayName = 'Child';
 ScrollSnap.Child = Child;
 

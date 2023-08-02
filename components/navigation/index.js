@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useContextSelector } from 'use-context-selector';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
+import { motion, cubicBezier } from 'framer-motion';
 
 import Logo from '@/components/logo';
 import Burger from '@/components/burger';
@@ -43,7 +44,22 @@ const NavList = ({ className, navigation, navTheme }) => {
   );
 };
 
-export default function Navigation({ navigation }) {
+const easing = cubicBezier(0.65, 0.06, 0.19, 0.96);
+
+const variants = {
+  visible: {
+    y: 0,
+  },
+  hidden: {
+    y: -150,
+    transition: {
+      duration: 0.5,
+      ease: easing,
+    },
+  },
+};
+
+export default function Navigation({ navigation, hideHeader }) {
   const [activeMobileNav, setActiveMobileNav] = useState(false);
   const navTheme = useContextSelector(navColorContext, (v) => v[0].theme);
 
@@ -52,7 +68,10 @@ export default function Navigation({ navigation }) {
   };
 
   return (
-    <header
+    <motion.header
+      animate={hideHeader && 'hidden'}
+      initial="visible"
+      variants={variants}
       className={clsx(
         navTheme === 'light' ? 'text-white' : 'text-black',
         'fixed top-0 w-full z-50 transition',
@@ -78,6 +97,6 @@ export default function Navigation({ navigation }) {
           />
         </div>
       </Container>
-    </header>
+    </motion.header>
   );
 }

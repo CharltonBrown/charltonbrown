@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useQuerySubscription } from 'react-datocms';
 import Image from 'next/image';
 import clsx from 'clsx';
@@ -8,6 +8,7 @@ import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import ScrollSnap from '@/components/scroll-snap';
 import RelatedBlock from '@/components/related-block';
+import ProjectInfo from '@/components/project-info';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import legalNavigationFragment from '@/components/legal-navigation/fragment';
@@ -83,7 +84,11 @@ export default function Project({ subscription }) {
   const {
     data: { project, mainNavigation, legalNavigation },
   } = useQuerySubscription(subscription);
-  const scrollRef = useRef(null);
+  // const scrollRef = useRef(null);
+
+  // useEffect(() => {
+  //   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // }, []);
 
   // const { scrollY } = useScroll({ container: scrollRef });
 
@@ -103,10 +108,12 @@ export default function Project({ subscription }) {
     <Layout
       mainNavigation={mainNavigation.links}
       legalNavigation={legalNavigation.links}
+      hideHeader
       hideFooter
     >
-      <main>
-        <ScrollSnap ref={scrollRef}>
+      <main className="relative">
+        <ProjectInfo title={project.title} description={project.description} />
+        <ScrollSnap>
           <ScrollSnap.Child className="relative w-screen h-screen bg-white">
             <Image
               className={clsx(
