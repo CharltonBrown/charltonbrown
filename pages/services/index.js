@@ -6,6 +6,7 @@ import Layout from '@/components/layout';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerFragment from '@/components/footer/fragment';
 import legalNavigationFragment from '@/components/legal-navigation/fragment';
+import { responsiveImageFragment } from '@/lib/fragments';
 import ServiceBlock from '@/components/service-block';
 import Container from '@/components/container';
 
@@ -22,6 +23,12 @@ export async function getStaticProps({ preview = false }) {
                 steps {
                   title
                   id
+                  body(markdown: true)
+                  image {
+                    responsiveImage(imgixParams: {fm: jpg, w: 500, h: 500, fit: crop }) {
+                      ...responsiveImageFragment
+                    }
+                  }
                 }
               }
             }
@@ -29,6 +36,7 @@ export async function getStaticProps({ preview = false }) {
             ${footerFragment}
             ${legalNavigationFragment}
           }
+          ${responsiveImageFragment}
         `,
     preview,
   };
@@ -77,7 +85,7 @@ export default function Services({ subscription }) {
       <main className="bg-white">
         <h1 className="sr-only">Services</h1>
         <Container>
-          <div className="relative p-8 pt-[200px]">
+          <div className="relative pt-[200px]">
             {serviceBlocks.map((service) => (
               <ServiceBlock
                 key={service.id}
