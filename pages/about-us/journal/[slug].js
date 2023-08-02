@@ -4,13 +4,15 @@ import Image from 'next/image';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import AboutUsNav from '@/components/aboutUsNav';
-import RichText from '@/components/richText';
+import AboutUsNav from '@/components/about-us-navigation';
+import RichText from '@/components/rich-text';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import footerNavigationFragment from '@/components/legal-navigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
-import FadeInBlock from '../../../components/fadeInBlock';
+import FadeInBlock from '@/components/fade-in-block';
+import SubNavigation from '@/components/sub-navigation';
+import Container from '@/components/container';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allPosts { slug } }' });
@@ -79,11 +81,11 @@ export default function Posts({ subscription }) {
     >
       <main className="bg-white">
         <h1 className="sr-only">Journal</h1>
-        <div className="p-8">
+        <Container>
           <div className="flex">
-            <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
+            <SubNavigation>
               <AboutUsNav links={aboutUsNavigation.links} />
-            </aside>
+            </SubNavigation>
             <div className="pt-[200px] pl-8 grow">
               <FadeInBlock>
                 <div className="lg:flex flex-row-reverse items-stretch">
@@ -98,8 +100,7 @@ export default function Posts({ subscription }) {
                       />
                     </div>
                   </div>
-
-                  <div className="">
+                  <div>
                     <h1 className="text-3xl mb-8">{post.title}</h1>
                     <RichText text={post.body} />
                   </div>
@@ -107,7 +108,7 @@ export default function Posts({ subscription }) {
               </FadeInBlock>
             </div>
           </div>
-        </div>
+        </Container>
       </main>
     </Layout>
   );

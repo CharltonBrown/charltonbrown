@@ -5,7 +5,7 @@ import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import footerNavigationFragment from '@/components/legal-navigation/fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {

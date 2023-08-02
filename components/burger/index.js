@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 
-export default function Burger({ className, onClick }) {
+export default function Burger({ className, onClick, navTheme }) {
   const [isOpen, setIsOpen] = useState(false);
-  const genericHamburgerLine = `h-px w-6 my-1 bg-black transition ease transform duration-300`;
+  const genericHamburgerLine = `h-px w-6 my-1 ${
+    navTheme === 'light' ? 'bg-white' : 'bg-black'
+  } transition ease transform duration-300`;
 
   const handleClick = () => {
     setIsOpen(!isOpen);

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 
-import FadeInBlock from '@/components/fadeInBlock';
+import FadeInBlock from '@/components/fade-in-block';
 import FootnoteTwo from '@/components/icons/footnotes/footnote-2';
 
 export default function OddEvenGrid({ items, parentSlug, type }) {

@@ -6,11 +6,12 @@ import request from '@/lib/datocms';
 import { responsiveImageFragment } from '@/lib/fragments';
 import Layout from '@/components/layout';
 import HeroSlider from '@/components/hero-slider';
-import FadeInBlock from '@/components/fadeInBlock';
+import FadeInBlock from '@/components/fade-in-block';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import footerNavigationFragment from '@/components/legal-navigation/fragment';
 import MotifNavigation from '@/components/motif-navigation';
 import FootnoteOne from '@/components/icons/footnotes/footnote-1';
+import Container from '@/components/container';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -85,66 +86,73 @@ export default function Home({ subscription }) {
       footerNavigation={footerNavigation.links}
     >
       <main>
+        <h1 className="sr-only">Charlton Brown - Architecture & Interiors</h1>
         <HeroSlider images={sliderImages} hideHero={!heroIsInView} />
         <div className="relative z-50">
           {/* Empty div for fixed hero */}
           <div className="w-full h-screen" ref={heroRef} />
           <div className="relative h-screen flex items-center justify-center bg-bone">
-            <FadeInBlock>
-              <div className="max-w-3xl py-8 px-5 md:px-7 lg:px-10">
-                <h2 className="text-3xl lg:text-5xl">{introLabel}</h2>
-                <div
-                  className="text-3xl lg:text-5xl font-savoyItalic"
-                  dangerouslySetInnerHTML={{
-                    __html: quote,
-                  }}
-                />
-              </div>
-              <div className="max-w-2xl py-8 px-5 md:px-7 lg:px-10">
-                <h2 className="uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
-                  {blockOneLabel}
-                </h2>
-                <div
-                  className="text-xl lg:text-2xl"
-                  dangerouslySetInnerHTML={{
-                    __html: blockOneBody,
-                  }}
-                />
-              </div>
-            </FadeInBlock>
-            <FootnoteOne className="absolute left-1/2 -translate-y-1/2 bottom-16 w-4" />
+            <Container>
+              <FadeInBlock>
+                <div className="max-w-3xl mx-auto py-8 px-5 md:px-7 lg:px-10">
+                  <h2 className="text-3xl lg:text-5xl">{introLabel}</h2>
+                  <div
+                    className="text-3xl lg:text-5xl font-savoyItalic"
+                    dangerouslySetInnerHTML={{
+                      __html: quote,
+                    }}
+                  />
+                </div>
+                <div className="max-w-3xl mx-auto py-8 px-5 md:px-7 lg:px-10">
+                  <h2 className="uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
+                    {blockOneLabel}
+                  </h2>
+                  <div
+                    className="text-xl lg:text-2xl"
+                    dangerouslySetInnerHTML={{
+                      __html: blockOneBody,
+                    }}
+                  />
+                </div>
+              </FadeInBlock>
+              <FootnoteOne className="absolute left-1/2 -translate-y-1/2 bottom-16 w-4" />
+            </Container>
           </div>
           <div className="relative h-screen flex items-center justify-center bg-bone">
-            <FadeInBlock>
-              <div className="max-w-2xl py-8 px-5 md:px-7 lg:px-10">
-                <h2 className="uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
-                  {blockTwoLabel}
-                </h2>
-                <div
-                  className="text-xl lg:text-2xl"
-                  dangerouslySetInnerHTML={{
-                    __html: blockTwoBody,
-                  }}
-                />
-              </div>
-            </FadeInBlock>
-            <FootnoteOne className="absolute left-1/2 -translate-y-1/2 bottom-16 w-4" />
+            <Container>
+              <FadeInBlock>
+                <div className="max-w-3xl mx-auto py-8 px-5 md:px-7 lg:px-10">
+                  <h2 className="uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
+                    {blockTwoLabel}
+                  </h2>
+                  <div
+                    className="text-xl lg:text-2xl"
+                    dangerouslySetInnerHTML={{
+                      __html: blockTwoBody,
+                    }}
+                  />
+                </div>
+              </FadeInBlock>
+              <FootnoteOne className="absolute left-1/2 -translate-y-1/2 bottom-16 w-4" />
+            </Container>
           </div>
           <div className="h-screen flex items-center justify-center bg-bone">
-            <FadeInBlock>
-              <div className="max-w-2xl py-8 px-5 md:px-7 lg:px-10">
-                <h2 className="mx-auto uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
-                  {blockThreeLabel}
-                </h2>
-                <div
-                  className="mx-auto text-xl lg:text-2xl"
-                  dangerouslySetInnerHTML={{
-                    __html: blockThreeBody,
-                  }}
-                />
-                <MotifNavigation links={mainNavigation.links} />
-              </div>
-            </FadeInBlock>
+            <Container>
+              <FadeInBlock>
+                <div className="max-w-3xl mx-auto py-8 px-5 md:px-7 lg:px-10">
+                  <h2 className="mx-auto uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
+                    {blockThreeLabel}
+                  </h2>
+                  <div
+                    className="mx-auto text-xl lg:text-2xl"
+                    dangerouslySetInnerHTML={{
+                      __html: blockThreeBody,
+                    }}
+                  />
+                  <MotifNavigation links={mainNavigation.links} />
+                </div>
+              </FadeInBlock>
+            </Container>
           </div>
         </div>
       </main>

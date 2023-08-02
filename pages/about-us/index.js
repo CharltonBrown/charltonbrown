@@ -3,12 +3,14 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import AboutUsNav from '@/components/aboutUsNav';
-import TextImageBlock from '@/components/textImageBlock';
+import AboutUsNav from '@/components/about-us-navigation';
+import TextImageBlock from '@/components/text-image-block';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import footerNavigationFragment from '@/components/footerNavigation/fragment';
+import footerNavigationFragment from '@/components/legal-navigation/fragment';
 import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
+import SubNavigation from '@/components/sub-navigation';
+import Container from '@/components/container';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -65,11 +67,11 @@ export default function About({ subscription }) {
     >
       <main className="bg-white">
         <h1 className="sr-only">About us</h1>
-        <div className="p-8">
+        <Container>
           <div className="flex">
-            <aside className="w-[320px] shrink-0 h-screen sticky top-0 flex flex-col justify-center">
+            <SubNavigation>
               <AboutUsNav links={aboutUsNavigation.links} />
-            </aside>
+            </SubNavigation>
             <div className="pt-[200px] pl-8 grow">
               {about?.textImageBlock.map((block) => (
                 <TextImageBlock
@@ -82,7 +84,7 @@ export default function About({ subscription }) {
               ))}
             </div>
           </div>
-        </div>
+        </Container>
       </main>
     </Layout>
   );

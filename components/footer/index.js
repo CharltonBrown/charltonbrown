@@ -2,8 +2,9 @@ import React, { forwardRef, useRef } from 'react';
 import clsx from 'clsx';
 import { motion, useInView } from 'framer-motion';
 
-import FooterNavigation from '@/components/footerNavigation';
-import fadeVariants from '@/components/fadeInBlock/fadeVariants';
+import FooterNavigation from '@/components/legal-navigation';
+import Container from '@/components/container';
+import fadeVariants from '@/components/fade-in-block/fadeVariants';
 
 const variants = {
   visible: {
@@ -37,10 +38,10 @@ const Footer = forwardRef(({ footerNavigation }, propRef) => {
       <footer
         className={clsx(
           footerIsInView ? 'visible' : 'invisible',
-          'fixed bottom-0 w-full h-screen p-5 md:p-7 lg:p-10 bg-alabaster',
+          'fixed bottom-0 w-full h-screen bg-alabaster',
         )}
       >
-        <div className="flex flex-col h-full">
+        <Container className="flex flex-col h-full">
           <motion.div
             animate={footerIsInView && 'visible'}
             initial="hidden"
@@ -101,7 +102,7 @@ const Footer = forwardRef(({ footerNavigation }, propRef) => {
             </FooterBlock>
           </motion.div>
           <FooterNavigation footerNavigation={footerNavigation} />
-        </div>
+        </Container>
       </footer>
     </>
   );

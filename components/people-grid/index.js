@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 
 import Modal from '@/components/modal';
-import PersonInfo from '@/components/personInfo';
-import FadeInBlock from '@/components/fadeInBlock';
+import PersonInfo from '@/components/person-info';
+import FadeInBlock from '@/components/fade-in-block';
 
 export default function PeopleGrid({ people }) {
   const [activePersonId, setActivePersonId] = useState('');
