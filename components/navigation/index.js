@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { useContextSelector } from 'use-context-selector';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
-import { motion, cubicBezier } from 'framer-motion';
+import { motion, cubicBezier, AnimatePresence } from 'framer-motion';
+import { Dialog } from '@headlessui/react';
 
 import Logo from '@/components/logo';
 import Burger from '@/components/burger';
@@ -31,7 +32,7 @@ const NavList = ({ className, navigation, navTheme }) => {
                   navTheme === 'dark' &&
                     !isHome &&
                     'text-black hover:text-black focus:text-black',
-                  !isActive && !isHome && 'text-silver',
+                  !isActive && !isHome && 'md:text-silver',
                 )}
               >
                 {link.text}
@@ -59,6 +60,32 @@ const variants = {
   },
 };
 
+function MobileNav({ navigation, active, handleClick }) {
+  return (
+    <AnimatePresence>
+      {active && (
+        <Dialog
+          open={active}
+          onClose={handleClick}
+          as="div"
+          className="fixed inset-0 z-10 flex items-center justify-center overflow-y-auto"
+        >
+          <div className="flex flex-col py-8 px-4 text-center">
+            <Dialog.Overlay />
+            <div
+              className="fixed inset-0 transition-opacity"
+              aria-hidden="true"
+            >
+              <div className="absolute inset-0 bg-white opacity-90" />
+            </div>
+            <NavList navigation={navigation} className="text-center relative" />
+          </div>
+        </Dialog>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function Navigation({ navigation, hideHeader }) {
   const [activeMobileNav, setActiveMobileNav] = useState(false);
   const navTheme = useContextSelector(navColorContext, (v) => v[0].theme);
@@ -80,16 +107,16 @@ export default function Navigation({ navigation, hideHeader }) {
       <Container>
         <div className="flex justify-between">
           <Logo />
+          <MobileNav
+            navigation={navigation}
+            active={activeMobileNav}
+            handleClick={handleClick}
+          />
           <Burger
             className="md:hidden z-50 relative"
             onClick={handleClick}
             navTheme={navTheme}
           />
-          {activeMobileNav && (
-            <div className="bg-white absolute inset-0 flex align-center justify-center">
-              <NavList navigation={navigation} className="text-center" />
-            </div>
-          )}
           <NavList
             navTheme={navTheme}
             navigation={navigation}

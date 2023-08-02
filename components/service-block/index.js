@@ -9,7 +9,6 @@ import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import richTextStyles from '@/components/rich-text/rich-text.module.css';
 
 function AccordionStep({ open, body, title, image, onClick, index }) {
-  console.log({ body });
   return (
     <article>
       <button
