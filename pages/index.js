@@ -95,7 +95,7 @@ export default function Home({ subscription }) {
         <div className="relative z-50">
           {/* Empty div for fixed hero */}
           <div className="w-full h-screen" ref={heroRef} />
-          <div className="relative h-screen flex items-center justify-center bg-bone">
+          <div className="relative h-screen flex items-center justify-center py-8 bg-bone">
             <Container>
               <FadeInBlock>
                 <div className="max-w-3xl mx-auto py-8 px-5 md:px-7 lg:px-10">
@@ -119,8 +119,8 @@ export default function Home({ subscription }) {
                   />
                 </div>
               </FadeInBlock>
-              <FootnoteOne className="absolute left-1/2 -translate-y-1/2 bottom-16 w-4" />
             </Container>
+            <FootnoteOne className="absolute left-1/2 -translate-y-1/2 bottom-16 w-4" />
           </div>
           <div className="relative h-screen flex items-center justify-center bg-bone">
             <Container>

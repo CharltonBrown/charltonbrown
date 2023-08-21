@@ -30,7 +30,7 @@ export default function OddEvenGrid({ items, parentSlug, type }) {
         <FadeInBlock
           className={clsx(
             chunk.items.length > 1 && 'items-center',
-            'md:flex flex-nowrap gap-20 overflow-hidden lg:mb-32',
+            'md:flex flex-nowrap gap-20 overflow-hidden lg:mb-32 lg:gap-24',
           )}
           key={chunk.id}
         >
@@ -38,7 +38,7 @@ export default function OddEvenGrid({ items, parentSlug, type }) {
             return (
               <article
                 key={item.id}
-                className="lg:odd:w-[calc(50%+1.5rem)] lg:even:w-[calc(50%-1.5rem)] mb-24"
+                className="lg:odd:w-[calc(55%+1.5rem)] lg:even:w-[calc(45%-1.5rem)] mb-24"
               >
                 <Link
                   href={`/${parentSlug}/[slug]`}

@@ -2,7 +2,6 @@ import React from 'react';
 import { useQuerySubscription } from 'react-datocms';
 import Image from 'next/image';
 import clsx from 'clsx';
-// import { useScroll, useMotionValueEvent } from 'framer-motion';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
@@ -84,17 +83,6 @@ export default function Project({ subscription }) {
   const {
     data: { project, mainNavigation, legalNavigation },
   } = useQuerySubscription(subscription);
-  // const scrollRef = useRef(null);
-
-  // useEffect(() => {
-  //   window.scrollTo({ top: 0, behavior: 'smooth' });
-  // }, []);
-
-  // const { scrollY } = useScroll({ container: scrollRef });
-
-  // useMotionValueEvent(scrollY, 'change', (latest) => {
-  //   console.log('Page scroll: ', latest);
-  // });
 
   const imageOrientationClass = (aspectRatio) => {
     if (imageOrientation(aspectRatio) === 'portrait')
@@ -110,6 +98,7 @@ export default function Project({ subscription }) {
       legalNavigation={legalNavigation.links}
       hideHeader
       hideFooter
+      title={project.title}
     >
       <main className="relative">
         <ProjectInfo title={project.title} description={project.description} />

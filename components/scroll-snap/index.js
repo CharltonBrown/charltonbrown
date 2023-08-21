@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { useContextSelector } from 'use-context-selector';
-// import { useInView } from 'react-intersection-observer';
 
+import FadeInBlock from '@/components/fade-in-block';
 import scrollSnapContext from '@/lib/context/scrollSnapContext';
 
 const getChildrenOnDisplayName = (children, displayName) =>
@@ -40,13 +40,20 @@ const ScrollSnap = ({ children, className }) => {
 ScrollSnap.displayName = ScrollSnap;
 
 const Child = ({ children, className }) => {
-  // const { ref, inView, entry } = useInView({
-  //   /* Optional options */
-  //   threshold: 0,
-  // });
+  useEffect(() => {
+    const scrollSnapChild = document.getElementById('scrollSnap');
 
-  // console.log({ inView, entry });
-  return <div className={clsx(className, 'snap-start')}>{children}</div>;
+    // Scroll to top of another scroll snapped page
+    if (scrollSnapChild) {
+      scrollSnapChild.scrollIntoView({ behavior: 'auto' });
+    }
+  }, []);
+
+  return (
+    <div id="scrollSnap" className="snap-start overflow-hidden">
+      <FadeInBlock className={className}>{children}</FadeInBlock>
+    </div>
+  );
 };
 Child.displayName = 'Child';
 ScrollSnap.Child = Child;
