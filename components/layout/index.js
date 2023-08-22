@@ -2,11 +2,18 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useContextSelector } from 'use-context-selector';
 import clsx from 'clsx';
+import { motion } from 'framer-motion';
 
 import Navigation from '@/components/navigation';
 import Footer from '@/components/footer';
 import navColorContext from '@/lib/context/navColorContext';
 import scrollSnapContext from '@/lib/context/scrollSnapContext';
+
+const variants = {
+  hidden: { opacity: 0 },
+  enter: { opacity: 1 },
+  exit: { opacity: 0 },
+};
 
 export default function Layout({
   children,
@@ -36,7 +43,16 @@ export default function Layout({
       </Head>
       <div className={clsx(scrollSnap && 'overflow-hidden h-screen')}>
         <Navigation navigation={mainNavigation} hideHeader={hideHeader} />
-        <div className="relative z-10">{children}</div>
+        <motion.div
+          variants={variants}
+          initial="hidden"
+          animate="enter"
+          exit="exit"
+          transition={{ type: 'ease', duration: 0.5 }}
+          className="relative z-10"
+        >
+          {children}
+        </motion.div>
         <Footer
           footer={footer}
           legalNavigation={legalNavigation}
