@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NProgress from 'nprogress';
 import Router from 'next/router';
+import { AnimatePresence } from 'framer-motion';
 import 'nprogress/nprogress.css';
 import '../styles/global.css';
 import '../styles/fonts.css';
@@ -25,10 +26,16 @@ const StateProvider = ({ children }) => (
   </navColorContext.Provider>
 );
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
   return (
     <StateProvider>
-      <Component {...pageProps} />
+      <AnimatePresence
+        mode="wait"
+        initial={false}
+        onExitComplete={() => window.scrollTo(0, 0)}
+      >
+        <Component {...pageProps} key={router.pathname} />
+      </AnimatePresence>
     </StateProvider>
   );
 }
