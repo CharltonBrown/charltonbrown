@@ -29,11 +29,7 @@ const StateProvider = ({ children }) => (
 function MyApp({ Component, pageProps, router }) {
   return (
     <StateProvider>
-      <AnimatePresence
-        mode="wait"
-        initial={false}
-        onExitComplete={() => window.scrollTo(0, 0)}
-      >
+      <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
         <Component {...pageProps} key={router.pathname} />
       </AnimatePresence>
     </StateProvider>
