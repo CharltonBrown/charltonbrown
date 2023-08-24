@@ -1,6 +1,5 @@
 import React from 'react';
 import { useQuerySubscription } from 'react-datocms';
-import Image from 'next/image';
 import clsx from 'clsx';
 
 import request from '@/lib/datocms';
@@ -8,6 +7,7 @@ import Layout from '@/components/layout';
 import ScrollSnap from '@/components/scroll-snap';
 import RelatedBlock from '@/components/related-block';
 import ProjectInfo from '@/components/project-info';
+import PlaceholderImage from '@/components/placeholder-image';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import legalNavigationFragment from '@/components/legal-navigation/fragment';
@@ -85,11 +85,13 @@ export default function Project({ subscription }) {
   } = useQuerySubscription(subscription);
 
   const imageOrientationClass = (aspectRatio) => {
-    if (imageOrientation(aspectRatio) === 'portrait')
-      return 'object-cover md:object-contain';
-    if (imageOrientation(aspectRatio) === 'sqaure')
-      return 'object-cover md:object-contain';
-    return 'object-cover';
+    if (imageOrientation(aspectRatio) === 'portrait') {
+      return 'object-cover md:object-none md:w-[calc(100vh*0.7)] md:h-full';
+    }
+    if (imageOrientation(aspectRatio) === 'sqaure') {
+      return 'object-cover md:object-none md:w-[calc(100vh/2)] md:h-full';
+    }
+    return 'object-cover md:object-none md:w-full md:h-full';
   };
 
   return (
@@ -103,8 +105,8 @@ export default function Project({ subscription }) {
       <main className="relative">
         <ProjectInfo title={project.title} description={project.description} />
         <ScrollSnap>
-          <ScrollSnap.Child className="relative w-screen h-screen bg-white">
-            <Image
+          <ScrollSnap.Child className="relative w-screen h-screen bg-white flex justify-center">
+            <PlaceholderImage
               className={clsx(
                 imageOrientationClass(
                   project.mainImage.responsiveImage.aspectRatio,
@@ -117,10 +119,10 @@ export default function Project({ subscription }) {
           </ScrollSnap.Child>
           {project.images.map((image) => (
             <ScrollSnap.Child
-              className="relative w-screen h-screen bg-white"
+              className="relative w-screen h-screen bg-white flex justify-center"
               key={image.id}
             >
-              <Image
+              <PlaceholderImage
                 className={clsx(
                   imageOrientationClass(image.responsiveImage.aspectRatio),
                 )}

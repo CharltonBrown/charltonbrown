@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 
+import PlaceholderImage from '@/components/placeholder-image';
 import FadeInBlock from '@/components/fade-in-block';
 import FootnoteTwo from '@/components/icons/footnotes/footnote-2';
 
@@ -46,14 +47,15 @@ export default function OddEvenGrid({ items, parentSlug, type }) {
                     href={`/${parentSlug}/[slug]`}
                     as={`/${parentSlug}/${item.slug}`}
                   >
-                    <Image
-                      className="object-cover mb-4"
+                    <PlaceholderImage
+                      className="object-cover"
                       width={item.mainImage.responsiveImage.width}
                       height={item.mainImage.responsiveImage.height}
                       src={item.mainImage.responsiveImage.src}
                       alt={item.mainImage.responsiveImage.alt}
+                      hoverEffect
                     />
-                    <div className="flex items-start">
+                    <div className="flex items-star mt-4">
                       {item.motif && (
                         <Image
                           src={item.motif.svg.url}

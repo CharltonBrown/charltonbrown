@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Modal from '@/components/modal';
 import PersonInfo from '@/components/person-info';
 import FadeInBlock from '@/components/fade-in-block';
+import PlaceholderImage from '@/components/placeholder-image';
 
 export default function PeopleGrid({ people }) {
   const [activePersonId, setActivePersonId] = useState('');
@@ -27,7 +28,7 @@ export default function PeopleGrid({ people }) {
             tabIndex="0"
           >
             <div className="relative w-full mb-4">
-              <Image
+              <PlaceholderImage
                 src={person.image.responsiveImage.src}
                 alt={person.image.responsiveImage.alt || person.name}
                 width={0}
