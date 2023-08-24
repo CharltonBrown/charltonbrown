@@ -17,16 +17,29 @@
 
   /* Beige/Brown */
   --color-bone-100: 226 207 192; /* #E2CFC0 */
-  /* Yellow */
-  --color-casablanca-100: 243 186 75; /* #F3BA4B */
-  /* Dark Red */
-  --color-oldBrick-100: 152 29 43; /* #981D2B */
-  /* Blue/Gray */
-  --color-gullGray-100: 156 179 182; /* #9CB3B6 */
   /* Dark Grey */
   --color-nandor-100: 83 91 86; /* #535b56 */
+
+
+  /* Brand colors */
+  /* Yellow */
+  --color-casablanca-100: 244 187 74; /* #F4BB4A */
+  /* Blue/Gray */
+  --color-gullGray-100: 156 179 181; /* #9CB3B5 */
+  /* Light green */
+  --color-envy-100: 140 175 142; /* #8CAF8E */
+  /* Dark red */
+  --color-oldBrick-100: 153 29 44; /* #991D2C */
+  /* Sand */
+  --color-cameo-100: 222 172 159; /* #991D2C */
+  /* Brown */
+  --color-matrix-100: 168 89 78; /* #A8594E */
+  /* Dark Green/Gray */
+  --color-outerSpace-100: 45 61 56; /* #2D3D38 */
+  /* Beige */
+  --color-almond-100: 235 214 196; /* #EBD6C4 */
   /* Dark Green */
-  --color-fernFrond-100: 114 108 34; /* #726C22 */
+  --color-fernFrond-100: 114 109 34; /* #726D22 */
 }
 
 html {
