@@ -19,7 +19,7 @@ export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query peoplePageContent {
-            allPeople {
+            allPeople(first: 100) {
               email
               id
               jobTitle
@@ -75,6 +75,8 @@ export default function People({ subscription }) {
       aboutUsNavigation,
     },
   } = useQuerySubscription(subscription);
+
+  console.log({ people });
 
   return (
     <Layout
