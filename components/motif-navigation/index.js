@@ -1,9 +1,36 @@
+import React, { useRef } from 'react';
 import Link from 'next/link';
-import React from 'react';
 import Image from 'next/image';
 import clsx from 'clsx';
+import { motion, useInView } from 'framer-motion';
+
+import { easing } from '@/components/fade-in-block/fadeVariants';
+
+const variants = {
+  visible: {
+    transition: {
+      staggerChildren: 0.125,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: {
+    y: '-50px',
+  },
+  visible: {
+    y: 0,
+    transition: {
+      y: {
+        duration: 1.5,
+        ease: easing,
+      },
+    },
+  },
+};
 
 export default function MotifNavigation({ links }) {
+  const ref = useRef();
   const hoverClasses = [
     'group-hover:bg-gullGray/50',
     'group-hover:bg-casablanca/50',
@@ -11,12 +38,27 @@ export default function MotifNavigation({ links }) {
     'group-hover:bg-oldBrick/50',
   ];
 
+  const isInView = useInView(ref);
+
+  const animate = () => {
+    if (isInView) return 'visible';
+    if (!isInView) return 'hidden';
+    return 'hidden';
+  };
+
   return (
     <nav className="mt-16">
-      <ul className="grid grid-cols-2 w-64 gap-10 mx-auto lg:flex lg:w-auto lg:justify-between">
+      <motion.ul
+        ref={ref}
+        animate={animate()}
+        initial="hidden"
+        variants={variants}
+        className="grid grid-cols-2 w-64 gap-10 mx-auto lg:flex lg:w-auto lg:justify-between"
+      >
         {links.map((link, index) => (
-          <li
+          <motion.li
             key={link.id}
+            variants={itemVariants}
             className="flex flex-col items-center w-24 lg:w-auto"
           >
             <Link href={link.href} className="group">
@@ -25,7 +67,7 @@ export default function MotifNavigation({ links }) {
                   src={link.motif.svg.url}
                   width={96}
                   height={96}
-                  alt={`${link.text} icon`}
+                  alt=""
                   className="border border-black"
                 />
                 <div
@@ -39,9 +81,9 @@ export default function MotifNavigation({ links }) {
                 {link.text}
               </span>
             </Link>
-          </li>
+          </motion.li>
         ))}
-      </ul>
+      </motion.ul>
     </nav>
   );
 }

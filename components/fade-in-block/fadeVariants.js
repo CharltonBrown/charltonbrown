@@ -1,6 +1,6 @@
 import { cubicBezier } from 'framer-motion';
 
-const easing = cubicBezier(0.18, 1, 0.21, 1);
+export const easing = cubicBezier(0.18, 1, 0.21, 1);
 
 const fadeVariants = {
   hidden: { opacity: 0, y: '200px' },
