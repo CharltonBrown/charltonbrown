@@ -76,8 +76,6 @@ export default function People({ subscription }) {
     },
   } = useQuerySubscription(subscription);
 
-  console.log({ people });
-
   return (
     <Layout
       mainNavigation={mainNavigation.links}
