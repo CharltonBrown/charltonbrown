@@ -9,7 +9,7 @@ import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerFragment from '@/components/footer/fragment';
 import legalNavigationFragment from '@/components/legal-navigation/fragment';
-import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
+import aboutUsNavigationFragment from '@/components/about-us-navigation/fragment';
 import SubNavigation from '@/components/sub-navigation';
 import Container from '@/components/container';
 

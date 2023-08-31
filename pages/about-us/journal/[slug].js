@@ -8,7 +8,7 @@ import AboutUsNav from '@/components/about-us-navigation';
 import RichText from '@/components/rich-text';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
+import aboutUsNavigationFragment from '@/components/about-us-navigation/fragment';
 import FadeInBlock from '@/components/fade-in-block';
 import SubNavigation from '@/components/sub-navigation';
 import Container from '@/components/container';
