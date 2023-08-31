@@ -1,7 +1,8 @@
-import Image from 'next/image';
 import React from 'react';
 import clsx from 'clsx';
-import FadeInBlock from '../fade-in-block';
+
+import PlaceholderImage from '@/components/placeholder-image';
+import FadeInBlock from '@/components/fade-in-block';
 
 export default function TextImageBlock({
   heading,
@@ -18,7 +19,7 @@ export default function TextImageBlock({
         )}
       >
         <div className="relative lg:w-3/5">
-          <Image
+          <PlaceholderImage
             className="object-cover mb-4"
             width={image.responsiveImage.width}
             height={image.responsiveImage.height}
