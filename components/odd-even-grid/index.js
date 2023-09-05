@@ -55,13 +55,13 @@ export default function OddEvenGrid({ items, parentSlug, type }) {
                       alt={item.mainImage.responsiveImage.alt}
                       hoverEffect
                     />
-                    <div className="flex items-star mt-4">
+                    <div className="flex items-start mt-4">
                       {item.motif && (
                         <Image
                           src={item.motif.svg.url}
                           width={60}
                           height={60}
-                          alt={`${item.text} icon`}
+                          alt=""
                           className="border border-black mr-4 mb-4 shrink-0"
                         />
                       )}

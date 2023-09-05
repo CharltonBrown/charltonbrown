@@ -1,141 +1,95 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import clsx from 'clsx';
-import Image from 'next/image';
+import React from 'react';
 import converter from 'number-to-words';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
+import FadeInBlock from '@/components/fade-in-block';
 import richTextStyles from '@/components/rich-text/rich-text.module.css';
+import Container from '@/components/container';
+import PlaceholderImage from '@/components/placeholder-image';
 
-function AccordionStep({ open, body, title, image, onClick, index }) {
+function Step({ body, title, count }) {
   return (
-    <article>
-      <button
-        onClick={onClick}
-        type="button"
-        className="flex items-center justify-between w-full text-left"
-      >
-        <div className="flex items-center">
-          <span className="md:text-xl text-silver font-sans min-w-[40px] block md:w-36">
-            <span className="hidden md:inline">Stage</span>{' '}
-            {converter.toWords(index + 1)}
-          </span>
-          <h3 className="text-xl lg:text-2xl">{title}</h3>
-        </div>
-
-        {open ? (
-          <ChevronUpIcon className="w-8 h-8" />
-        ) : (
-          <ChevronDownIcon className="w-8 h-8" />
-        )}
-      </button>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="mx-auto overflow-hidden"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ type: 'spring', bounce: 0.2, duration: 0.8 }}
-          >
-            <div className="flex flex-col md:flex-row py-12 gap-8">
-              <div className="text-left grow">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: body,
-                  }}
-                  className={richTextStyles.richText}
-                />
-              </div>
-              <div className="max-w-md max-h-md">
-                <Image
-                  src={image.responsiveImage.src}
-                  alt={image.responsiveImage.alt}
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className="w-full h-auto"
-                />
-              </div>
+    <FadeInBlock>
+      <Container>
+        <article className="md:h-screen flex flex-col md:pt-[200px]">
+          <div className="flex items-center mb-6">
+            <span className="md:text-xl text-silver font-sans min-w-[40px] block md:pr-8">
+              <span className="hidden md:inline">Stage</span> {count}
+            </span>
+            <h3 className="text-xl lg:text-2xl">{title}</h3>
+          </div>
+          <div className="flex flex-col md:flex-row pb-12">
+            <div className="text-left grow">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: body,
+                }}
+                className={richTextStyles.richText}
+              />
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </article>
+          </div>
+        </article>
+      </Container>
+    </FadeInBlock>
   );
 }
 
 export default function ServiceBlock({
   title,
   intro,
-  body,
+  introHeading,
   steps,
-  onClick,
-  open,
+  image,
 }) {
-  const [openStepId, setOpenStepId] = useState('');
-
-  const handleClick = (id) => {
-    if (id === openStepId) {
-      setOpenStepId('');
-      return;
-    }
-    setOpenStepId(id);
-  };
-
   return (
-    <section
-      className={clsx(
-        'mx-auto mb-16 pb-16 border-b last:border-0 border-gray transition duration-500 flex flex-col items-center text-left md:text-center',
-        !open && 'hover:opacity-50',
-      )}
-    >
-      <button
-        onClick={onClick}
-        type="button"
-        className="text-left md:text-center"
-      >
-        <h2 className="text-2xl lg:text-3xl mb-8 font-savoyBold">{title}</h2>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: intro,
-          }}
-          className="mx-auto mb-4 lg:text-xl max-w-prose font-savoyBold"
+    <section className="flex flex-col md:flex-row md:relative md:items-start even:md:flex-row-reverse">
+      <div className="text-left md:sticky top-0 md:pt-[200px] md:w-7/12 md:h-screen">
+        <PlaceholderImage
+          className="md:w-full md:h-screen md:object-cover md:absolute inset-0"
+          width={image.responsiveImage.width}
+          height={image.responsiveImage.height}
+          src={image.responsiveImage.src}
+          alt={image.responsiveImage.alt}
         />
-      </button>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="w-full overflow-hidden"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ type: 'spring', bounce: 0.2, duration: 0.8 }}
-          >
-            <div
-              dangerouslySetInnerHTML={{
-                __html: body,
-              }}
-              className="mx-auto mb-4 lg:text-xl max-w-prose font-savoyBold"
+        <div className="hidden md:block absolute w-full h-[600px] top-0 bg-gradient-to-b from-black/90" />
+        <Container>
+          <h2 className="text-2xl lg:text-5xl md:text-white font-savoyBold relative">
+            {title}
+          </h2>
+        </Container>
+      </div>
+      <ol className="md:w-5/12">
+        <li>
+          <FadeInBlock>
+            <Container>
+              <article className="md:h-screen flex flex-col md:pt-[200px]">
+                <h3 className="text-3xl mb-8 lg:text-4xl font-savoyBold">
+                  {introHeading}
+                </h3>
+                <div className="flex flex-col md:flex-row pb-12">
+                  <div className="text-left grow">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: intro,
+                      }}
+                      className={richTextStyles.richText}
+                    />
+                  </div>
+                </div>
+              </article>
+            </Container>
+          </FadeInBlock>
+        </li>
+        {steps.map((step, index) => (
+          <li key={step.id} className="mb-2 md:mb-24">
+            <Step
+              title={step.title}
+              body={step.body}
+              image={step.image}
+              count={converter.toWords(index + 1)}
             />
-            <ol className="my-8">
-              {steps.map((step, index = 1) => (
-                <li key={step.id} className="mb-2">
-                  <AccordionStep
-                    title={step.title}
-                    open={openStepId === step.id}
-                    body={step.body}
-                    image={step.image}
-                    onClick={() => handleClick(step.id)}
-                    index={index}
-                  />
-                </li>
-              ))}
-            </ol>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }

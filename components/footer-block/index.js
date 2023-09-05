@@ -39,31 +39,31 @@ export default function FooterBlock({ heading, body, className }) {
         switch (item._modelApiKey) {
           case 'address':
             return (
-              <div>
+              <div key={item.id}>
                 <Address text={item.text} />
               </div>
             );
           case 'email':
             return (
-              <div>
+              <div key={item.id}>
                 <Email emailAddress={item.emailAddress} />
               </div>
             );
           case 'telephone':
             return (
-              <div>
+              <div key={item.id}>
                 <Telephone telephoneNumber={item.telephoneNumber} />
               </div>
             );
           case 'external_link':
             return (
-              <div>
+              <div key={item.id}>
                 <ExternalLink url={item.url} text={item.text} />
               </div>
             );
           case 'link':
             return (
-              <div>
+              <div key={item.id}>
                 <Link href={item.href}>{item.text}</Link>
               </div>
             );

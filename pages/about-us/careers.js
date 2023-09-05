@@ -9,11 +9,12 @@ import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import footerFragment from '@/components/footer/fragment';
 import legalNavigationFragment from '@/components/legal-navigation/fragment';
-import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
+import aboutUsNavigationFragment from '@/components/about-us-navigation/fragment';
 import textImageBlockFragment from '@/components/text-image-block/fragment';
 import SubNavigation from '@/components/sub-navigation';
 import Container from '@/components/container';
 import RelatedBlock from '@/components/related-block';
+import relatedFragment from '@/components/related-block/fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -21,15 +22,7 @@ export async function getStaticProps({ preview = false }) {
           query careersPageContent {
             careersPage {
               ${textImageBlockFragment}
-              related {
-                title
-                url
-                image {
-                  responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
-                    ...responsiveImageFragment
-                  }
-                }
-              }
+              ${relatedFragment}
             }
             ${aboutUsNavigationFragment}
             ${mainNavigationFragment}

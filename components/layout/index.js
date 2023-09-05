@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 import Navigation from '@/components/navigation';
 import Footer from '@/components/footer';
-import navColorContext from '@/lib/context/navColorContext';
+import navContext from '@/lib/context/navContext';
 import scrollSnapContext from '@/lib/context/scrollSnapContext';
 
 const variants = {
@@ -21,17 +21,17 @@ export default function Layout({
   footer,
   title,
   legalNavigation,
-  footerRef,
   hideFooter,
   hideHeader,
 }) {
-  const setNavColor = useContextSelector(navColorContext, (v) => v[1]);
+  const setNavColor = useContextSelector(navContext, (v) => v[1]);
   const scrollSnap = useContextSelector(scrollSnapContext, (v) => v[0].active);
 
   useEffect(() => {
     setNavColor((s) => ({
       ...s,
-      theme: 'dark',
+      logoTheme: 'dark',
+      linksTheme: 'dark',
     }));
   }, [setNavColor]);
 
@@ -56,7 +56,6 @@ export default function Layout({
         <Footer
           footer={footer}
           legalNavigation={legalNavigation}
-          ref={footerRef}
           hideFooter={hideFooter}
         />
       </div>

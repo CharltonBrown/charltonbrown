@@ -28,6 +28,7 @@ const ScrollSnap = ({ children, className }) => {
 
   return (
     <div
+      id="scrollSnapParent"
       className={clsx(
         className,
         'relative z-10 max-h-screen snap snap-y snap-mandatory overflow-y-scroll',

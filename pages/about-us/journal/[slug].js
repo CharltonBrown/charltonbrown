@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuerySubscription } from 'react-datocms';
-import Image from 'next/image';
+import { useContextSelector } from 'use-context-selector';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import AboutUsNav from '@/components/about-us-navigation';
 import RichText from '@/components/rich-text';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
-import aboutUsNavigationFragment from '@/lib/fragments/about-us-navigation';
 import FadeInBlock from '@/components/fade-in-block';
-import SubNavigation from '@/components/sub-navigation';
 import Container from '@/components/container';
+import PlaceholderImage from '@/components/placeholder-image';
+import ExitPageCloseIcon from '@/components/exit-page-close-icon';
+
+import navContext from '@/lib/context/navContext';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allPosts { slug } }' });
@@ -34,13 +35,12 @@ export async function getStaticProps({ params, preview = false }) {
               slug
               title
               mainImage {
-                responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
+                responsiveImage(imgixParams: {fm: jpg, w: 1500 }) {
                   ...responsiveImageFragment
                 }
               }
               id
             }
-            ${aboutUsNavigationFragment}
             ${mainNavigationFragment}
           }   
           ${responsiveImageFragment}       
@@ -69,33 +69,44 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Posts({ subscription }) {
   const {
-    data: { post, mainNavigation, aboutUsNavigation },
+    data: { post, mainNavigation },
   } = useQuerySubscription(subscription);
+  const setNavContext = useContextSelector(navContext, (v) => v[1]);
+
+  useEffect(() => {
+    setNavContext((s) => ({
+      ...s,
+      navVisibility: 'hidden',
+    }));
+  }, [setNavContext]);
 
   return (
-    <Layout mainNavigation={mainNavigation.links} hideFooter>
+    <Layout
+      mainNavigation={mainNavigation.links}
+      title={post.title}
+      hideHeader
+      hideFooter
+    >
       <main className="bg-white">
-        <h1 className="sr-only">Journal</h1>
+        <ExitPageCloseIcon
+          href="/about-us/journal"
+          className="fixed right-4 top-4 z-20"
+        />
         <Container>
           <div className="flex">
-            <SubNavigation>
-              <AboutUsNav links={aboutUsNavigation.links} />
-            </SubNavigation>
-            <div className="pt-[200px] pl-8 grow">
+            <div className="pt-[200px] pl-8">
               <FadeInBlock>
-                <div className="lg:flex flex-row-reverse items-stretch">
-                  <div className="relative">
-                    <div className="lg:sticky top-1/2 -translate-y-1/2 lg:px-24">
-                      <Image
-                        className="object-contain mb-8"
-                        width={post.mainImage.responsiveImage.width}
-                        height={post.mainImage.responsiveImage.height}
-                        src={post.mainImage.responsiveImage.src}
-                        alt={post.mainImage.responsiveImage.alt}
-                      />
-                    </div>
+                <div className="lg:flex flex-row-reverse">
+                  <div className="lg:sticky bottom-0 lg:w-3/5 lg:px-24">
+                    <PlaceholderImage
+                      className="object-contain mb-8 lg:mb-0"
+                      width={post.mainImage.responsiveImage.width}
+                      height={post.mainImage.responsiveImage.height}
+                      src={post.mainImage.responsiveImage.src}
+                      alt={post.mainImage.responsiveImage.alt}
+                    />
                   </div>
-                  <div>
+                  <div className="lg:w-2/5">
                     <h1 className="text-3xl mb-8">{post.title}</h1>
                     <RichText text={post.body} />
                   </div>
