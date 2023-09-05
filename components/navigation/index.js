@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useContextSelector } from 'use-context-selector';
 import clsx from 'clsx';
@@ -9,14 +9,20 @@ import { Dialog } from '@headlessui/react';
 import Logo from '@/components/logo';
 import Burger from '@/components/burger';
 import Container from '@/components/container';
-import navColorContext from '@/lib/context/navColorContext';
+import navContext from '@/lib/context/navContext';
+import useIsOverlapping from '@/hooks/useIsOverlapping';
 
 const NavList = ({ className, navigation, navTheme }) => {
   const pathname = usePathname();
-  const isHome = pathname === '/';
+  const ref = useRef();
+
+  const { isOverlapping } = useIsOverlapping({
+    rootRef: ref,
+    targetClass: 'overlappingTarget',
+  });
 
   return (
-    <nav className={className}>
+    <nav className={className} ref={ref}>
       <ul className="flex flex-col h-full justify-center text-2xl md:flex-row md:text-lg md:justify-between md:h-auto">
         {navigation.map((link) => {
           const isActive = pathname.startsWith(`/${link.href}`);
@@ -25,17 +31,21 @@ const NavList = ({ className, navigation, navTheme }) => {
               <Link
                 href={`/${link.href}`}
                 className={clsx(
-                  'block py-2 md:p-0 transition',
-                  navTheme === 'light' &&
-                    !isHome &&
-                    'text-white hover:text-white focus:text-white',
-                  navTheme === 'dark' &&
-                    !isHome &&
-                    'text-black hover:text-black focus:text-black',
-                  !isActive && !isHome && 'md:text-silver',
+                  'block py-2 md:p-0 group',
+                  isOverlapping && 'text-white',
+                  (!isOverlapping || navTheme === 'dark') && 'text-black',
+                  (isOverlapping || navTheme === 'light') && 'text-white',
                 )}
               >
                 {link.text}
+                <span
+                  className={clsx(
+                    'block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5',
+                    isActive && 'max-w-full',
+                    (!isOverlapping || navTheme === 'dark') && 'bg-black',
+                    (isOverlapping || navTheme === 'light') && 'bg-white',
+                  )}
+                />
               </Link>
             </li>
           );
@@ -50,6 +60,10 @@ const easing = cubicBezier(0.65, 0.06, 0.19, 0.96);
 const variants = {
   visible: {
     y: 0,
+    transition: {
+      duration: 0.5,
+      ease: easing,
+    },
   },
   hidden: {
     y: -150,
@@ -88,19 +102,33 @@ function MobileNav({ navigation, active, handleClick }) {
 
 export default function Navigation({ navigation, hideHeader }) {
   const [activeMobileNav, setActiveMobileNav] = useState(false);
-  const navTheme = useContextSelector(navColorContext, (v) => v[0].theme);
+  const [loaded, setLoaded] = useState(false);
+  const { navVisibility, logoTheme, linksTheme } = useContextSelector(
+    navContext,
+    (v) => v[0],
+  );
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
 
   const handleClick = () => {
     setActiveMobileNav(!activeMobileNav);
   };
 
+  const animate = () => {
+    if (loaded && (navVisibility === 'hidden' || hideHeader)) return 'hidden';
+    if (loaded && navVisibility === 'visible') return 'visible';
+    return 'hidden';
+  };
+
   return (
     <motion.header
-      animate={hideHeader && 'hidden'}
+      animate={animate()}
       initial="visible"
       variants={variants}
       className={clsx(
-        navTheme === 'light' ? 'text-white' : 'text-black',
+        logoTheme === 'light' ? 'text-white' : 'text-black',
         'fixed top-0 w-full z-50 transition',
       )}
     >
@@ -115,12 +143,12 @@ export default function Navigation({ navigation, hideHeader }) {
           <Burger
             className="md:hidden z-50 relative"
             onClick={handleClick}
-            navTheme={navTheme}
+            navTheme={linksTheme}
           />
           <NavList
-            navTheme={navTheme}
+            navTheme={linksTheme}
             navigation={navigation}
-            className="hidden md:flex items-center"
+            className="hidden md:flex items-center place-self-center"
           />
         </div>
       </Container>

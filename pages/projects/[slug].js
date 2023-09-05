@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuerySubscription } from 'react-datocms';
 import clsx from 'clsx';
+import { useContextSelector } from 'use-context-selector';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
@@ -8,10 +9,13 @@ import ScrollSnap from '@/components/scroll-snap';
 import RelatedBlock from '@/components/related-block';
 import ProjectInfo from '@/components/project-info';
 import PlaceholderImage from '@/components/placeholder-image';
+import ExitPageCloseIcon from '@/components/exit-page-close-icon';
 import { responsiveImageFragment } from '@/lib/fragments';
 import mainNavigationFragment from '@/components/navigation/fragment';
 import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import imageOrientation from '@/lib/utils/imageOrientation';
+
+import navContext from '@/lib/context/navContext';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allProjects { slug } }' });
@@ -83,6 +87,14 @@ export default function Project({ subscription }) {
   const {
     data: { project, mainNavigation, legalNavigation },
   } = useQuerySubscription(subscription);
+  const setNavContext = useContextSelector(navContext, (v) => v[1]);
+
+  useEffect(() => {
+    setNavContext((s) => ({
+      ...s,
+      navVisibility: 'hidden',
+    }));
+  }, [setNavContext]);
 
   const imageOrientationClass = (aspectRatio) => {
     if (imageOrientation(aspectRatio) === 'portrait') {
@@ -91,7 +103,7 @@ export default function Project({ subscription }) {
     if (imageOrientation(aspectRatio) === 'sqaure') {
       return 'object-cover md:object-none md:w-[calc(100vh/2)] md:h-full';
     }
-    return 'object-cover md:object-none md:w-full md:h-full';
+    return 'object-cover md:w-full md:h-full';
   };
 
   return (
@@ -104,6 +116,10 @@ export default function Project({ subscription }) {
     >
       <main className="relative">
         <ProjectInfo title={project.title} description={project.description} />
+        <ExitPageCloseIcon
+          href="/projects"
+          className="fixed right-4 top-4 z-40"
+        />
         <ScrollSnap>
           <ScrollSnap.Child className="relative w-screen h-screen bg-white flex justify-center">
             <PlaceholderImage
@@ -139,6 +155,7 @@ export default function Project({ subscription }) {
                 slug={project.relatedProject.slug}
                 image={project.relatedProject.mainImage}
                 label="Related project"
+                alwaysHideNav
               />
             </ScrollSnap.Child>
           )}

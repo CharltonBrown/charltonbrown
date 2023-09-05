@@ -5,25 +5,27 @@ import { useContextSelector } from 'use-context-selector';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
-import navColorContext from '@/lib/context/navColorContext';
+import navContext from '@/lib/context/navContext';
 
 export default function HeroSlider({ images, hideHero }) {
-  const setNavColor = useContextSelector(navColorContext, (v) => v[1]);
+  const setNavContext = useContextSelector(navContext, (v) => v[1]);
 
   useEffect(() => {
     if (!hideHero) {
-      setNavColor((s) => ({
+      setNavContext((s) => ({
         ...s,
-        theme: 'light',
+        logoTheme: 'light',
+        linksTheme: 'light',
       }));
     }
     if (hideHero) {
-      setNavColor((s) => ({
+      setNavContext((s) => ({
         ...s,
-        theme: 'dark',
+        logoTheme: 'dark',
+        linksTheme: 'dark',
       }));
     }
-  }, [hideHero, setNavColor]);
+  }, [hideHero, setNavContext]);
 
   const items = images.map((image) => (
     <div key={image.id} className="relative w-full">
@@ -40,7 +42,7 @@ export default function HeroSlider({ images, hideHero }) {
   return (
     <div
       className={clsx(
-        hideHero ? 'invisible' : 'visible',
+        hideHero ? 'invisible' : 'visibl',
         'fixed w-full h-screen',
       )}
     >

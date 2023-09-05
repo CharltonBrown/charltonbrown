@@ -41,7 +41,7 @@ export default function PlaceholderImage({
     <div
       ref={ref}
       className={clsx(
-        'relative flex justify-center items-center overflow-hidden group',
+        'relative flex justify-center items-center overflow-hidden group overlappingTarget',
         className,
       )}
     >

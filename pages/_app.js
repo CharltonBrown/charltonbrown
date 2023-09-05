@@ -6,7 +6,7 @@ import 'nprogress/nprogress.css';
 import '../styles/global.css';
 import '../styles/fonts.css';
 
-import navColorContext from '@/lib/context/navColorContext';
+import navContext from '@/lib/context/navContext';
 import scrollSnapContext from '@/lib/context/scrollSnapContext';
 
 NProgress.configure({ showSpinner: false });
@@ -19,11 +19,17 @@ Router.events.on('routeChangeComplete', () => {
 });
 
 const StateProvider = ({ children }) => (
-  <navColorContext.Provider value={useState({ theme: 'dark' })}>
+  <navContext.Provider
+    value={useState({
+      navVisibility: 'visible',
+      logoTheme: 'dark',
+      linksTheme: 'dark',
+    })}
+  >
     <scrollSnapContext.Provider value={useState({ active: false })}>
       {children}
     </scrollSnapContext.Provider>
-  </navColorContext.Provider>
+  </navContext.Provider>
 );
 
 function MyApp({ Component, pageProps, router }) {
