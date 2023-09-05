@@ -5,10 +5,10 @@ import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import ProjectsGrid from '@/components/projects-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
-import mainNavigationFragment from '@/components/navigation/fragment';
-import footerFragment from '@/components/footer/fragment';
-import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import Container from '@/components/container';
+
+import useLayoutQuery from '@/hooks/useLayoutQuery';
+import navigationFragment from '@/lib/fragments/navigation-fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -38,9 +38,7 @@ export async function getStaticProps({ preview = false }) {
               typeTitle
               id
             }
-            ${mainNavigationFragment}
-            ${footerFragment}
-            ${legalNavigationFragment}
+            ${navigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -65,22 +63,12 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Projects({ subscription }) {
   const {
-    data: {
-      allProjects: projects,
-      allProjectTypes: projectTypes,
-      mainNavigation,
-      footer,
-      legalNavigation,
-    },
+    data: { allProjects: projects, allProjectTypes: projectTypes },
   } = useQuerySubscription(subscription);
+  const navigation = useLayoutQuery(subscription);
 
   return (
-    <Layout
-      mainNavigation={mainNavigation.links}
-      legalNavigation={legalNavigation.links}
-      footer={footer}
-      title="Projects"
-    >
+    <Layout navigation={navigation} title="Projects">
       <main className="bg-white">
         <h1 className="sr-only">Projects</h1>
         <Container>

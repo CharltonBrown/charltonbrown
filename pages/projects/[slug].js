@@ -10,12 +10,13 @@ import RelatedBlock from '@/components/related-block';
 import ProjectInfo from '@/components/project-info';
 import PlaceholderImage from '@/components/placeholder-image';
 import ExitPageCloseIcon from '@/components/exit-page-close-icon';
-import { responsiveImageFragment } from '@/lib/fragments';
-import mainNavigationFragment from '@/components/navigation/fragment';
-import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import imageOrientation from '@/lib/utils/imageOrientation';
+import { responsiveImageFragment } from '@/lib/fragments';
 
 import navContext from '@/lib/context/navContext';
+
+import useLayoutQuery from '@/hooks/useLayoutQuery';
+import navigationFragment from '@/lib/fragments/navigation-fragment';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allProjects { slug } }' });
@@ -56,8 +57,7 @@ export async function getStaticProps({ params, preview = false }) {
                 }
               }
             }
-            ${mainNavigationFragment}
-            ${legalNavigationFragment}
+            ${navigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -85,8 +85,9 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Project({ subscription }) {
   const {
-    data: { project, mainNavigation, legalNavigation },
+    data: { project },
   } = useQuerySubscription(subscription);
+  const navigation = useLayoutQuery(subscription);
   const setNavContext = useContextSelector(navContext, (v) => v[1]);
 
   useEffect(() => {
@@ -107,13 +108,7 @@ export default function Project({ subscription }) {
   };
 
   return (
-    <Layout
-      mainNavigation={mainNavigation.links}
-      legalNavigation={legalNavigation.links}
-      hideHeader
-      hideFooter
-      title={project.title}
-    >
+    <Layout navigation={navigation} hideHeader hideFooter title={project.title}>
       <main className="relative">
         <ProjectInfo title={project.title} description={project.description} />
         <ExitPageCloseIcon

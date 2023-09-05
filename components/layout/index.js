@@ -17,12 +17,11 @@ const variants = {
 
 export default function Layout({
   children,
-  mainNavigation,
-  footer,
+  navigation: { mainNavigation, footer, legalNavigation },
   title,
-  legalNavigation,
   hideFooter,
   hideHeader,
+  hideNavOnLoad,
 }) {
   const setNavColor = useContextSelector(navContext, (v) => v[1]);
   const scrollSnap = useContextSelector(scrollSnapContext, (v) => v[0].active);
@@ -42,7 +41,11 @@ export default function Layout({
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className={clsx(scrollSnap && 'overflow-hidden h-screen')}>
-        <Navigation navigation={mainNavigation} hideHeader={hideHeader} />
+        <Navigation
+          navigation={mainNavigation}
+          hideHeader={hideHeader}
+          hideNavOnLoad={hideNavOnLoad}
+        />
         <motion.div
           variants={variants}
           initial="hidden"

@@ -61,14 +61,14 @@ const variants = {
   visible: {
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: 0.75,
       ease: easing,
     },
   },
   hidden: {
     y: -150,
     transition: {
-      duration: 0.5,
+      duration: 0.75,
       ease: easing,
     },
   },
@@ -100,7 +100,7 @@ function MobileNav({ navigation, active, handleClick }) {
   );
 }
 
-export default function Navigation({ navigation, hideHeader }) {
+export default function Navigation({ navigation, hideHeader, hideNavOnLoad }) {
   const [activeMobileNav, setActiveMobileNav] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const { navVisibility, logoTheme, linksTheme } = useContextSelector(
@@ -125,7 +125,7 @@ export default function Navigation({ navigation, hideHeader }) {
   return (
     <motion.header
       animate={animate()}
-      initial="visible"
+      initial={hideNavOnLoad ? 'hidden' : 'visible'}
       variants={variants}
       className={clsx(
         logoTheme === 'light' ? 'text-white' : 'text-black',

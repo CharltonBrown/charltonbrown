@@ -3,11 +3,11 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import mainNavigationFragment from '@/components/navigation/fragment';
-import footerFragment from '@/components/footer/fragment';
-import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import { responsiveImageFragment } from '@/lib/fragments';
 import ServiceBlock from '@/components/service-block';
+
+import useLayoutQuery from '@/hooks/useLayoutQuery';
+import navigationFragment from '@/lib/fragments/navigation-fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -31,9 +31,7 @@ export async function getStaticProps({ preview = false }) {
                 }
               }
             }
-            ${mainNavigationFragment}
-            ${footerFragment}
-            ${legalNavigationFragment}
+            ${navigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -60,18 +58,12 @@ export default function Services({ subscription }) {
   const {
     data: {
       servicesPage: { serviceBlocks },
-      mainNavigation,
-      footer,
-      legalNavigation,
     },
   } = useQuerySubscription(subscription);
+  const navigation = useLayoutQuery(subscription);
 
   return (
-    <Layout
-      mainNavigation={mainNavigation.links}
-      legalNavigation={legalNavigation.links}
-      footer={footer}
-    >
+    <Layout navigation={navigation} title="Services">
       <main className="bg-white">
         <h1 className="sr-only">Services</h1>
         <div className="relative">

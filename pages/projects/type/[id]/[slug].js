@@ -3,33 +3,50 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import AboutUsNav from '@/components/about-us-navigation';
-import OddEvenGrid from '@/components/odd-even-grid';
+import ProjectsGrid from '@/components/projects-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
-
-import SubNavigation from '@/components/sub-navigation';
 import Container from '@/components/container';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
 
+export async function getStaticPaths() {
+  const data = await request({ query: '{ allProjectTypes { slug, id } }' });
+
+  return {
+    paths: data.allProjectTypes.map(
+      (type) => `/projects/type/${type.id}/${type.slug}`,
+    ),
+    fallback: false,
+  };
+}
+
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
-          query journalContent {
-            allPosts {
+          query ProjectsQuery($id: ItemId) {
+            allProjects(filter: {projectType: {eq: $id}}) {
               id
-              body {
-                value
-              }
+              slug
+              title
               mainImage {
                 responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
                   ...responsiveImageFragment
                 }
               }
-              title
-              slug
-              _createdAt
+              projectType {
+                id
+                typeTitle
+              }
+              intro(markdown: true)
+              motif {
+                svg {
+                  url
+                }
+              }
+            }
+            projectType(filter: { id: { eq: $id } }) {
+              typeTitle
             }
             ${navigationFragment}
           }
@@ -54,29 +71,18 @@ export async function getStaticProps({ preview = false }) {
   };
 }
 
-export default function Posts({ subscription }) {
+export default function Projects({ subscription }) {
   const {
-    data: { allPosts: posts },
+    data: { allProjects: projects, allProjectTypes: projectTypes, projectType },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
 
   return (
-    <Layout navigation={navigation} title="Journal">
+    <Layout navigation={navigation} title={`${projectType.typeTitle} projects`}>
       <main className="bg-white">
-        <h1 className="sr-only">Journal</h1>
+        <h1 className="sr-only">{`${projectType.typeTitle} projects`}</h1>
         <Container>
-          <div className="flex">
-            <SubNavigation>
-              <AboutUsNav links={navigation.aboutUsNavigation} />
-            </SubNavigation>
-            <div className="pt-[200px] pl-8 grow">
-              <OddEvenGrid
-                items={posts}
-                parentSlug="about-us/journal"
-                type="journal"
-              />
-            </div>
-          </div>
+          <ProjectsGrid projects={projects} projectTypes={projectTypes} />
         </Container>
       </main>
     </Layout>

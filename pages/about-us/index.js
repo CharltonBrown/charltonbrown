@@ -4,17 +4,16 @@ import { useQuerySubscription } from 'react-datocms';
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import AboutUsNav from '@/components/about-us-navigation';
-import aboutUsNavigationFragment from '@/components/about-us-navigation/fragment';
 import TextImageBlock from '@/components/text-image-block';
 import { responsiveImageFragment } from '@/lib/fragments';
-import mainNavigationFragment from '@/components/navigation/fragment';
-import legalNavigationFragment from '@/components/legal-navigation/fragment';
 import textImageBlockFragment from '@/components/text-image-block/fragment';
-import footerFragment from '@/components/footer/fragment';
 import SubNavigation from '@/components/sub-navigation';
 import Container from '@/components/container';
 import RelatedBlock from '@/components/related-block';
 import relatedFragment from '@/components/related-block/fragment';
+
+import useLayoutQuery from '@/hooks/useLayoutQuery';
+import navigationFragment from '@/lib/fragments/navigation-fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -24,10 +23,7 @@ export async function getStaticProps({ preview = false }) {
               ${textImageBlockFragment}
               ${relatedFragment}
             }
-            ${aboutUsNavigationFragment}
-            ${mainNavigationFragment}
-            ${footerFragment}
-            ${legalNavigationFragment}
+            ${navigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -52,22 +48,19 @@ export async function getStaticProps({ preview = false }) {
 
 export default function About({ subscription }) {
   const {
-    data: { about, mainNavigation, footer, legalNavigation, aboutUsNavigation },
+    data: { about },
   } = useQuerySubscription(subscription);
+  const navigation = useLayoutQuery(subscription);
   const related = about.related[0];
 
   return (
-    <Layout
-      mainNavigation={mainNavigation.links}
-      legalNavigation={legalNavigation.links}
-      footer={footer}
-    >
+    <Layout navigation={navigation} title="About us">
       <main className="bg-white">
         <h1 className="sr-only">About us</h1>
         <Container>
           <div className="flex">
             <SubNavigation>
-              <AboutUsNav links={aboutUsNavigation.links} />
+              <AboutUsNav links={navigation.aboutUsNavigation} />
             </SubNavigation>
             <div className="pt-[200px] pl-8 grow">
               {about?.textImageBlock.map((block) => (

@@ -5,10 +5,12 @@ import { motion, useInView } from 'framer-motion';
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import { responsiveImageFragment } from '@/lib/fragments';
-import mainNavigationFragment from '@/components/navigation/fragment';
 import footerBlockFragment from '@/components/footer-block/fragment';
 import FooterBlock from '@/components/footer-block';
 import PlaceholderImage from '@/components/placeholder-image';
+
+import useLayoutQuery from '@/hooks/useLayoutQuery';
+import navigationFragment from '@/lib/fragments/navigation-fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -24,7 +26,7 @@ export async function getStaticProps({ preview = false }) {
                 ${footerBlockFragment}
               }
             }
-            ${mainNavigationFragment}
+            ${navigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -60,15 +62,16 @@ const variants = {
 
 export default function Contact({ subscription }) {
   const {
-    data: { contact, mainNavigation },
+    data: { contact },
   } = useQuerySubscription(subscription);
+  const navigation = useLayoutQuery(subscription);
   const ref = useRef(null);
   const contentIsInView = useInView(ref, {
     margin: '0px 0px 0px 0px',
   });
 
   return (
-    <Layout mainNavigation={mainNavigation.links} hideFooter>
+    <Layout navigation={navigation} hideFooter title="Contact">
       <main className="bg-white">
         <h1 className="sr-only">Contact us</h1>
         <div className="flex flex-col lg:flex-row">
