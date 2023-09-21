@@ -41,16 +41,18 @@ export default function ServiceBlock({
   image,
 }) {
   return (
-    <section className="flex flex-col md:flex-row md:relative md:items-start even:md:flex-row-reverse">
+    <section className="relative flex flex-col md:flex-row md:items-start even:md:flex-row-reverse">
       <div className="text-left md:sticky top-0 md:pt-[200px] md:w-7/12 md:h-screen">
-        <PlaceholderImage
-          className="md:w-full md:h-screen md:object-cover md:absolute inset-0"
-          width={image.responsiveImage.width}
-          height={image.responsiveImage.height}
-          src={image.responsiveImage.src}
-          alt={image.responsiveImage.alt}
-        />
-        <div className="hidden md:block absolute w-full h-[600px] top-0 bg-gradient-to-b from-black/90" />
+        <div className="relative">
+          <PlaceholderImage
+            className="md:w-full md:h-screen md:object-cover md:absolute inset-0"
+            width={image.responsiveImage.width}
+            height={image.responsiveImage.height}
+            src={image.responsiveImage.src}
+            alt={image.responsiveImage.alt}
+          />
+          <div className="absolute w-full h-3/4 md:[600px] top-0 bg-gradient-to-b from-black/90" />
+        </div>
         <Container>
           <h2 className="text-2xl lg:text-5xl md:text-white font-savoyBold relative">
             {title}
