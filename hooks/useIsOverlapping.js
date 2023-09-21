@@ -64,7 +64,7 @@ export default function useIsOverlapping({
   useEffect(() => {
     handleOverlap();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   useEffect(() => {
     const scrollTarget = document.querySelector(scrollElement) || window;

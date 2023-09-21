@@ -5,11 +5,9 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import AboutUsNav from '@/components/about-us-navigation';
 import PeopleGrid from '@/components/people-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import Container from '@/components/container';
-import SubNavigation from '@/components/sub-navigation';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
@@ -73,10 +71,7 @@ export default function People({ subscription }) {
         <h1 className="sr-only">People</h1>
         <Container>
           <div className="flex">
-            <SubNavigation>
-              <AboutUsNav links={navigation.aboutUsNavigation} />
-            </SubNavigation>
-            <div className="pt-[200px] md:pl-8 grow">
+            <div className="pt-[200px] lg:pl-60">
               <PeopleGrid people={people} />
             </div>
           </div>

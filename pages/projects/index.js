@@ -3,9 +3,9 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import ProjectsGrid from '@/components/projects-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import Container from '@/components/container';
+import OddEvenGrid from '@/components/odd-even-grid';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
@@ -34,10 +34,6 @@ export async function getStaticProps({ preview = false }) {
                 }
               }
             }
-            allProjectTypes {
-              typeTitle
-              id
-            }
             ${navigationFragment}
           }
           ${responsiveImageFragment}
@@ -63,7 +59,7 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Projects({ subscription }) {
   const {
-    data: { allProjects: projects, allProjectTypes: projectTypes },
+    data: { allProjects: projects },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
 
@@ -72,7 +68,13 @@ export default function Projects({ subscription }) {
       <main className="bg-white">
         <h1 className="sr-only">Projects</h1>
         <Container>
-          <ProjectsGrid projects={projects} projectTypes={projectTypes} />
+          <div className="pt-[200px] lg:pl-60">
+            <OddEvenGrid
+              items={projects}
+              parentSlug="projects"
+              type="projects"
+            />
+          </div>
         </Container>
       </main>
     </Layout>

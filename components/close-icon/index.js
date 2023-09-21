@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useContextSelector } from 'use-context-selector';
 import clsx from 'clsx';
 import { motion, cubicBezier } from 'framer-motion';
-import { useRouter } from 'next/router';
 
-import navContext from '@/lib/context/navContext';
+import useIsOverlapping from '@/hooks/useIsOverlapping';
 
 const easing = cubicBezier(0.65, 0.06, 0.19, 0.96);
 
@@ -14,10 +12,11 @@ const variants = {
     y: 0,
     transition: {
       delay: 0.75,
+      ease: easing,
     },
   },
   hidden: {
-    y: -150,
+    y: -100,
     transition: {
       duration: 1,
       ease: easing,
@@ -29,10 +28,9 @@ const variants = {
   },
 };
 
-export default function ExitPageCloseIcon({ href, className }) {
+export default function CloseIcon({ onClick, className }) {
   const [loaded, setLoaded] = useState(false);
-  const setNavContext = useContextSelector(navContext, (v) => v[1]);
-  const router = useRouter();
+  const ref = useRef();
 
   useEffect(() => {
     setLoaded(true);
@@ -41,13 +39,16 @@ export default function ExitPageCloseIcon({ href, className }) {
     };
   }, [setLoaded]);
 
+  const { isOverlapping } = useIsOverlapping({
+    rootRef: ref,
+    targetClass: 'overlappingTarget',
+    inside: true,
+    scrollElement: '#scrollSnapParent',
+  });
+
   const handleClick = () => {
     setLoaded(false);
-    setNavContext((s) => ({
-      ...s,
-      navVisibility: 'visible',
-    }));
-    router.push(href);
+    onClick();
   };
 
   const animate = () => {
@@ -58,6 +59,7 @@ export default function ExitPageCloseIcon({ href, className }) {
 
   return (
     <motion.div
+      ref={ref}
       className={clsx(
         className,
         'origin-center w-10 h-10 flex items-center justify-center',
@@ -70,7 +72,12 @@ export default function ExitPageCloseIcon({ href, className }) {
       }}
     >
       <button type="button" onClick={handleClick}>
-        <XMarkIcon className="w-10 h-10 text-black" />
+        <XMarkIcon
+          className={clsx(
+            'w-10 h-10',
+            isOverlapping ? 'text-white' : 'text-black',
+          )}
+        />
       </button>
     </motion.div>
   );

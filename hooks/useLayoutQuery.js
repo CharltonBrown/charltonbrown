@@ -14,7 +14,7 @@ export default function useLayoutQuery(subscription) {
   const projectTypesNav = projectTypes.map((type) => {
     return {
       id: type.id,
-      link: `projects/type/${type.id}/${type.slug}`,
+      href: `projects/type/${type.id}/${type.slug}`,
       text: type.typeTitle,
     };
   });

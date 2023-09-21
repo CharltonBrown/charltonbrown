@@ -3,11 +3,9 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import AboutUsNav from '@/components/about-us-navigation';
 import OddEvenGrid from '@/components/odd-even-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 
-import SubNavigation from '@/components/sub-navigation';
 import Container from '@/components/container';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
@@ -66,10 +64,7 @@ export default function Posts({ subscription }) {
         <h1 className="sr-only">Journal</h1>
         <Container>
           <div className="flex">
-            <SubNavigation>
-              <AboutUsNav links={navigation.aboutUsNavigation} />
-            </SubNavigation>
-            <div className="pt-[200px] pl-8 grow">
+            <div className="pt-[200px] lg:pl-60">
               <OddEvenGrid
                 items={posts}
                 parentSlug="about-us/journal"

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useQuerySubscription } from 'react-datocms';
 import clsx from 'clsx';
 import { useContextSelector } from 'use-context-selector';
+import { useRouter } from 'next/router';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
@@ -9,9 +10,9 @@ import ScrollSnap from '@/components/scroll-snap';
 import RelatedBlock from '@/components/related-block';
 import ProjectInfo from '@/components/project-info';
 import PlaceholderImage from '@/components/placeholder-image';
-import ExitPageCloseIcon from '@/components/exit-page-close-icon';
 import imageOrientation from '@/lib/utils/imageOrientation';
 import { responsiveImageFragment } from '@/lib/fragments';
+import CloseIcon from '@/components/close-icon';
 
 import navContext from '@/lib/context/navContext';
 
@@ -89,6 +90,7 @@ export default function Project({ subscription }) {
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
   const setNavContext = useContextSelector(navContext, (v) => v[1]);
+  const router = useRouter();
 
   useEffect(() => {
     setNavContext((s) => ({
@@ -99,21 +101,21 @@ export default function Project({ subscription }) {
 
   const imageOrientationClass = (aspectRatio) => {
     if (imageOrientation(aspectRatio) === 'portrait') {
-      return 'object-cover md:object-none md:w-[calc(100vh*0.7)] md:h-full';
+      return 'object-cover w-full md:object-none md:w-[calc(100vh*0.7)] md:h-full';
     }
     if (imageOrientation(aspectRatio) === 'sqaure') {
-      return 'object-cover md:object-none md:w-[calc(100vh/2)] md:h-full';
+      return 'object-cover w-full md:object-none md:w-[calc(100vh/2)] md:h-full';
     }
-    return 'object-cover md:w-full md:h-full';
+    return 'object-cover w-full md:w-full md:h-full';
   };
 
   return (
     <Layout navigation={navigation} hideHeader hideFooter title={project.title}>
       <main className="relative">
         <ProjectInfo title={project.title} description={project.description} />
-        <ExitPageCloseIcon
-          href="/projects"
-          className="fixed right-4 top-4 z-40"
+        <CloseIcon
+          onClick={() => router.push('/projects')}
+          className="absolute right-4 top-4 z-40"
         />
         <ScrollSnap>
           <ScrollSnap.Child className="relative w-screen h-screen bg-white flex justify-center">

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useInView } from 'framer-motion';
 import { useContextSelector } from 'use-context-selector';
 
 import navContext from '@/lib/context/navContext';
+import PlaceholderImage from '@/components/placeholder-image';
 
 export default function RelatedBlock({
   title,
@@ -43,11 +43,11 @@ export default function RelatedBlock({
         <h3 className="text-xl md:text-3xl">{title}</h3>
       </div>
       <div className="relative h-[50vh] md:h-screen md:grow">
-        <Image
+        <PlaceholderImage
           src={image.responsiveImage.src}
           alt={image.responsiveImage.alt}
           fill
-          className="object-cover"
+          className="object-cover h-full"
         />
       </div>
     </Link>

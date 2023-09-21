@@ -69,20 +69,23 @@ export default function ProjectInfo({ title, description }) {
     <>
       <div className="fixed z-30 top-0 left-0 w-full">
         <motion.div
-          ref={ref}
-          className={clsx(
-            'w-[300px] p-5 md:p-8 lg:p-10',
-            isOverlapping && 'text-white',
-            open && '!text-black',
-          )}
           animate={animate()}
           initial="hidden"
           variants={titleVariants}
         >
-          <h1 className="text-2xl mb-2">{title}</h1>
-          <button type="button" onClick={cycleOpen}>
-            {open ? 'Hide text' : 'Read more'}
-          </button>
+          <div
+            ref={ref}
+            className={clsx(
+              'float-left p-5 md:p-8 lg:p-10',
+              isOverlapping && 'text-white',
+              open && '!text-black',
+            )}
+          >
+            <h1 className="text-2xl mb-2">{title}</h1>
+            <button type="button" onClick={cycleOpen}>
+              {open ? 'Hide text' : 'Read more'}
+            </button>
+          </div>
         </motion.div>
       </div>
       <AnimatePresence>

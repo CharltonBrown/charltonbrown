@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useQuerySubscription } from 'react-datocms';
 import { useInView } from 'framer-motion';
+import * as widont from 'widont';
 
 import request from '@/lib/datocms';
 import { responsiveImageFragment } from '@/lib/fragments';
@@ -84,10 +85,10 @@ export default function Home({ subscription }) {
       <main>
         <h1 className="sr-only">Charlton Brown - Architecture & Interiors</h1>
         <HeroSlider images={sliderImages} hideHero={!heroIsInView} />
-        <div className="relative z-50">
+        <div className="relative z-30">
           {/* Empty div for fixed hero */}
           <div className="w-full h-screen" ref={heroRef} />
-          <div className="bg-bone">
+          <div className="bg-bone text-center">
             <div className="relative h-screen flex items-center justify-center py-8">
               <Container>
                 <FadeInBlock>
@@ -107,7 +108,7 @@ export default function Home({ subscription }) {
                     <div
                       className="text-xl lg:text-2xl"
                       dangerouslySetInnerHTML={{
-                        __html: blockOneBody,
+                        __html: widont(blockOneBody),
                       }}
                     />
                   </div>
@@ -129,7 +130,7 @@ export default function Home({ subscription }) {
                     <div
                       className="text-xl lg:text-2xl"
                       dangerouslySetInnerHTML={{
-                        __html: blockTwoBody,
+                        __html: widont(blockTwoBody),
                       }}
                     />
                   </div>
@@ -151,7 +152,7 @@ export default function Home({ subscription }) {
                     <div
                       className="mx-auto text-xl lg:text-2xl"
                       dangerouslySetInnerHTML={{
-                        __html: blockThreeBody,
+                        __html: widont(blockThreeBody),
                       }}
                     />
                     <MotifNavigation links={navigation.mainNavigation} />

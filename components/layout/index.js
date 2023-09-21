@@ -17,7 +17,13 @@ const variants = {
 
 export default function Layout({
   children,
-  navigation: { mainNavigation, footer, legalNavigation },
+  navigation: {
+    mainNavigation,
+    footer,
+    legalNavigation,
+    aboutUsNavigation,
+    projectTypesNav,
+  },
   title,
   hideFooter,
   hideHeader,
@@ -43,6 +49,8 @@ export default function Layout({
       <div className={clsx(scrollSnap && 'overflow-hidden h-screen')}>
         <Navigation
           navigation={mainNavigation}
+          aboutUsNavigation={aboutUsNavigation}
+          projectTypesNav={projectTypesNav}
           hideHeader={hideHeader}
           hideNavOnLoad={hideNavOnLoad}
         />

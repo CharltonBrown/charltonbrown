@@ -3,9 +3,9 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import ProjectsGrid from '@/components/projects-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import Container from '@/components/container';
+import OddEvenGrid from '@/components/odd-even-grid';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
@@ -21,10 +21,10 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ preview = false }) {
+export async function getStaticProps({ params, preview = false }) {
   const graphqlRequest = {
     query: `
-          query ProjectsQuery($id: ItemId) {
+          query ProjectsQuery($id: ItemId, $slug: String) {
             allProjects(filter: {projectType: {eq: $id}}) {
               id
               slug
@@ -45,7 +45,7 @@ export async function getStaticProps({ preview = false }) {
                 }
               }
             }
-            projectType(filter: { id: { eq: $id } }) {
+            projectType(filter: {slug: {eq: $slug}}) {
               typeTitle
             }
             ${navigationFragment}
@@ -53,6 +53,10 @@ export async function getStaticProps({ preview = false }) {
           ${responsiveImageFragment}
         `,
     preview,
+    variables: {
+      slug: params.slug,
+      id: params.id,
+    },
   };
 
   return {
@@ -73,7 +77,7 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Projects({ subscription }) {
   const {
-    data: { allProjects: projects, allProjectTypes: projectTypes, projectType },
+    data: { allProjects: projects, projectType },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
 
@@ -82,7 +86,19 @@ export default function Projects({ subscription }) {
       <main className="bg-white">
         <h1 className="sr-only">{`${projectType.typeTitle} projects`}</h1>
         <Container>
-          <ProjectsGrid projects={projects} projectTypes={projectTypes} />
+          <div className="pt-[200px] lg:pl-60">
+            {projects.length > 0 ? (
+              <OddEvenGrid
+                items={projects}
+                parentSlug="projects"
+                type="projects"
+              />
+            ) : (
+              <div className="h-screen">
+                <p>No assigned {projectType.typeTitle} projects</p>
+              </div>
+            )}
+          </div>
         </Container>
       </main>
     </Layout>
