@@ -10,11 +10,22 @@ import OddEvenGrid from '@/components/odd-even-grid';
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
 
-export async function getStaticProps({ preview = false }) {
+export async function getStaticPaths() {
+  const data = await request({ query: '{ allProjectTypes { slug, id } }' });
+
+  return {
+    paths: data.allProjectTypes.map(
+      (type) => `/projects/type/${type.id}/${type.slug}`,
+    ),
+    fallback: false,
+  };
+}
+
+export async function getStaticProps({ params, preview = false }) {
   const graphqlRequest = {
     query: `
-          query ProjectsQuery {
-            allProjects {
+          query ProjectsQuery($id: ItemId, $slug: String) {
+            allProjects(filter: {projectType: {eq: $id}}) {
               id
               slug
               title
@@ -34,11 +45,18 @@ export async function getStaticProps({ preview = false }) {
                 }
               }
             }
+            projectType(filter: {slug: {eq: $slug}}) {
+              typeTitle
+            }
             ${navigationFragment}
           }
           ${responsiveImageFragment}
         `,
     preview,
+    variables: {
+      slug: params.slug,
+      id: params.id,
+    },
   };
 
   return {
@@ -59,21 +77,27 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Projects({ subscription }) {
   const {
-    data: { allProjects: projects },
+    data: { allProjects: projects, projectType },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
 
   return (
-    <Layout navigation={navigation} title="Projects">
+    <Layout navigation={navigation} title={`${projectType.typeTitle} projects`}>
       <main className="bg-white">
-        <h1 className="sr-only">Projects</h1>
+        <h1 className="sr-only">{`${projectType.typeTitle} projects`}</h1>
         <Container>
           <div className="pt-[200px] lg:pl-60">
-            <OddEvenGrid
-              items={projects}
-              parentSlug="projects"
-              type="projects"
-            />
+            {projects.length > 0 ? (
+              <OddEvenGrid
+                items={projects}
+                parentSlug="projects"
+                type="projects"
+              />
+            ) : (
+              <div className="h-screen">
+                <p>No assigned {projectType.typeTitle} projects</p>
+              </div>
+            )}
           </div>
         </Container>
       </main>

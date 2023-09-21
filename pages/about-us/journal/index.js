@@ -3,15 +3,13 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import AboutUsNav from '@/components/about-us-navigation';
 import OddEvenGrid from '@/components/odd-even-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
-import mainNavigationFragment from '@/components/navigation/fragment';
-import footerFragment from '@/components/footer/fragment';
-import legalNavigationFragment from '@/components/legal-navigation/fragment';
-import aboutUsNavigationFragment from '@/components/about-us-navigation/fragment';
-import SubNavigation from '@/components/sub-navigation';
+
 import Container from '@/components/container';
+
+import useLayoutQuery from '@/hooks/useLayoutQuery';
+import navigationFragment from '@/lib/fragments/navigation-fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -31,10 +29,7 @@ export async function getStaticProps({ preview = false }) {
               slug
               _createdAt
             }
-            ${aboutUsNavigationFragment}
-            ${mainNavigationFragment}
-            ${footerFragment}
-            ${legalNavigationFragment}
+            ${navigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -59,29 +54,17 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Posts({ subscription }) {
   const {
-    data: {
-      allPosts: posts,
-      mainNavigation,
-      footer,
-      legalNavigation,
-      aboutUsNavigation,
-    },
+    data: { allPosts: posts },
   } = useQuerySubscription(subscription);
+  const navigation = useLayoutQuery(subscription);
 
   return (
-    <Layout
-      mainNavigation={mainNavigation.links}
-      legalNavigation={legalNavigation.links}
-      footer={footer}
-    >
+    <Layout navigation={navigation} title="Journal">
       <main className="bg-white">
         <h1 className="sr-only">Journal</h1>
         <Container>
           <div className="flex">
-            <SubNavigation>
-              <AboutUsNav links={aboutUsNavigation.links} />
-            </SubNavigation>
-            <div className="pt-[200px] pl-8 grow">
+            <div className="pt-[200px] lg:pl-60">
               <OddEvenGrid
                 items={posts}
                 parentSlug="about-us/journal"

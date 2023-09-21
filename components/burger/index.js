@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 export default function Burger({ className, onClick, navTheme }) {
-  const [isOpen, setIsOpen] = useState(false);
   const genericHamburgerLine = `h-px w-6 my-1 ${
     navTheme === 'light' ? 'bg-white' : 'bg-black'
-  } transition ease transform duration-300`;
+  } transition ease transform duration-300 opacity-50 group-hover:opacity-100`;
 
   const handleClick = () => {
-    setIsOpen(!isOpen);
     onClick();
   };
 
@@ -21,25 +19,9 @@ export default function Burger({ className, onClick, navTheme }) {
       )}
       onClick={() => handleClick()}
     >
-      <div
-        className={`${genericHamburgerLine} ${
-          isOpen
-            ? 'rotate-45 translate-y-[9px] opacity-50 group-hover:opacity-100'
-            : 'opacity-50 group-hover:opacity-100'
-        }`}
-      />
-      <div
-        className={`${genericHamburgerLine} ${
-          isOpen ? 'opacity-0' : 'opacity-50 group-hover:opacity-100'
-        }`}
-      />
-      <div
-        className={`${genericHamburgerLine} ${
-          isOpen
-            ? '-rotate-45 -translate-y-[9px] opacity-50 group-hover:opacity-100'
-            : 'opacity-50 group-hover:opacity-100'
-        }`}
-      />
+      <div className={genericHamburgerLine} />
+      <div className={genericHamburgerLine} />
+      <div className={genericHamburgerLine} />
     </button>
   );
 }

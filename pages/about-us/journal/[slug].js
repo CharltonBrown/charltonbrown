@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react';
 import { useQuerySubscription } from 'react-datocms';
 import { useContextSelector } from 'use-context-selector';
+import { useRouter } from 'next/router';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import RichText from '@/components/rich-text';
 import { responsiveImageFragment } from '@/lib/fragments';
-import mainNavigationFragment from '@/components/navigation/fragment';
 import FadeInBlock from '@/components/fade-in-block';
 import Container from '@/components/container';
 import PlaceholderImage from '@/components/placeholder-image';
-import ExitPageCloseIcon from '@/components/exit-page-close-icon';
-
+import useLayoutQuery from '@/hooks/useLayoutQuery';
+import navigationFragment from '@/lib/fragments/navigation-fragment';
 import navContext from '@/lib/context/navContext';
+import CloseIcon from '@/components/close-icon';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allPosts { slug } }' });
@@ -41,7 +42,7 @@ export async function getStaticProps({ params, preview = false }) {
               }
               id
             }
-            ${mainNavigationFragment}
+            ${navigationFragment}
           }   
           ${responsiveImageFragment}       
         `,
@@ -69,9 +70,11 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Posts({ subscription }) {
   const {
-    data: { post, mainNavigation },
+    data: { post },
   } = useQuerySubscription(subscription);
+  const navigation = useLayoutQuery(subscription);
   const setNavContext = useContextSelector(navContext, (v) => v[1]);
+  const router = useRouter();
 
   useEffect(() => {
     setNavContext((s) => ({
@@ -81,15 +84,10 @@ export default function Posts({ subscription }) {
   }, [setNavContext]);
 
   return (
-    <Layout
-      mainNavigation={mainNavigation.links}
-      title={post.title}
-      hideHeader
-      hideFooter
-    >
+    <Layout navigation={navigation} title={post.title} hideHeader hideFooter>
       <main className="bg-white">
-        <ExitPageCloseIcon
-          href="/about-us/journal"
+        <CloseIcon
+          onClick={() => router.push('/about-us/journal')}
           className="fixed right-4 top-4 z-20"
         />
         <Container>

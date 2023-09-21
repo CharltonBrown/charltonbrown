@@ -5,15 +5,12 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import AboutUsNav from '@/components/about-us-navigation';
 import PeopleGrid from '@/components/people-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
-import mainNavigationFragment from '@/components/navigation/fragment';
-import footerFragment from '@/components/footer/fragment';
-import legalNavigationFragment from '@/components/legal-navigation/fragment';
-import aboutUsNavigationFragment from '@/components/about-us-navigation/fragment';
 import Container from '@/components/container';
-import SubNavigation from '@/components/sub-navigation';
+
+import useLayoutQuery from '@/hooks/useLayoutQuery';
+import navigationFragment from '@/lib/fragments/navigation-fragment';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -39,10 +36,7 @@ export async function getStaticProps({ preview = false }) {
                 }
               }
             }
-            ${aboutUsNavigationFragment}
-            ${mainNavigationFragment}
-            ${footerFragment}
-            ${legalNavigationFragment}
+            ${navigationFragment}
           }
           ${responsiveImageFragment}
         `,
@@ -67,29 +61,17 @@ export async function getStaticProps({ preview = false }) {
 
 export default function People({ subscription }) {
   const {
-    data: {
-      allPeople: people,
-      mainNavigation,
-      footer,
-      legalNavigation,
-      aboutUsNavigation,
-    },
+    data: { allPeople: people },
   } = useQuerySubscription(subscription);
+  const navigation = useLayoutQuery(subscription);
 
   return (
-    <Layout
-      mainNavigation={mainNavigation.links}
-      legalNavigation={legalNavigation.links}
-      footer={footer}
-    >
+    <Layout navigation={navigation} title="People">
       <main className="bg-white">
         <h1 className="sr-only">People</h1>
         <Container>
           <div className="flex">
-            <SubNavigation>
-              <AboutUsNav links={aboutUsNavigation.links} />
-            </SubNavigation>
-            <div className="pt-[200px] md:pl-8 grow">
+            <div className="pt-[200px] lg:pl-60">
               <PeopleGrid people={people} />
             </div>
           </div>

@@ -42,7 +42,7 @@ export default function HeroSlider({ images, hideHero }) {
   return (
     <div
       className={clsx(
-        hideHero ? 'invisible' : 'visibl',
+        hideHero ? 'invisible' : 'visible',
         'fixed w-full h-screen',
       )}
     >
