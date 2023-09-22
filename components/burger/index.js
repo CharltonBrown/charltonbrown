@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import clsx from 'clsx';
 
+import useIsOverlapping from '@/hooks/useIsOverlapping';
+
 export default function Burger({ className, onClick, navTheme }) {
+  const ref = useRef();
+  const { isOverlapping } = useIsOverlapping({
+    rootRef: ref,
+    targetClass: 'overlappingTarget',
+    inside: true,
+  });
+
   const genericHamburgerLine = `h-px w-6 my-1 ${
     navTheme === 'light' ? 'bg-white' : 'bg-black'
+  } ${
+    isOverlapping ? 'bg-white' : 'bg-black'
   } transition ease transform duration-300 opacity-50 group-hover:opacity-100`;
 
   const handleClick = () => {
@@ -12,6 +23,7 @@ export default function Burger({ className, onClick, navTheme }) {
 
   return (
     <button
+      ref={ref}
       type="button"
       className={clsx(
         className,
