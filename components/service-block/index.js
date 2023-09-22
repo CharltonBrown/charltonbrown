@@ -43,7 +43,7 @@ export default function ServiceBlock({
   return (
     <section className="relative flex flex-col md:flex-row md:items-start even:md:flex-row-reverse">
       <div className="text-left md:sticky top-0 md:pt-[200px] md:w-7/12 md:h-screen">
-        <div className="relative">
+        <div className="relative md:static">
           <PlaceholderImage
             className="md:w-full md:h-screen md:object-cover md:absolute inset-0"
             width={image.responsiveImage.width}
