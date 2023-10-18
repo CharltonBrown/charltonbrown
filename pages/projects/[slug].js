@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useQuerySubscription } from 'react-datocms';
 import clsx from 'clsx';
-import { useContextSelector } from 'use-context-selector';
 import { useRouter } from 'next/router';
 
 import request from '@/lib/datocms';
@@ -13,8 +12,6 @@ import PlaceholderImage from '@/components/placeholder-image';
 import imageOrientation from '@/lib/utils/imageOrientation';
 import { responsiveImageFragment } from '@/lib/fragments';
 import CloseIcon from '@/components/close-icon';
-
-import navContext from '@/lib/context/navContext';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
@@ -89,15 +86,7 @@ export default function Project({ subscription }) {
     data: { project },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
-  const setNavContext = useContextSelector(navContext, (v) => v[1]);
   const router = useRouter();
-
-  useEffect(() => {
-    setNavContext((s) => ({
-      ...s,
-      navVisibility: 'hidden',
-    }));
-  }, [setNavContext]);
 
   const imageOrientationClass = (aspectRatio) => {
     if (imageOrientation(aspectRatio) === 'portrait') {
