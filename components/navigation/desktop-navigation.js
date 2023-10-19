@@ -64,7 +64,7 @@ export default function DesktopNavigation({
 
   return (
     <nav className="hidden md:flex items-center place-self-center" ref={ref}>
-      <ul className="flex flex-col h-full justify-center text-2xl md:flex-row md:text-lg md:justify-between md:h-auto md:relative">
+      <ul className="flex flex-row text-lg justify-between h-auto relative">
         {navigation.map((link) => {
           const isActive = pathname.startsWith(`/${link.href}`);
           const showAboutUsNav = link.href === ABOUT_US_KEY;
@@ -74,10 +74,10 @@ export default function DesktopNavigation({
             <li
               key={link.id}
               className={clsx(
-                'md:px-3',
-                navTheme === 'light' && 'md:text-white',
-                navTheme === 'dark' && !isOverlapping && 'md:text-black',
-                navTheme === 'dark' && isOverlapping && 'md:text-white',
+                'px-3',
+                navTheme === 'light' && 'text-white',
+                navTheme === 'dark' && !isOverlapping && 'text-black',
+                navTheme === 'dark' && isOverlapping && 'text-white',
               )}
             >
               {showAboutUsNav || showProjectsNav ? (

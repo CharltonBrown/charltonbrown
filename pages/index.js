@@ -11,6 +11,7 @@ import FadeInBlock from '@/components/fade-in-block';
 import MotifNavigation from '@/components/motif-navigation';
 import FootnoteOne from '@/components/icons/footnotes/footnote-1';
 import Container from '@/components/container';
+import ScrollPrompt from '@/components/scroll-prompt';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
@@ -81,13 +82,15 @@ export default function Home({ subscription }) {
   });
 
   return (
-    <Layout hideNavOnLoad navigation={navigation}>
+    <Layout navigation={navigation}>
       <main>
         <h1 className="sr-only">Charlton Brown - Architecture & Interiors</h1>
         <HeroSlider images={sliderImages} hideHero={!heroIsInView} />
         <div className="relative z-30">
-          {/* Empty div for fixed hero */}
-          <div className="w-full h-screen" ref={heroRef} />
+          {/* div for fixed hero */}
+          <div className="w-full h-screen relative" ref={heroRef}>
+            <ScrollPrompt className="absolute bottom-0 left-1/2 -translate-x-1/2" />
+          </div>
           <div className="bg-bone text-center">
             <div className="relative h-screen flex items-center justify-center py-8">
               <Container>
