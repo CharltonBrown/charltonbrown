@@ -80,7 +80,7 @@ const NavList = ({
                 opacity: 1,
                 transition: {
                   ease: 'easeOut',
-                  duration: 0.5,
+                  duration: 0.3,
                 },
               }}
               exit={{
@@ -191,7 +191,7 @@ export default function MobileNavigation({
             />
           </div>
           <Dialog.Panel className="min-h-[300px] overflow-hidden">
-            <CloseIcon onClick={onClick} className="absolute right-4 top-4" />
+            <CloseIcon onClick={onClick} className="absolute right-5 top-5" />
             <NavList
               navigation={navigation}
               aboutUsNavigation={aboutUsNavigation}
