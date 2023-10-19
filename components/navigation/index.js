@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useContextSelector } from 'use-context-selector';
 import clsx from 'clsx';
 import { motion, cubicBezier } from 'framer-motion';
@@ -21,7 +21,7 @@ const variants = {
     },
   },
   hidden: {
-    y: -100,
+    y: -120,
     transition: {
       duration: 0.25,
       ease: easing,
@@ -51,15 +51,15 @@ export default function Navigation({
     setActiveMobileNav(!activeMobileNav);
   };
 
-  const animate = () => {
+  const animate = useMemo(() => {
     if (loaded && (navVisibility === 'hidden' || hideHeader)) return 'hidden';
     if (loaded && navVisibility === 'visible') return 'visible';
-    return 'hidden';
-  };
+    return 'visible';
+  }, [navVisibility, hideHeader, loaded]);
 
   return (
     <motion.header
-      animate={animate()}
+      animate={animate}
       initial={hideNavOnLoad ? 'hidden' : 'visible'}
       variants={variants}
       className={clsx(
