@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useContextSelector } from 'use-context-selector';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
+import { Lenis } from '@studio-freight/react-lenis';
 
 import Navigation from '@/components/navigation';
 import Footer from '@/components/footer';
@@ -46,30 +47,32 @@ export default function Layout({
         <title>{title ? `${title} - Charlton Brown` : 'Charlton Brown'}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className={clsx(scrollSnap && 'overflow-hidden h-screen')}>
-        <Navigation
-          navigation={mainNavigation}
-          aboutUsNavigation={aboutUsNavigation}
-          projectTypesNav={projectTypesNav}
-          hideHeader={hideHeader}
-          hideNavOnLoad={hideNavOnLoad}
-        />
-        <motion.div
-          variants={variants}
-          initial="hidden"
-          animate="enter"
-          exit="exit"
-          transition={{ type: 'ease', duration: 0.5 }}
-          className="relative z-10"
-        >
-          {children}
-        </motion.div>
-        <Footer
-          footer={footer}
-          legalNavigation={legalNavigation}
-          hideFooter={hideFooter}
-        />
-      </div>
+      <Lenis root>
+        <div className={clsx(scrollSnap && 'overflow-hidden h-screen')}>
+          <Navigation
+            navigation={mainNavigation}
+            aboutUsNavigation={aboutUsNavigation}
+            projectTypesNav={projectTypesNav}
+            hideHeader={hideHeader}
+            hideNavOnLoad={hideNavOnLoad}
+          />
+          <motion.div
+            variants={variants}
+            initial="hidden"
+            animate="enter"
+            exit="exit"
+            transition={{ type: 'ease', duration: 0.5 }}
+            className="relative z-10"
+          >
+            {children}
+          </motion.div>
+          <Footer
+            footer={footer}
+            legalNavigation={legalNavigation}
+            hideFooter={hideFooter}
+          />
+        </div>
+      </Lenis>
     </>
   );
 }
