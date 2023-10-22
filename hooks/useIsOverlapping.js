@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 export default function useIsOverlapping({
   rootRef,
@@ -9,7 +9,7 @@ export default function useIsOverlapping({
   const [isOverlapping, setIsOverlapping] = useState(false);
   const root = useRef(rootRef);
 
-  function handleOverlap() {
+  const handleOverlap = useCallback(() => {
     const rootElement = root.current;
     const components = document.querySelectorAll(`.${targetClass}`);
 
@@ -59,12 +59,14 @@ export default function useIsOverlapping({
       });
 
     return setIsOverlapping(!!overlappingItems.length);
-  }
+  }, [inside, targetClass]);
 
   useEffect(() => {
-    handleOverlap();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
+    const timer = setTimeout(() => {
+      handleOverlap();
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [handleOverlap]);
 
   useEffect(() => {
     const scrollTarget = document.querySelector(scrollElement) || window;
