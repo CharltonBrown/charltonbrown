@@ -8,6 +8,7 @@ import { responsiveImageFragment } from '@/lib/fragments';
 import textImageBlockFragment from '@/components/text-image-block/fragment';
 import Container from '@/components/container';
 import RelatedBlock from '@/components/related-block';
+import ContentGutter from '@/components/content-gutter';
 import relatedFragment from '@/components/related-block/fragment';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
@@ -56,29 +57,25 @@ export default function About({ subscription }) {
       <main className="bg-white">
         <h1 className="sr-only">About us</h1>
         <Container>
-          <div className="flex">
-            <div className="pt-[200px] lg:pl-60">
-              {about?.textImageBlock.map((block) => (
-                <TextImageBlock
-                  key={block.id}
-                  body={block.body}
-                  heading={block.heading}
-                  image={block.image}
-                  imageAlignment={block.imageAlignment}
-                />
-              ))}
-            </div>
-          </div>
+          <ContentGutter>
+            {about?.textImageBlock.map((block) => (
+              <TextImageBlock
+                key={block.id}
+                body={block.body}
+                heading={block.heading}
+                image={block.image}
+                imageAlignment={block.imageAlignment}
+              />
+            ))}
+          </ContentGutter>
         </Container>
-        {about.related && (
-          <div className="w-full h-screen">
-            <RelatedBlock
-              title={related.title}
-              slug={related.url}
-              image={related.image}
-              label="Related content"
-            />
-          </div>
+        {about?.related && (
+          <RelatedBlock
+            title={related.title}
+            slug={related.url}
+            image={related.image}
+            label="Related content"
+          />
         )}
       </main>
     </Layout>

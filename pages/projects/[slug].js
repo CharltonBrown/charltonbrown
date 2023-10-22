@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useQuerySubscription } from 'react-datocms';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
+import { useInView } from 'framer-motion';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
@@ -87,6 +88,8 @@ export default function Project({ subscription }) {
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
   const router = useRouter();
+  const relatedRef = useRef();
+  const relatedIsVisible = useInView(relatedRef, { amount: 'all' });
 
   const imageOrientationClass = (aspectRatio) => {
     if (imageOrientation(aspectRatio) === 'portrait') {
@@ -101,7 +104,11 @@ export default function Project({ subscription }) {
   return (
     <Layout navigation={navigation} hideHeader hideFooter title={project.title}>
       <main className="relative">
-        <ProjectInfo title={project.title} description={project.description} />
+        <ProjectInfo
+          hide={relatedIsVisible}
+          title={project.title}
+          description={project.description}
+        />
         <CloseIcon
           onClick={() => router.push('/projects')}
           className="absolute right-4 top-4 z-40"
@@ -136,6 +143,7 @@ export default function Project({ subscription }) {
           ))}
           {project.relatedProject && (
             <ScrollSnap.Child className="w-full h-screen">
+              <div ref={relatedRef} />
               <RelatedBlock
                 title={project.relatedProject.title}
                 slug={project.relatedProject.slug}

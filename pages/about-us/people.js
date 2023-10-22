@@ -8,6 +8,7 @@ import Layout from '@/components/layout';
 import PeopleGrid from '@/components/people-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import Container from '@/components/container';
+import ContentGutter from '@/components/content-gutter';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
@@ -71,9 +72,9 @@ export default function People({ subscription }) {
         <h1 className="sr-only">People</h1>
         <Container>
           <div className="flex">
-            <div className="pt-[200px] lg:pl-60">
+            <ContentGutter>
               <PeopleGrid people={people} />
-            </div>
+            </ContentGutter>
           </div>
         </Container>
       </main>

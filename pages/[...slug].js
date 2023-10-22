@@ -6,6 +6,7 @@ import Layout from '@/components/layout';
 import Container from '@/components/container';
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import RichText from '@/components/rich-text';
+import ContentGutter from '@/components/content-gutter';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
 
 export async function getStaticPaths() {
@@ -77,12 +78,10 @@ export default function Page({ subscription }) {
     <Layout navigation={navigation} title={page.title}>
       <main className="bg-white">
         <Container>
-          <div className="flex">
-            <div className="pt-[200px] lg:pl-60">
-              <h1 className="text-3xl mb-8">{page.title}</h1>
-              <RichText text={page.body} />
-            </div>
-          </div>
+          <ContentGutter>
+            <h1 className="text-3xl mb-8">{page.title}</h1>
+            <RichText text={page.body} />
+          </ContentGutter>
         </Container>
       </main>
     </Layout>

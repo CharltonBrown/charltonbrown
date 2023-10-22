@@ -8,6 +8,7 @@ import { responsiveImageFragment } from '@/lib/fragments';
 import textImageBlockFragment from '@/components/text-image-block/fragment';
 import Container from '@/components/container';
 import RelatedBlock from '@/components/related-block';
+import ContentGutter from '@/components/content-gutter';
 import relatedFragment from '@/components/related-block/fragment';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
@@ -56,7 +57,7 @@ export default function Careers({ subscription }) {
       <main className="bg-white">
         <h1 className="sr-only">Careers</h1>
         <Container>
-          <div className="pt-[200px] lg:pl-60">
+          <ContentGutter>
             {careersPage?.textImageBlock.map((block) => (
               <TextImageBlock
                 key={block.id}
@@ -66,17 +67,15 @@ export default function Careers({ subscription }) {
                 imageAlignment={block.imageAlignment}
               />
             ))}
-          </div>
+          </ContentGutter>
         </Container>
-        {careersPage.related && (
-          <div className="w-full h-screen">
-            <RelatedBlock
-              title={related.title}
-              slug={related.url}
-              image={related.image}
-              label="Related content"
-            />
-          </div>
+        {careersPage?.related && (
+          <RelatedBlock
+            title={related.title}
+            slug={related.url}
+            image={related.image}
+            label="Related content"
+          />
         )}
       </main>
     </Layout>

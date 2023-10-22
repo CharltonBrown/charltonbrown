@@ -6,6 +6,7 @@ import Layout from '@/components/layout';
 import { responsiveImageFragment } from '@/lib/fragments';
 import Container from '@/components/container';
 import OddEvenGrid from '@/components/odd-even-grid';
+import ContentGutter from '@/components/content-gutter';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
@@ -68,13 +69,13 @@ export default function Projects({ subscription }) {
       <main className="bg-white">
         <h1 className="sr-only">Projects</h1>
         <Container>
-          <div className="pt-[200px] lg:pl-60">
+          <ContentGutter>
             <OddEvenGrid
               items={projects}
               parentSlug="projects"
               type="projects"
             />
-          </div>
+          </ContentGutter>
         </Container>
       </main>
     </Layout>

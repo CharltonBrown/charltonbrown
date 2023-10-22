@@ -14,6 +14,7 @@ import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
 import navContext from '@/lib/context/navContext';
 import CloseIcon from '@/components/close-icon';
+import ContentGutter from '@/components/content-gutter';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allPosts { slug } }' });
@@ -91,27 +92,25 @@ export default function Posts({ subscription }) {
           className="fixed right-4 top-4 z-20"
         />
         <Container>
-          <div className="flex">
-            <div className="pt-[200px] pl-8">
-              <FadeInBlock>
-                <div className="lg:flex flex-row-reverse">
-                  <div className="lg:sticky bottom-0 lg:w-3/5 lg:px-24">
-                    <PlaceholderImage
-                      className="object-contain mb-8 lg:mb-0"
-                      width={post.mainImage.responsiveImage.width}
-                      height={post.mainImage.responsiveImage.height}
-                      src={post.mainImage.responsiveImage.src}
-                      alt={post.mainImage.responsiveImage.alt}
-                    />
-                  </div>
-                  <div className="lg:w-2/5">
-                    <h1 className="text-3xl mb-8">{post.title}</h1>
-                    <RichText text={post.body} />
-                  </div>
+          <ContentGutter className="lg:pl-8">
+            <FadeInBlock>
+              <div className="lg:flex flex-row-reverse">
+                <div className="lg:sticky bottom-0 lg:w-3/5 lg:px-24">
+                  <PlaceholderImage
+                    className="object-contain mb-8 lg:mb-0"
+                    width={post.mainImage.responsiveImage.width}
+                    height={post.mainImage.responsiveImage.height}
+                    src={post.mainImage.responsiveImage.src}
+                    alt={post.mainImage.responsiveImage.alt}
+                  />
                 </div>
-              </FadeInBlock>
-            </div>
-          </div>
+                <div className="lg:w-2/5">
+                  <h1 className="text-3xl mb-8">{post.title}</h1>
+                  <RichText text={post.body} />
+                </div>
+              </div>
+            </FadeInBlock>
+          </ContentGutter>
         </Container>
       </main>
     </Layout>

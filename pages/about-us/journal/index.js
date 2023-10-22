@@ -4,10 +4,9 @@ import { useQuerySubscription } from 'react-datocms';
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import OddEvenGrid from '@/components/odd-even-grid';
-import { responsiveImageFragment } from '@/lib/fragments';
-
 import Container from '@/components/container';
-
+import ContentGutter from '@/components/content-gutter';
+import { responsiveImageFragment } from '@/lib/fragments';
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
 
@@ -63,15 +62,13 @@ export default function Posts({ subscription }) {
       <main className="bg-white">
         <h1 className="sr-only">Journal</h1>
         <Container>
-          <div className="flex">
-            <div className="pt-[200px] lg:pl-60">
-              <OddEvenGrid
-                items={posts}
-                parentSlug="about-us/journal"
-                type="journal"
-              />
-            </div>
-          </div>
+          <ContentGutter>
+            <OddEvenGrid
+              items={posts}
+              parentSlug="about-us/journal"
+              type="journal"
+            />
+          </ContentGutter>
         </Container>
       </main>
     </Layout>
