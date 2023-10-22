@@ -18,7 +18,7 @@ const variants = {
   hidden: {
     y: -100,
     transition: {
-      duration: 1,
+      duration: 0.25,
       ease: easing,
     },
   },
