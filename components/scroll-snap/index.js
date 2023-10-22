@@ -31,7 +31,7 @@ const ScrollSnap = ({ children, className }) => {
       id="scrollSnapParent"
       className={clsx(
         className,
-        'relative z-10 max-h-screen snap snap-y snap-mandatory overflow-y-scroll',
+        'relative z-10 max-h-screen snap snap-y snap-mandatory overflow-y-scroll scroll-smooth',
       )}
     >
       {child}
@@ -51,7 +51,7 @@ const Child = ({ children, className }) => {
   }, []);
 
   return (
-    <div id="scrollSnap" className="snap-start overflow-hidden">
+    <div id="scrollSnap" className="snap-start snap-always overflow-hidden">
       <FadeInBlock className={className}>{children}</FadeInBlock>
     </div>
   );
