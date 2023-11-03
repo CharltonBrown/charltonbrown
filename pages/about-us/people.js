@@ -8,6 +8,8 @@ import Layout from '@/components/layout';
 import PeopleGrid from '@/components/people-grid';
 import { responsiveImageFragment } from '@/lib/fragments';
 import Container from '@/components/container';
+import ContentGutter from '@/components/content-gutter';
+import globalSeoFragment from '@/lib/fragments/global-seo';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
@@ -16,6 +18,7 @@ export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query peoplePageContent {
+            ${globalSeoFragment}
             allPeople(first: 100) {
               email
               id
@@ -61,20 +64,30 @@ export async function getStaticProps({ preview = false }) {
 
 export default function People({ subscription }) {
   const {
-    data: { allPeople: people },
+    data: {
+      _site: { globalSeo },
+      allPeople: people,
+    },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
 
+  const seo = {
+    title: 'People',
+    description: 'We are a team of 20 passionate architects and designers.',
+  };
+
   return (
-    <Layout navigation={navigation} title="People">
+    <Layout
+      navigation={navigation}
+      seo={seo}
+      globalSeo={globalSeo}
+      hiddenPageHeading
+    >
       <main className="bg-white">
-        <h1 className="sr-only">People</h1>
         <Container>
-          <div className="flex">
-            <div className="pt-[200px] lg:pl-60">
-              <PeopleGrid people={people} />
-            </div>
-          </div>
+          <ContentGutter>
+            <PeopleGrid people={people} />
+          </ContentGutter>
         </Container>
       </main>
     </Layout>

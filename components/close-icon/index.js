@@ -18,7 +18,7 @@ const variants = {
   hidden: {
     y: -100,
     transition: {
-      duration: 1,
+      duration: 0.25,
       ease: easing,
     },
   },
@@ -74,7 +74,7 @@ export default function CloseIcon({ onClick, className }) {
       <button type="button" onClick={handleClick}>
         <XMarkIcon
           className={clsx(
-            'w-10 h-10',
+            'w-10 h-10 transition-colors duration-500',
             isOverlapping ? 'text-white' : 'text-black',
           )}
         />

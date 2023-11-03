@@ -14,7 +14,7 @@ const SubNavLink = ({ link, isActive, navTheme, isOverlapping }) => (
     {link.text}
     <span
       className={clsx(
-        'block max-w-0 group-hover/border:max-w-full transition-all duration-500 h-px',
+        'block max-w-0 group-hover/border:max-w-full transition-all h-px',
         isActive && 'max-w-full',
         navTheme === 'light' && 'bg-white',
         navTheme === 'dark' && !isOverlapping && 'bg-black',
@@ -74,7 +74,7 @@ export default function DesktopNavigation({
             <li
               key={link.id}
               className={clsx(
-                'px-3',
+                'px-3 transition',
                 navTheme === 'light' && 'text-white',
                 navTheme === 'dark' && !isOverlapping && 'text-black',
                 navTheme === 'dark' && isOverlapping && 'text-white',

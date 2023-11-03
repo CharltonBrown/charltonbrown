@@ -74,6 +74,7 @@ export default function ScrollPrompt({ className }) {
       <motion.div
         animate={visibility}
         variants={parentVariants}
+        initial="hidden"
         className="flex flex-col h-36 items-center text-white"
       >
         <motion.p variants={opacityVariants} className="text-lg mb-2">

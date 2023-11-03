@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import clsx from 'clsx';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
@@ -29,7 +29,11 @@ export default function PlaceholderImage({
   const isInView = useInView(ref);
   const [showPlaceholder, setShowPlaceholder] = useState(true);
   const [loadingComplete, setLoadingComplete] = useState(false);
-  const randomBg = brandColors[Math.floor(Math.random() * brandColors.length)];
+
+  const randomBg = useMemo(
+    () => brandColors[Math.floor(Math.random() * brandColors.length)],
+    [],
+  );
 
   useEffect(() => {
     if (isInView && loadingComplete) {
@@ -41,7 +45,7 @@ export default function PlaceholderImage({
     <div
       ref={ref}
       className={clsx(
-        'relative flex justify-center items-center overflow-hidden group overlappingTarget',
+        'relative w-full flex justify-center items-center overflow-hidden group overlappingTarget',
         className,
       )}
     >

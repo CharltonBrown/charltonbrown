@@ -41,7 +41,7 @@ const panelVariants = {
   },
 };
 
-export default function ProjectInfo({ title, description }) {
+export default function ProjectInfo({ title, description, hide }) {
   const ref = useRef();
   const { isOverlapping } = useIsOverlapping({
     rootRef: ref,
@@ -60,6 +60,7 @@ export default function ProjectInfo({ title, description }) {
   }, [setLoaded]);
 
   const animate = () => {
+    if (hide) return 'hidden';
     if (loaded) return 'visible';
     if (!loaded) return 'hidden';
     return 'hidden';
@@ -76,7 +77,7 @@ export default function ProjectInfo({ title, description }) {
           <div
             ref={ref}
             className={clsx(
-              'float-left p-5 md:p-8 lg:p-10',
+              'float-left p-5 md:p-8 lg:p-10 transition-colors duration-500',
               isOverlapping && 'text-white',
               open && '!text-black',
             )}

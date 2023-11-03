@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useQuerySubscription } from 'react-datocms';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
+import { useInView } from 'framer-motion';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
@@ -15,6 +16,7 @@ import CloseIcon from '@/components/close-icon';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
+import globalSeoFragment from '@/lib/fragments/global-seo';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allProjects { slug } }' });
@@ -29,7 +31,12 @@ export async function getStaticProps({ params, preview = false }) {
   const graphqlRequest = {
     query: `
           query ProjectBySlug($slug: String) {
+            ${globalSeoFragment}
             project(filter: {slug: {eq: $slug}}) {
+              seo {
+                description
+                title
+              }
               id
               description
               slug
@@ -83,10 +90,15 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Project({ subscription }) {
   const {
-    data: { project },
+    data: {
+      _site: { globalSeo },
+      project,
+    },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
   const router = useRouter();
+  const relatedRef = useRef();
+  const relatedIsVisible = useInView(relatedRef, { amount: 'all' });
 
   const imageOrientationClass = (aspectRatio) => {
     if (imageOrientation(aspectRatio) === 'portrait') {
@@ -99,9 +111,19 @@ export default function Project({ subscription }) {
   };
 
   return (
-    <Layout navigation={navigation} hideHeader hideFooter title={project.title}>
+    <Layout
+      navigation={navigation}
+      globalSeo={globalSeo}
+      seo={project.seo}
+      hideHeader
+      hideFooter
+    >
       <main className="relative">
-        <ProjectInfo title={project.title} description={project.description} />
+        <ProjectInfo
+          hide={relatedIsVisible}
+          title={project.title}
+          description={project.description}
+        />
         <CloseIcon
           onClick={() => router.push('/projects')}
           className="absolute right-4 top-4 z-40"
@@ -136,6 +158,7 @@ export default function Project({ subscription }) {
           ))}
           {project.relatedProject && (
             <ScrollSnap.Child className="w-full h-screen">
+              <div ref={relatedRef} />
               <RelatedBlock
                 title={project.relatedProject.title}
                 slug={project.relatedProject.slug}

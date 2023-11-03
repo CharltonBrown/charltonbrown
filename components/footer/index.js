@@ -68,13 +68,12 @@ const Footer = ({ footer, legalNavigation, hideFooter }) => {
           </motion.div>
           <LegalNavigation
             legalNavigation={legalNavigation}
-            className="absolute bottom-8"
+            className="md:absolute bottom-8"
           />
         </Container>
       </footer>
     </>
   );
 };
-Footer.displayName = Footer;
 
 export default Footer;
