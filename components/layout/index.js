@@ -24,10 +24,12 @@ export default function Layout({
     aboutUsNavigation,
     projectTypesNav,
   },
-  title,
+  hiddenPageHeading,
   hideFooter,
   hideHeader,
   hideNavOnLoad,
+  globalSeo,
+  seo,
 }) {
   const setNavColor = useContextSelector(navContext, (v) => v[1]);
   const scrollSnap = useContextSelector(scrollSnapContext, (v) => v[0].active);
@@ -40,12 +42,17 @@ export default function Layout({
     }));
   }, [setNavColor]);
 
+  const title = seo?.title || globalSeo.fallbackSeo.title;
+  const description = seo?.description || globalSeo.fallbackSeo.description;
+
   return (
     <>
       <Head>
-        <title>{title ? `${title} - Charlton Brown` : 'Charlton Brown'}</title>
+        <title>{title}</title>
+        <meta name="description" content={description} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      {hiddenPageHeading && <h1 className="sr-only">{title}</h1>}
       <div className={clsx(scrollSnap && 'overflow-hidden h-screen')}>
         <Navigation
           navigation={mainNavigation}

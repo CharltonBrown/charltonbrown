@@ -8,6 +8,7 @@ import useLayoutQuery from '@/hooks/useLayoutQuery';
 import RichText from '@/components/rich-text';
 import ContentGutter from '@/components/content-gutter';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
+import globalSeoFragment from '@/lib/fragments/global-seo';
 
 export async function getStaticPaths() {
   const data = await request({
@@ -35,6 +36,7 @@ export async function getStaticProps({ params, preview = false }) {
   const graphqlRequest = {
     query: `
           query PageBySlug($slug: String) {
+            ${globalSeoFragment}
             page(filter: {slug: {eq: $slug}}) {
               body {
                 value
@@ -42,6 +44,10 @@ export async function getStaticProps({ params, preview = false }) {
               slug
               title
               id
+              seo {
+                description
+                title
+              }
             }
             ${navigationFragment}
           }
@@ -70,17 +76,20 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Page({ subscription }) {
   const {
-    data: { page },
+    data: {
+      _site: { globalSeo },
+      page: { seo, title, body },
+    },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
 
   return (
-    <Layout navigation={navigation} title={page.title}>
+    <Layout navigation={navigation} globalSeo={globalSeo} seo={seo}>
       <main className="bg-white">
         <Container>
           <ContentGutter>
-            <h1 className="text-3xl mb-8">{page.title}</h1>
-            <RichText text={page.body} />
+            <h1 className="text-3xl mb-8">{title}</h1>
+            <RichText text={body} />
           </ContentGutter>
         </Container>
       </main>

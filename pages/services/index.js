@@ -8,12 +8,18 @@ import ServiceBlock from '@/components/service-block';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
+import globalSeoFragment from '@/lib/fragments/global-seo';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query ServicesQuery {
+            ${globalSeoFragment}
             servicesPage {
+              seo {
+                description
+                title
+              }
               serviceBlocks {
                 id
                 introHeading
@@ -57,15 +63,20 @@ export async function getStaticProps({ preview = false }) {
 export default function Services({ subscription }) {
   const {
     data: {
-      servicesPage: { serviceBlocks },
+      _site: { globalSeo },
+      servicesPage: { serviceBlocks, seo },
     },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
 
   return (
-    <Layout navigation={navigation} title="Services">
+    <Layout
+      navigation={navigation}
+      globalSeo={globalSeo}
+      seo={seo}
+      hiddenPageHeading
+    >
       <main className="bg-white">
-        <h1 className="sr-only">Services</h1>
         <div className="relative">
           {serviceBlocks.map((service) => (
             <ServiceBlock

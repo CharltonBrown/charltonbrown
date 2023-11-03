@@ -11,12 +11,18 @@ import PlaceholderImage from '@/components/placeholder-image';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
+import globalSeoFragment from '@/lib/fragments/global-seo';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query contactPageContent {
+            ${globalSeoFragment}
             contact {
+              seo {
+                description
+                title
+              }
               image {
                 responsiveImage(imgixParams: {fm: jpg, w: 2000 }) {
                   ...responsiveImageFragment
@@ -62,7 +68,10 @@ const variants = {
 
 export default function Contact({ subscription }) {
   const {
-    data: { contact },
+    data: {
+      _site: { globalSeo },
+      contact,
+    },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
   const ref = useRef(null);
@@ -71,9 +80,13 @@ export default function Contact({ subscription }) {
   });
 
   return (
-    <Layout navigation={navigation} hideFooter title="Contact">
+    <Layout
+      navigation={navigation}
+      globalSeo={globalSeo}
+      seo={contact.seo}
+      hideFooter
+    >
       <main className="bg-white">
-        <h1 className="sr-only">Contact us</h1>
         <div className="flex flex-col lg:flex-row">
           <div className="relative h-[70vw] md:h-screen md:grow">
             <PlaceholderImage

@@ -10,6 +10,7 @@ import Container from '@/components/container';
 import RelatedBlock from '@/components/related-block';
 import ContentGutter from '@/components/content-gutter';
 import relatedFragment from '@/components/related-block/fragment';
+import globalSeoFragment from '@/lib/fragments/global-seo';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
@@ -18,9 +19,14 @@ export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query careersPageContent {
+            ${globalSeoFragment}
             careersPage {
               ${textImageBlockFragment}
               ${relatedFragment}
+              seo {
+                description
+                title
+              }
             }
             ${navigationFragment}
           }
@@ -47,15 +53,22 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Careers({ subscription }) {
   const {
-    data: { careersPage },
+    data: {
+      _site: { globalSeo },
+      careersPage,
+    },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
   const related = careersPage.related[0];
 
   return (
-    <Layout navigation={navigation} title="Careers">
+    <Layout
+      navigation={navigation}
+      seo={careersPage.seo}
+      globalSeo={globalSeo}
+      hiddenPageHeading
+    >
       <main className="bg-white">
-        <h1 className="sr-only">Careers</h1>
         <Container>
           <ContentGutter>
             {careersPage?.textImageBlock.map((block) => (

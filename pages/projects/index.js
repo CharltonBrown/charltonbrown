@@ -10,11 +10,13 @@ import ContentGutter from '@/components/content-gutter';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
+import globalSeoFragment from '@/lib/fragments/global-seo';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query ProjectsQuery {
+            ${globalSeoFragment}
             allProjects {
               id
               slug
@@ -60,14 +62,26 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Projects({ subscription }) {
   const {
-    data: { allProjects: projects },
+    data: {
+      _site: { globalSeo },
+      allProjects: projects,
+    },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
 
+  const seo = {
+    title: 'Projects',
+    description: 'A selection of projects by Charlton Brown.',
+  };
+
   return (
-    <Layout navigation={navigation} title="Projects">
+    <Layout
+      navigation={navigation}
+      globalSeo={globalSeo}
+      seo={seo}
+      hiddenPageHeading
+    >
       <main className="bg-white">
-        <h1 className="sr-only">Projects</h1>
         <Container>
           <ContentGutter>
             <OddEvenGrid

@@ -15,12 +15,18 @@ import ScrollPrompt from '@/components/scroll-prompt';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
+import globalSeoFragment from '@/lib/fragments/global-seo';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query HomePageContent {
+            ${globalSeoFragment}
             homepage {
+              seo {
+                description
+                title
+              }
               sliderImages {
                 id
                 responsiveImage(imgixParams: {fm: jpg, w: 4000 }) {
@@ -62,7 +68,9 @@ export async function getStaticProps({ preview = false }) {
 export default function Home({ subscription }) {
   const {
     data: {
+      _site: { globalSeo },
       homepage: {
+        seo,
         blockOneLabel,
         blockOneBody,
         blockTwoLabel,
@@ -82,9 +90,13 @@ export default function Home({ subscription }) {
   });
 
   return (
-    <Layout navigation={navigation}>
+    <Layout
+      navigation={navigation}
+      globalSeo={globalSeo}
+      seo={seo}
+      hiddenPageHeading
+    >
       <main>
-        <h1 className="sr-only">Charlton Brown - Architecture & Interiors</h1>
         <HeroSlider images={sliderImages} hideHero={!heroIsInView} />
         <div className="relative z-30">
           {/* div for fixed hero */}
