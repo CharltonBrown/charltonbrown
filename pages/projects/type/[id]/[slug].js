@@ -41,7 +41,9 @@ export async function getStaticProps({ params, preview = false }) {
                 id
                 typeTitle
               }
-              intro(markdown: true)
+              intro {
+                value
+              }
               motif {
                 svg {
                   url

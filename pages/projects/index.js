@@ -26,11 +26,13 @@ export async function getStaticProps({ preview = false }) {
                   ...responsiveImageFragment
                 }
               }
+              intro {
+                value
+              }
               projectType {
                 id
                 typeTitle
               }
-              intro(markdown: true)
               motif {
                 svg {
                   url
