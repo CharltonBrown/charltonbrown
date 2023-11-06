@@ -3,6 +3,7 @@ import { motion, useCycle, AnimatePresence, cubicBezier } from 'framer-motion';
 import clsx from 'clsx';
 
 import useIsOverlapping from '@/hooks/useIsOverlapping';
+import RichText from '@/components/rich-text';
 
 const easing = cubicBezier(0.65, 0.06, 0.19, 0.96);
 
@@ -41,7 +42,7 @@ const panelVariants = {
   },
 };
 
-export default function ProjectInfo({ title, description, hide }) {
+export default function ProjectInfo({ title, intro, body, hide }) {
   const ref = useRef();
   const { isOverlapping } = useIsOverlapping({
     rootRef: ref,
@@ -59,10 +60,19 @@ export default function ProjectInfo({ title, description, hide }) {
     };
   }, [setLoaded]);
 
-  const animate = () => {
+  const animateHeading = () => {
     if (hide) return 'hidden';
     if (loaded) return 'visible';
     if (!loaded) return 'hidden';
+    return 'hidden';
+  };
+
+  const animateBody = () => {
+    if (hide) {
+      cycleOpen(false);
+      return 'hidden';
+    }
+    if (open) return 'visible';
     return 'hidden';
   };
 
@@ -70,7 +80,7 @@ export default function ProjectInfo({ title, description, hide }) {
     <>
       <div className="fixed z-30 top-0 left-0 w-full">
         <motion.div
-          animate={animate()}
+          animate={animateHeading()}
           initial="hidden"
           variants={titleVariants}
         >
@@ -93,16 +103,18 @@ export default function ProjectInfo({ title, description, hide }) {
         {open && (
           <motion.div
             initial="hidden"
-            animate={open && 'visible'}
+            animate={animateBody()}
             variants={panelVariants}
             exit="hidden"
-            className="absolute z-20 top-0 bottom-0 left-0 w-full h-screen p-8 pt-32 bg-white/95 md:w-1/2 lg:w-1/3 text-2xl overflow-y-scroll no-scrollbar"
+            className="absolute z-20 top-0 bottom-0 left-0 w-full h-screen bg-white/95 md:w-1/2 lg:w-1/3"
           >
-            {/* <div className="absolute z-30 w-full h-56 top-0 left-0 w-full bg-gradient-to-b from-white via-white via-85% to-transparent" /> */}
-            <div
-              dangerouslySetInnerHTML={{ __html: description }}
-              className="z-10"
-            />
+            <div className="absolute z-30 w-full h-44 -top-10 left-0 w-full bg-gradient-to-b from-white via-white via-85% to-transparent" />
+            <div className="relative h-screen overflow-y-scroll no-scrollbar">
+              <div className="p-5 md:p-8 lg:p-10 !pt-32">
+                <RichText text={intro} className="z-10 text-lg" />
+                <RichText text={body} className="z-10" />
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

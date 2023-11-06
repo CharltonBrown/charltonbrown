@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import PlaceholderImage from '@/components/placeholder-image';
 import FadeInBlock from '@/components/fade-in-block';
 import FootnoteTwo from '@/components/icons/footnotes/footnote-2';
+import RichText from '@/components/rich-text';
 
 export default function OddEvenGrid({ items, parentSlug, type }) {
   const chunkSize = 2;
@@ -75,12 +76,7 @@ export default function OddEvenGrid({ items, parentSlug, type }) {
                         {item.intro && (
                           <div className="flex items-start pl-1 lg:pl-8">
                             <FootnoteTwo className="block w-4 h-4 shrink-0 mt-1 mr-4" />
-                            <div
-                              className="font-sans text-sm"
-                              dangerouslySetInnerHTML={{
-                                __html: item.intro,
-                              }}
-                            />
+                            <RichText className="text-sm" text={item.intro} />
                           </div>
                         )}
                       </div>

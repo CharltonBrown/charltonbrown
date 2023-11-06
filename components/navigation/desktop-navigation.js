@@ -33,7 +33,7 @@ const NavLink = ({ link, navTheme, isOverlapping, isActive }) => {
       {link.text}
       <span
         className={clsx(
-          'block max-w-0 group-hover/border:max-w-full transition-all duration-500 h-0.5',
+          'block max-w-0 group-hover/border:max-w-full transition-all h-0.5',
           isActive && 'max-w-full',
           navTheme === 'light' && 'bg-white',
           navTheme === 'dark' && !isOverlapping && 'bg-black',

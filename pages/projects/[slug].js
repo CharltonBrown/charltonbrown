@@ -38,7 +38,12 @@ export async function getStaticProps({ params, preview = false }) {
                 title
               }
               id
-              description
+              intro {
+                value
+              }
+              body {
+                value
+              }
               slug
               title
               mainImage {
@@ -122,7 +127,8 @@ export default function Project({ subscription }) {
         <ProjectInfo
           hide={relatedIsVisible}
           title={project.title}
-          description={project.description}
+          intro={project.intro}
+          body={project.body}
         />
         <CloseIcon
           onClick={() => router.push('/projects')}
