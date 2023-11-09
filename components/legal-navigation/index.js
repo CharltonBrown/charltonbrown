@@ -5,7 +5,7 @@ import clsx from 'clsx';
 export default function LegalNavigation({ legalNavigation, className }) {
   return (
     <nav className={clsx('w-full', className)}>
-      <ul className="flex flex-col sm:flex-row sm:justify-center sm:items-center sm:gap-8 md:gap-12">
+      <ul className="flex flex-col sm:flex-row sm:justify-center sm:items-center sm:gap-8 md:gap-12 text-sm md:text-md">
         <li className="text-silver">
           Copyright © {new Date().getFullYear()} Charlton Brown
         </li>

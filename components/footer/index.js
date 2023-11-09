@@ -50,16 +50,17 @@ const Footer = ({ footer, legalNavigation, hideFooter }) => {
           'fixed bottom-0 w-full h-screen bg-alabaster',
         )}
       >
-        <Container className="relative flex flex-col h-full justify-center">
+        <Container className="relative flex flex-col h-full justify-between md:justify-center">
           <motion.div
             animate={footerIsInView && 'visible'}
             initial="hidden"
             variants={variants}
             className="md:grid md:grid-cols-2 gap-12 lg:grid-cols-4 lg:gap-16 items-start"
           >
-            {footer.blocks.map((block) => (
+            {footer.blocks.map((block, index) => (
               <FooterBlock
                 key={block.id}
+                index={index}
                 heading={block.heading}
                 body={block.body}
                 className="mb-8 md:mb-0"
