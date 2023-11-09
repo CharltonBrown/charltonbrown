@@ -9,6 +9,7 @@ import Container from '@/components/container';
 import navContext from '@/lib/context/navContext';
 import MobileNavigation from '@/components/navigation/mobile-navigation';
 import DesktopNavigation from '@/components/navigation/desktop-navigation';
+import { useBreakpoint } from '@/hooks/tailiwind';
 
 const easing = cubicBezier(0.65, 0.06, 0.19, 0.96);
 
@@ -42,6 +43,7 @@ export default function Navigation({
     navContext,
     (v) => v[0],
   );
+  const isDesktop = useBreakpoint('md');
 
   useEffect(() => {
     setLoaded(true);
@@ -59,12 +61,12 @@ export default function Navigation({
 
   return (
     <motion.header
-      animate={animate}
+      animate={isDesktop && animate}
       initial={hideNavOnLoad ? 'hidden' : 'visible'}
       variants={variants}
       className={clsx(
         logoTheme === 'light' ? 'text-white' : 'text-black',
-        'absolute md:fixed top-0 w-full z-20 transition',
+        'md:fixed top-0 w-full z-20 transition',
       )}
     >
       <Container>

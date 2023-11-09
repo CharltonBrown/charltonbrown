@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import CloseIcon from '@/components/close-icon';
 import { ABOUT_US_KEY, PROJECTS_KEY } from '@/lib/constants';
@@ -31,8 +32,10 @@ const NavList = ({
   navigation,
   aboutUsNavigation,
   projectTypesNav,
+  onClose,
 }) => {
   const pathname = usePathname();
+  const router = useRouter();
   const subNavLookup = {
     [ABOUT_US_KEY]: aboutUsNavigation,
     [PROJECTS_KEY]: projectTypesNav,
@@ -56,13 +59,18 @@ const NavList = ({
     }
   };
 
+  const handleClick = (href) => {
+    onClose();
+    router.push(href);
+  };
+
   const animate = (id) => {
     if (activeSubNav === id) return 'visible';
     return 'hidden';
   };
 
   return (
-    <nav className={className}>
+    <nav className={className} role="navigation">
       <ul className="flex flex-col h-full justify-center text-2xl">
         {navigation.map((link) => {
           const showAboutUsNav = link.href === ABOUT_US_KEY;
@@ -115,16 +123,17 @@ const NavList = ({
                     variants={subNavVariants}
                     className="overflow-hidden"
                   >
-                    <ul className="pb-4">
+                    <ul className="pb-4 text-center">
                       {subNavLookup[link.href].map((subNavLink) => {
                         return (
                           <li key={subNavLink.id}>
-                            <Link
-                              href={`/${subNavLink.href}`}
-                              className="block text-[18px] py-1 whitespace-nowrap"
+                            <button
+                              type="button"
+                              onClick={() => handleClick(`/${subNavLink.href}`)}
+                              className="text-[18px] py-1 whitespace-nowrap"
                             >
                               {subNavLink.text}
-                            </Link>
+                            </button>
                           </li>
                         );
                       })}
@@ -197,6 +206,7 @@ export default function MobileNavigation({
               aboutUsNavigation={aboutUsNavigation}
               projectTypesNav={projectTypesNav}
               className="text-center relative"
+              onClose={onClick}
             />
           </Dialog.Panel>
         </Dialog>

@@ -25,13 +25,21 @@ function ExternalLink({ url, text }) {
   );
 }
 
-export default function FooterBlock({ heading, body, className }) {
+export default function FooterBlock({ heading, body, className, index }) {
   return (
     <motion.div
       variants={fadeVariants}
-      className={clsx('flex flex-col justify-center text-xl pr-8', className)}
+      className={clsx(
+        'flex flex-col justify-center text-sm md:text-xl pr-8',
+        className,
+      )}
     >
-      <h2 className="border-t border-gallery text-gray text-lg pt-4 mb-8">
+      <h2
+        className={clsx(
+          'border-t border-gallery text-gray text-lg pt-4 mb-4 md:mb-8',
+          index === 0 && 'border-t-0 md:border-t',
+        )}
+      >
         {heading}
       </h2>
       {body.map((item) => {

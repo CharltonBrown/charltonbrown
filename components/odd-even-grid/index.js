@@ -56,30 +56,29 @@ export default function OddEvenGrid({ items, parentSlug, type }) {
                       alt={item.mainImage.responsiveImage.alt}
                       hoverEffect
                     />
-                    <div className="flex items-start mt-4">
+                    <div className="mt-4">
                       {item.motif && (
                         <Image
                           src={item.motif.svg.url}
                           width={60}
                           height={60}
+                          role="img"
                           alt=""
-                          className="border border-black mr-4 mb-4 shrink-0"
+                          className="float-left w-8 h-8 md:w-16 md:h-16 border border-black mr-4 shrink-0"
                         />
                       )}
-                      <div className="flex flex-col">
-                        {type === 'journal' && (
-                          <h3 className="mb-1 text-gray">
-                            Journal -- {new Date(item._createdAt).getFullYear()}
-                          </h3>
-                        )}
-                        <h2 className="text-2xl">{item.title}</h2>
-                        {item.intro && (
-                          <div className="flex items-start pl-1 lg:pl-8">
-                            <FootnoteTwo className="block w-4 h-4 shrink-0 mt-1 mr-4" />
-                            <RichText className="text-sm" text={item.intro} />
-                          </div>
-                        )}
-                      </div>
+                      {type === 'journal' && (
+                        <h3 className="mb-1 text-gray">
+                          Journal -- {new Date(item._createdAt).getFullYear()}
+                        </h3>
+                      )}
+                      <h2 className="text-2xl mb-4 lg:mb-2">{item.title}</h2>
+                      {item.intro && (
+                        <div className="flex items-start pl-1 lg:pl-2">
+                          <FootnoteTwo className="block w-4 h-4 shrink-0 mt-1 mr-4" />
+                          <RichText className="text-sm" text={item.intro} />
+                        </div>
+                      )}
                     </div>
                   </Link>
                 </article>

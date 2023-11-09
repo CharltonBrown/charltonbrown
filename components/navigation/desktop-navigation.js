@@ -63,7 +63,11 @@ export default function DesktopNavigation({
   });
 
   return (
-    <nav className="hidden md:flex items-center place-self-center" ref={ref}>
+    <nav
+      className="hidden md:flex items-center place-self-center"
+      ref={ref}
+      role="navigation"
+    >
       <ul className="flex flex-row text-lg justify-between h-auto relative">
         {navigation.map((link) => {
           const isActive = pathname.startsWith(`/${link.href}`);
