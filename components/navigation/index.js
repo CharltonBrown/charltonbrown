@@ -66,7 +66,7 @@ export default function Navigation({
       variants={variants}
       className={clsx(
         logoTheme === 'light' ? 'text-white' : 'text-black',
-        'md:fixed top-0 w-full z-20 transition',
+        'absolute md:fixed top-0 w-full z-20 transition',
       )}
     >
       <Container>
