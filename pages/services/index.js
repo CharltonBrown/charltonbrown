@@ -3,9 +3,10 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
+import ContentGutter from '@/components/content-gutter';
+import Container from '@/components/container';
+import Services from '@/components/services';
 import { responsiveImageFragment } from '@/lib/fragments';
-import ServiceBlock from '@/components/service-block';
-
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
 import globalSeoFragment from '@/lib/fragments/global-seo';
@@ -20,20 +21,32 @@ export async function getStaticProps({ preview = false }) {
                 description
                 title
               }
-              serviceBlocks {
+              image {
+                responsiveImage(imgixParams: {fm: jpg, w: 900 }) {
+                  ...responsiveImageFragment
+                }
+              }
+              services {
                 id
-                introHeading
-                intro(markdown: true)
+                title
+                headline
+                intro
                 image {
-                  responsiveImage(imgixParams: {fm: jpg, w: 2000 }) {
+                  responsiveImage(imgixParams: {fm: jpg, w: 900 }) {
                     ...responsiveImageFragment
                   }
                 }
-                title
-                steps {
-                  title
+                accordion {
                   id
-                  body(markdown: true)
+                  heading
+                  body {
+                    value
+                  }
+                  image {
+                    responsiveImage(imgixParams: {fm: jpg, w: 900 }) {
+                      ...responsiveImageFragment
+                    }
+                  }
                 }
               }
             }
@@ -60,11 +73,11 @@ export async function getStaticProps({ preview = false }) {
   };
 }
 
-export default function Services({ subscription }) {
+export default function ServicesPage({ subscription }) {
   const {
     data: {
       _site: { globalSeo },
-      servicesPage: { serviceBlocks, seo },
+      servicesPage: { seo, image, services },
     },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
@@ -77,19 +90,11 @@ export default function Services({ subscription }) {
       hiddenPageHeading
     >
       <main className="bg-white">
-        <div className="relative">
-          {serviceBlocks.map((service) => (
-            <ServiceBlock
-              key={service.id}
-              title={service.title}
-              intro={service.intro}
-              introHeading={service.introHeading}
-              body={service.body}
-              steps={service.steps}
-              image={service.image}
-            />
-          ))}
-        </div>
+        <Container>
+          <ContentGutter>
+            <Services image={image} services={services} />
+          </ContentGutter>
+        </Container>
       </main>
     </Layout>
   );
