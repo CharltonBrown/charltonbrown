@@ -9,6 +9,7 @@ import Container from '@/components/container';
 import navContext from '@/lib/context/navContext';
 import MobileNavigation from '@/components/navigation/mobile-navigation';
 import DesktopNavigation from '@/components/navigation/desktop-navigation';
+import { useBreakpoint } from '@/hooks/tailwind';
 
 const easing = cubicBezier(0.65, 0.06, 0.19, 0.96);
 
@@ -36,6 +37,7 @@ export default function Navigation({
   aboutUsNavigation,
   projectTypesNav,
 }) {
+  const isMdScreen = useBreakpoint('md');
   const [activeMobileNav, setActiveMobileNav] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const { navVisibility, logoTheme, linksTheme } = useContextSelector(
@@ -52,10 +54,11 @@ export default function Navigation({
   };
 
   const animate = useMemo(() => {
+    if (!isMdScreen) return 'visible';
     if (loaded && (navVisibility === 'hidden' || hideHeader)) return 'hidden';
     if (loaded && navVisibility === 'visible') return 'visible';
     return 'visible';
-  }, [navVisibility, hideHeader, loaded]);
+  }, [navVisibility, hideHeader, loaded, isMdScreen]);
 
   return (
     <motion.header
