@@ -65,7 +65,10 @@ function AccordionItem({ item, index, open, onClick }) {
       </h3>
       <div className="h-0 opacity-0 overflow-hidden" ref={bodyScope}>
         <div className="mb-8 lg:hidden">
-          <PlaceholderImage image={item.image.responsiveImage} />
+          <PlaceholderImage
+            image={item.image.responsiveImage}
+            overlappingTarget
+          />
         </div>
         <RichText text={item.body} />
       </div>
@@ -148,14 +151,23 @@ export default function Accordion({
       <div className="hidden lg:flex flex-col justify-end lg:w-1/2">
         <div className="lg:sticky bottom-0 pr-24" ref={imageScope}>
           {activeItem ? (
-            <PlaceholderImage image={activeItem.image.responsiveImage} />
+            <PlaceholderImage
+              image={activeItem.image.responsiveImage}
+              overlappingTarget
+            />
           ) : (
-            <PlaceholderImage image={serviceImage.responsiveImage} />
+            <PlaceholderImage
+              image={serviceImage.responsiveImage}
+              overlappingTarget
+            />
           )}
         </div>
       </div>
       <div className="mb-12 lg:hidden">
-        <PlaceholderImage image={serviceImage.responsiveImage} />
+        <PlaceholderImage
+          image={serviceImage.responsiveImage}
+          overlappingTarget
+        />
       </div>
       <div className="lg:w-1/2">
         {items.map((item, index) => (

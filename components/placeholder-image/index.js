@@ -20,6 +20,7 @@ export default function PlaceholderImage({
   className,
   fill,
   hoverEffect,
+  overlappingTarget,
 }) {
   const ref = useRef();
   const isInView = useInView(ref);
@@ -41,7 +42,8 @@ export default function PlaceholderImage({
     <div
       ref={ref}
       className={clsx(
-        'relative w-full flex justify-center items-center overflow-hidden group overlappingTarget',
+        'relative w-full flex justify-center items-center overflow-hidden group',
+        overlappingTarget && 'overlappingTarget',
         className,
       )}
     >

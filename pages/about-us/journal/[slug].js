@@ -115,6 +115,7 @@ export default function Posts({ subscription }) {
                   <PlaceholderImage
                     className="object-contain mb-8 lg:mb-0"
                     image={mainImage.responsiveImage}
+                    overlappingTarget
                   />
                 </div>
                 <div className="lg:w-2/5">

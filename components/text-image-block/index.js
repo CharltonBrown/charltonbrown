@@ -22,6 +22,7 @@ export default function TextImageBlock({
           <PlaceholderImage
             className="object-cover"
             image={image.responsiveImage}
+            overlappingTarget
           />
         </div>
         <div className="lg:w-2/5">

@@ -47,6 +47,7 @@ export default function RelatedBlock({
           image={image.responsiveImage}
           className="object-cover h-full"
           fill
+          overlappingTarget
         />
       </div>
     </Link>

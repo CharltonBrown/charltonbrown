@@ -93,6 +93,7 @@ export default function Contact({ subscription }) {
               image={contact.image.responsiveImage}
               className="object-cover h-full"
               fill
+              overlappingTarget
             />
             <div className="absolute w-full h-[400px] top-0 bg-gradient-to-b from-black/90 z-10" />
           </div>

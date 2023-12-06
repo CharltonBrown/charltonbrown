@@ -32,6 +32,7 @@ export default function PeopleGrid({ people }) {
                 image={person.image.responsiveImage}
                 className="w-full h-auto"
                 hoverEffect
+                overlappingTarget
               />
             </div>
             <div className="flex items-start">

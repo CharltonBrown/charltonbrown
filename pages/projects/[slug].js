@@ -144,6 +144,7 @@ export default function Project({ subscription }) {
               )}
               image={project.mainImage.responsiveImage}
               fill
+              overlappingTarget
             />
           </ScrollSnap.Child>
           {project.images.map((image) => (
@@ -157,6 +158,7 @@ export default function Project({ subscription }) {
                 )}
                 image={image.responsiveImage}
                 fill
+                overlappingTarget
               />
             </ScrollSnap.Child>
           ))}

@@ -61,7 +61,7 @@ export default function Services({ image, services }) {
         className="hidden lg:block absolute top-0 left-0 w-1/2 pr-24 mb-16"
         ref={imageScope}
       >
-        <PlaceholderImage image={image.responsiveImage} />
+        <PlaceholderImage image={image.responsiveImage} overlappingTarget />
       </div>
       {services.map((service) => (
         <ServiceItem
