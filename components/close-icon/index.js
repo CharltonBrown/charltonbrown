@@ -28,7 +28,7 @@ const variants = {
   },
 };
 
-export default function CloseIcon({ onClick, className }) {
+export default function CloseIcon({ onClick, className, disableOverlapping }) {
   const [loaded, setLoaded] = useState(false);
   const ref = useRef();
 
@@ -75,7 +75,7 @@ export default function CloseIcon({ onClick, className }) {
         <XMarkIcon
           className={clsx(
             'w-10 h-10 transition-colors duration-500',
-            isOverlapping ? 'text-white' : 'text-black',
+            !disableOverlapping && isOverlapping ? 'text-white' : 'text-black',
           )}
         />
       </button>
