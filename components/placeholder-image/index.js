@@ -50,7 +50,7 @@ export default function PlaceholderImage({
       )}
     >
       <Image
-        className={className}
+        className={clsx('w-full', className)}
         alt={alt}
         width={width}
         height={height}

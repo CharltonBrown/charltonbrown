@@ -89,7 +89,7 @@ export default function ServicesPage({ subscription }) {
       seo={seo}
       hiddenPageHeading
     >
-      <main className="bg-white">
+      <main className="bg-white relative min-h-screen pb-24">
         <Container>
           <ContentGutter>
             <Services image={image} services={services} />
