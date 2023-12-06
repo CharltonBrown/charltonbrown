@@ -10,10 +10,14 @@ export default function Services({ image, services }) {
   const isLgScreen = useBreakpoint('lg');
   const [openService, setOpenService] = useState('');
   const [imageScope, animateImage] = useAnimate();
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const handleClick = async (id) => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+
     if (isLgScreen && openService === id) {
-      await setOpenService('');
+      setOpenService('');
       await timeout(1000);
       await animateImage(imageScope.current, {
         display: 'block',
@@ -23,6 +27,7 @@ export default function Services({ image, services }) {
         { y: '0', opacity: 1 },
         { duration: 0.25 },
       );
+      setIsAnimating(false);
       return;
     }
 
@@ -35,19 +40,23 @@ export default function Services({ image, services }) {
       await animateImage(imageScope.current, {
         display: 'none',
       });
-      await setOpenService(id);
-    }
-
-    if (openService === id) {
-      await setOpenService('');
+      setOpenService(id);
+      setIsAnimating(false);
       return;
     }
 
-    await setOpenService(id);
+    if (openService === id) {
+      setOpenService('');
+      setIsAnimating(false);
+      return;
+    }
+
+    setIsAnimating(false);
+    setOpenService(id);
   };
 
   return (
-    <div className="relative mb-24 flex flex-col scroll-mt-28 md:scroll-mt-60 lg:scroll-mt-24">
+    <div className="relative flex flex-col scroll-mt-28 md:scroll-mt-60 lg:scroll-mt-24">
       <div
         className="hidden lg:block absolute top-0 left-0 w-1/2 pr-24 mb-16"
         ref={imageScope}

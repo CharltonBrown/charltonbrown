@@ -112,7 +112,7 @@ export default function Accordion({
   const handleClose = useCallback(async () => {
     if (isLgScreen && !openService) {
       await hideImage();
-      await setActiveItem(null);
+      setActiveItem(null);
       return;
     }
     if (!openService) {
@@ -133,19 +133,19 @@ export default function Accordion({
   const handleClick = async (id) => {
     if (activeItem?.id === id) {
       await hideImage();
-      await setActiveItem(null);
+      setActiveItem(null);
       await showImage();
       return;
     }
 
     await hideImage();
-    await setActiveItem(items.find((item) => item.id === id));
+    setActiveItem(items.find((item) => item.id === id));
     await showImage();
   };
 
   return (
     <div className="my-8 lg:flex lg:my-6 lg:py-12">
-      <div className="hidden lg:flex flex-col justify-end lg:w-1/2 lg:mt-10">
+      <div className="hidden lg:flex flex-col justify-end lg:w-1/2">
         <div className="lg:sticky bottom-0 pr-24" ref={imageScope}>
           {activeItem ? (
             <PlaceholderImage
