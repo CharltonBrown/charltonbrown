@@ -28,7 +28,7 @@ export async function getStaticProps({ params, preview = false }) {
     query: `
           query ProjectsQuery($id: ItemId, $slug: String) {
             ${globalSeoFragment}
-            allProjects(filter: {projectType: {eq: $id}}) {
+            allProjects(filter: {projectType: {eq: $id}}, first: 100) {
               id
               slug
               title

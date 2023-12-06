@@ -90,10 +90,10 @@ export default function Contact({ subscription }) {
         <div className="flex flex-col lg:flex-row">
           <div className="relative h-[70vw] md:h-screen md:grow">
             <PlaceholderImage
-              src={contact.image.responsiveImage.src}
-              alt={contact.image.responsiveImage.alt}
-              fill
+              image={contact.image.responsiveImage}
               className="object-cover h-full"
+              fill
+              overlappingTarget
             />
             <div className="absolute w-full h-[400px] top-0 bg-gradient-to-b from-black/90 z-10" />
           </div>

@@ -17,7 +17,7 @@ export async function getStaticProps({ preview = false }) {
     query: `
           query ProjectsQuery {
             ${globalSeoFragment}
-            allProjects {
+            allProjects(first: 100) {
               id
               slug
               title

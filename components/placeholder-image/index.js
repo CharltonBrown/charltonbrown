@@ -16,14 +16,11 @@ const brandColors = [
 ];
 
 export default function PlaceholderImage({
+  image,
   className,
-  alt,
-  width,
-  height,
-  src,
   fill,
-  sizes,
   hoverEffect,
+  overlappingTarget,
 }) {
   const ref = useRef();
   const isInView = useInView(ref);
@@ -45,19 +42,21 @@ export default function PlaceholderImage({
     <div
       ref={ref}
       className={clsx(
-        'relative w-full flex justify-center items-center overflow-hidden group overlappingTarget',
+        'relative w-full flex justify-center items-center overflow-hidden group',
+        overlappingTarget && 'overlappingTarget',
         className,
       )}
     >
       <Image
         className={clsx('w-full', className)}
-        alt={alt}
-        width={width}
-        height={height}
-        src={src}
+        alt={image.alt || ''}
+        width={fill ? 0 : image.width}
+        height={fill ? 0 : image.height}
+        src={image.src}
+        sizes={image.sizes}
         fill={fill}
-        sizes={sizes}
         onLoadingComplete={() => setLoadingComplete(true)}
+        priority
       />
       <div
         className={clsx(

@@ -44,10 +44,10 @@ export default function RelatedBlock({
       </div>
       <div className="relative h-[50vh] md:h-screen md:grow">
         <PlaceholderImage
-          src={image.responsiveImage.src}
-          alt={image.responsiveImage.alt}
-          fill
+          image={image.responsiveImage}
           className="object-cover h-full"
+          fill
+          overlappingTarget
         />
       </div>
     </Link>

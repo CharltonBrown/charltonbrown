@@ -200,7 +200,11 @@ export default function MobileNavigation({
             />
           </div>
           <Dialog.Panel className="min-h-[300px] overflow-hidden">
-            <CloseIcon onClick={onClick} className="absolute right-5 top-5" />
+            <CloseIcon
+              onClick={onClick}
+              className="absolute right-5 top-5"
+              disableOverlapping
+            />
             <NavList
               navigation={navigation}
               aboutUsNavigation={aboutUsNavigation}

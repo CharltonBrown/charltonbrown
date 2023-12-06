@@ -50,11 +50,9 @@ export default function OddEvenGrid({ items, parentSlug, type }) {
                   >
                     <PlaceholderImage
                       className="object-cover"
-                      width={item.mainImage.responsiveImage.width}
-                      height={item.mainImage.responsiveImage.height}
-                      src={item.mainImage.responsiveImage.src}
-                      alt={item.mainImage.responsiveImage.alt}
+                      image={item.mainImage.responsiveImage}
                       hoverEffect
+                      overlappingTarget
                     />
                     <div className="mt-4">
                       {item.motif && (

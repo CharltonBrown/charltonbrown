@@ -20,11 +20,9 @@ export default function TextImageBlock({
       >
         <div className="relative lg:w-3/5">
           <PlaceholderImage
-            className="object-cover mb-4"
-            width={image.responsiveImage.width}
-            height={image.responsiveImage.height}
-            src={image.responsiveImage.src}
-            alt={image.responsiveImage.alt}
+            className="object-cover"
+            image={image.responsiveImage}
+            overlappingTarget
           />
         </div>
         <div className="lg:w-2/5">

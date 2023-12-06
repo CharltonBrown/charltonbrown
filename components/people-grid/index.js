@@ -29,13 +29,10 @@ export default function PeopleGrid({ people }) {
           >
             <div className="relative w-full mb-4">
               <PlaceholderImage
-                src={person.image.responsiveImage.src}
-                alt={person.image.responsiveImage.alt || person.name}
-                width={0}
-                height={0}
-                sizes="100vw"
+                image={person.image.responsiveImage}
                 className="w-full h-auto"
                 hoverEffect
+                overlappingTarget
               />
             </div>
             <div className="flex items-start">

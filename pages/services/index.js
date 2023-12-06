@@ -22,7 +22,7 @@ export async function getStaticProps({ preview = false }) {
                 title
               }
               image {
-                responsiveImage(imgixParams: {fm: jpg, w: 900 }) {
+                responsiveImage(imgixParams: {fm: jpg, w: 1200 }) {
                   ...responsiveImageFragment
                 }
               }
@@ -32,7 +32,7 @@ export async function getStaticProps({ preview = false }) {
                 headline
                 intro
                 image {
-                  responsiveImage(imgixParams: {fm: jpg, w: 900 }) {
+                  responsiveImage(imgixParams: {fm: jpg, w: 1200 }) {
                     ...responsiveImageFragment
                   }
                 }
@@ -43,7 +43,7 @@ export async function getStaticProps({ preview = false }) {
                     value
                   }
                   image {
-                    responsiveImage(imgixParams: {fm: jpg, w: 900 }) {
+                    responsiveImage(imgixParams: {fm: jpg, w: 1200 }) {
                       ...responsiveImageFragment
                     }
                   }
