@@ -42,7 +42,9 @@ export default function Layout({
     }));
   }, [setNavColor]);
 
-  const title = `${seo?.title} | Charlton Brown` || globalSeo.fallbackSeo.title;
+  const title = seo?.title
+    ? `${seo.title} | Charlton Brown`
+    : globalSeo.fallbackSeo.title;
   const description = seo?.description || globalSeo.fallbackSeo.description;
 
   return (
