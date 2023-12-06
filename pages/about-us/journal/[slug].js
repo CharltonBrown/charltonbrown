@@ -114,10 +114,7 @@ export default function Posts({ subscription }) {
                 <div className="lg:sticky bottom-0 lg:w-3/5 lg:px-24">
                   <PlaceholderImage
                     className="object-contain mb-8 lg:mb-0"
-                    width={mainImage.responsiveImage.width}
-                    height={mainImage.responsiveImage.height}
-                    src={mainImage.responsiveImage.src}
-                    alt={mainImage.responsiveImage.alt}
+                    image={mainImage.responsiveImage}
                   />
                 </div>
                 <div className="lg:w-2/5">

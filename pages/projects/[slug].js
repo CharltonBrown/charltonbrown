@@ -47,13 +47,13 @@ export async function getStaticProps({ params, preview = false }) {
               slug
               title
               mainImage {
-                responsiveImage(imgixParams: {fm: jpg, w: 2000 }) {
+                responsiveImage(imgixParams: {fm: jpg, w: 3000 }) {
                   ...responsiveImageFragment
                 }
               }
               images {
                 id
-                responsiveImage(imgixParams: {fm: jpg, w: 2000 }) {
+                responsiveImage(imgixParams: {fm: jpg, w: 3000 }) {
                   ...responsiveImageFragment
                 }
               }
@@ -61,7 +61,7 @@ export async function getStaticProps({ params, preview = false }) {
                 title
                 slug
                 mainImage {
-                  responsiveImage(imgixParams: {fm: jpg, w: 2000 }) {
+                  responsiveImage(imgixParams: {fm: jpg, w: 3000 }) {
                     ...responsiveImageFragment
                   }
                 }
@@ -142,8 +142,7 @@ export default function Project({ subscription }) {
                   project.mainImage.responsiveImage.aspectRatio,
                 ),
               )}
-              src={project.mainImage.responsiveImage.src}
-              alt={project.mainImage.responsiveImage.alt}
+              image={project.mainImage.responsiveImage}
               fill
             />
           </ScrollSnap.Child>
@@ -156,8 +155,7 @@ export default function Project({ subscription }) {
                 className={clsx(
                   imageOrientationClass(image.responsiveImage.aspectRatio),
                 )}
-                src={image.responsiveImage.src}
-                alt={image.responsiveImage.alt}
+                image={image.responsiveImage}
                 fill
               />
             </ScrollSnap.Child>

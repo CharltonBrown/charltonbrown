@@ -7,6 +7,7 @@ import RichText from '@/components/rich-text';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
 import PlaceholderImage from '@/components/placeholder-image';
 import { useBreakpoint } from '@/hooks/tailwind';
+import timeout from '@/lib/utils/timeout';
 
 function AccordionItem({ item, index, open, onClick }) {
   const [scrollRef, setShouldScrollTo] = useScrollIntoView();
@@ -64,12 +65,7 @@ function AccordionItem({ item, index, open, onClick }) {
       </h3>
       <div className="h-0 opacity-0 overflow-hidden" ref={bodyScope}>
         <div className="mb-8 lg:hidden">
-          <PlaceholderImage
-            width={item.image.responsiveImage.width}
-            height={item.image.responsiveImage.height}
-            src={item.image.responsiveImage.src}
-            alt={item.image.responsiveImage.alt}
-          />
+          <PlaceholderImage image={item.image.responsiveImage} />
         </div>
         <RichText text={item.body} />
       </div>
@@ -112,11 +108,11 @@ export default function Accordion({
   const handleClose = useCallback(async () => {
     if (isLgScreen && !openService) {
       await hideImage();
-      setActiveItem(null);
+      await setActiveItem(null);
       return;
     }
     if (!openService) {
-      setActiveItem(null);
+      await setActiveItem(null);
     }
   }, [hideImage, isLgScreen, openService]);
 
@@ -133,13 +129,17 @@ export default function Accordion({
   const handleClick = async (id) => {
     if (activeItem?.id === id) {
       await hideImage();
-      setActiveItem(null);
+      await timeout(250);
+      await setActiveItem(null);
+      await timeout(250);
       await showImage();
       return;
     }
 
     await hideImage();
-    setActiveItem(items.find((item) => item.id === id));
+    await timeout(250);
+    await setActiveItem(items.find((item) => item.id === id));
+    await timeout(250);
     await showImage();
   };
 
@@ -148,29 +148,14 @@ export default function Accordion({
       <div className="hidden lg:flex flex-col justify-end lg:w-1/2">
         <div className="lg:sticky bottom-0 pr-24" ref={imageScope}>
           {activeItem ? (
-            <PlaceholderImage
-              width={activeItem.image.responsiveImage.width}
-              height={activeItem.image.responsiveImage.height}
-              src={activeItem.image.responsiveImage.src}
-              alt={activeItem.image.responsiveImage.alt}
-            />
+            <PlaceholderImage image={activeItem.image.responsiveImage} />
           ) : (
-            <PlaceholderImage
-              width={serviceImage.responsiveImage.width}
-              height={serviceImage.responsiveImage.height}
-              src={serviceImage.responsiveImage.src}
-              alt={serviceImage.responsiveImage.alt}
-            />
+            <PlaceholderImage image={serviceImage.responsiveImage} />
           )}
         </div>
       </div>
       <div className="mb-12 lg:hidden">
-        <PlaceholderImage
-          width={serviceImage.responsiveImage.width}
-          height={serviceImage.responsiveImage.height}
-          src={serviceImage.responsiveImage.src}
-          alt={serviceImage.responsiveImage.alt}
-        />
+        <PlaceholderImage image={serviceImage.responsiveImage} />
       </div>
       <div className="lg:w-1/2">
         {items.map((item, index) => (

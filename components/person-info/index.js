@@ -2,15 +2,16 @@ import React from 'react';
 import Image from 'next/image';
 import { EnvelopeIcon } from '@heroicons/react/24/outline';
 
+import PlaceholderImage from '@/components/placeholder-image';
+
 export default function PersonInfo({ person }) {
   return (
     <div className="flex">
       <div className="relative w-[300px] min-h-[400px] mr-8">
-        <Image
-          className="object-cover"
+        <PlaceholderImage
+          className="object-cover h-full"
           fill
-          src={person.image.responsiveImage.src}
-          alt={person.image.responsiveImage.alt || person.name}
+          image={person.image.responsiveImage}
         />
       </div>
       <div>

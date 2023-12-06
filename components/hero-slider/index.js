@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import Image from 'next/image';
 import clsx from 'clsx';
 import { useContextSelector } from 'use-context-selector';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
 import navContext from '@/lib/context/navContext';
+import PlaceholderImage from '@/components/placeholder-image';
 
 export default function HeroSlider({ images, hideHero }) {
   const setNavContext = useContextSelector(navContext, (v) => v[1]);
@@ -29,12 +29,9 @@ export default function HeroSlider({ images, hideHero }) {
 
   const items = images.map((image) => (
     <div key={image.id} className="relative w-full">
-      <Image
+      <PlaceholderImage
+        image={image.responsiveImage}
         className="w-full h-screen object-cover"
-        width={image.responsiveImage.width}
-        height={image.responsiveImage.height}
-        src={image.responsiveImage.src}
-        alt={image.responsiveImage.alt}
       />
     </div>
   ));
