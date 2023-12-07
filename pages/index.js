@@ -68,7 +68,7 @@ export async function getStaticProps({ preview = false }) {
 export default function Home({ subscription }) {
   const {
     data: {
-      _site: { globalSeo },
+      _site: site,
       homepage: {
         seo,
         blockOneLabel,
@@ -90,12 +90,7 @@ export default function Home({ subscription }) {
   });
 
   return (
-    <Layout
-      navigation={navigation}
-      globalSeo={globalSeo}
-      seo={seo}
-      hiddenPageHeading
-    >
+    <Layout navigation={navigation} site={site} seo={seo} hiddenPageHeading>
       <main>
         <HeroSlider images={sliderImages} hideHero={!heroIsInView} />
         <div className="relative z-30">

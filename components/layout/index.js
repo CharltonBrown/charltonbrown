@@ -28,7 +28,7 @@ export default function Layout({
   hideFooter,
   hideHeader,
   hideNavOnLoad,
-  globalSeo,
+  site,
   seo,
 }) {
   const setNavColor = useContextSelector(navContext, (v) => v[1]);
@@ -42,15 +42,25 @@ export default function Layout({
     }));
   }, [setNavColor]);
 
-  const title = seo?.title
-    ? `${seo.title} | Charlton Brown`
-    : globalSeo.fallbackSeo.title;
-  const description = seo?.description || globalSeo.fallbackSeo.description;
+  const title = seo?.title ? `${seo.title}` : site.globalSeo.fallbackSeo.title;
+  const description =
+    seo?.description || site.globalSeo.fallbackSeo.description;
 
   return (
     <>
       <Head>
         <title>{title}</title>
+
+        <link rel="shortcut icon" href={site.favicon.url} />
+        {site.faviconMetaTags.map((tag) => (
+          <link
+            key={tag.attributes.href}
+            rel={tag.attributes.rel}
+            type="image/png"
+            sizes={tag.attributes.sizes}
+            href={tag.attributes.href}
+          />
+        ))}
         <meta name="description" content={description} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>

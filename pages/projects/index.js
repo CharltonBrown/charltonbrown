@@ -64,10 +64,7 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Projects({ subscription }) {
   const {
-    data: {
-      _site: { globalSeo },
-      allProjects: projects,
-    },
+    data: { _site: site, allProjects: projects },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
 
@@ -77,12 +74,7 @@ export default function Projects({ subscription }) {
   };
 
   return (
-    <Layout
-      navigation={navigation}
-      globalSeo={globalSeo}
-      seo={seo}
-      hiddenPageHeading
-    >
+    <Layout navigation={navigation} site={site} seo={seo} hiddenPageHeading>
       <main className="bg-white">
         <Container>
           <ContentGutter>
