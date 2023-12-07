@@ -16,7 +16,7 @@ export async function getStaticProps({ preview = false }) {
     query: `
           query journalContent {
             ${globalSeoFragment}
-            allPosts(first: 100) {
+            allPosts(first: 100, orderBy: _createdAt_DESC) {
               id
               body {
                 value
