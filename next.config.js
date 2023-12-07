@@ -7,6 +7,10 @@ const nextConfig = {
       'countryflagsapi.com',
     ],
   },
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
 };
 
 module.exports = nextConfig;
