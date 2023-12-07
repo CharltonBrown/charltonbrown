@@ -19,7 +19,7 @@ import CloseIcon from '@/components/close-icon';
 import ContentGutter from '@/components/content-gutter';
 
 export async function getStaticPaths() {
-  const data = await request({ query: '{ allPosts { slug } }' });
+  const data = await request({ query: '{ allPosts(first: 100) { slug } }' });
 
   return {
     paths: data.allPosts.map((post) => `/about-us/journal/${post.slug}`),

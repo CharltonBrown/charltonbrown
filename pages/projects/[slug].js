@@ -19,7 +19,7 @@ import navigationFragment from '@/lib/fragments/navigation-fragment';
 import globalSeoFragment from '@/lib/fragments/global-seo';
 
 export async function getStaticPaths() {
-  const data = await request({ query: '{ allProjects { slug } }' });
+  const data = await request({ query: '{ allProjects(first: 100) { slug } }' });
 
   return {
     paths: data.allProjects.map((post) => `/projects/${post.slug}`),
