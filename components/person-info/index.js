@@ -6,16 +6,15 @@ import PlaceholderImage from '@/components/placeholder-image';
 
 export default function PersonInfo({ person }) {
   return (
-    <div className="flex">
-      <div className="relative w-[300px] min-h-[400px] mr-8">
+    <div className="flex flex-col md:flex-row">
+      <div className="relative w-full md:w-[300px] md:min-h-[400px] mb-8 md:mr-8">
         <PlaceholderImage
-          className="object-cover h-full"
-          fill
+          className="object-cover md:h-full"
           image={person.image.responsiveImage}
         />
       </div>
       <div>
-        <div className="flex items-start">
+        <div className="flex items-start mb-4">
           {person.motif && (
             <Image
               src={person.motif.svg.url}

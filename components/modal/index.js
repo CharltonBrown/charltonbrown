@@ -11,18 +11,19 @@ export default function Modal({ isOpen, setIsOpen, children }) {
           open={isOpen}
           onClose={setIsOpen}
           as="div"
-          className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto"
+          className="fixed inset-0 w-full md:w-auto z-50 flex items-start md:items-center justify-center overflow-y-auto"
         >
-          <div className="flex flex-col py-8 px-4 text-center">
+          <div className="flex flex-col w-full md:w-auto md:py-8 md:px-4 text-center overflow-y-auto">
             <Dialog.Overlay />
             <div
               className="fixed inset-0 transition-opacity"
               aria-hidden="true"
+              onClick={() => setIsOpen()}
             >
               <div className="absolute inset-0 bg-white opacity-75" />
             </div>
             <motion.div
-              className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+              className="w-full md:w-auto overflow-y-auto flex items-start justify-center min-h-screen md:px-4 md:pb-20 text-center md:items-center"
               initial={{
                 opacity: 0,
                 scale: 0.95,
@@ -44,14 +45,8 @@ export default function Modal({ isOpen, setIsOpen, children }) {
                 },
               }}
             >
-              <span
-                className="hidden sm:inline-block sm:align-middle sm:h-screen"
-                aria-hidden="true"
-              >
-                &#8203;
-              </span>
               <div
-                className="relative inline-block border border-silver align-bottom bg-white text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full p-12"
+                className="relative w-full md:w-auto inline-block md:border border-silver bg-white text-left shadow-xl transform transition-all pt-24 p-12 md:pt-12"
                 role="dialog"
                 aria-modal="true"
               >
