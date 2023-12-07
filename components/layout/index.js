@@ -42,7 +42,9 @@ export default function Layout({
     }));
   }, [setNavColor]);
 
-  const title = seo?.title ? `${seo.title}` : site.globalSeo.fallbackSeo.title;
+  const title = seo?.title
+    ? `${seo.title}${site.globalSeo.titleSuffix}`
+    : `${site.globalSeo.fallbackSeo.title}${site.globalSeo.titleSuffix}`;
   const description =
     seo?.description || site.globalSeo.fallbackSeo.description;
 
