@@ -68,10 +68,7 @@ const variants = {
 
 export default function Contact({ subscription }) {
   const {
-    data: {
-      _site: { globalSeo },
-      contact,
-    },
+    data: { _site: site, contact },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
   const ref = useRef(null);
@@ -80,12 +77,7 @@ export default function Contact({ subscription }) {
   });
 
   return (
-    <Layout
-      navigation={navigation}
-      globalSeo={globalSeo}
-      seo={contact.seo}
-      hideFooter
-    >
+    <Layout navigation={navigation} site={site} seo={contact.seo} hideFooter>
       <main className="bg-white">
         <div className="flex flex-col lg:flex-row">
           <div className="relative h-[70vw] md:h-screen md:grow">

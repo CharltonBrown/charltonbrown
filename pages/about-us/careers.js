@@ -53,10 +53,7 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Careers({ subscription }) {
   const {
-    data: {
-      _site: { globalSeo },
-      careersPage,
-    },
+    data: { _site: site, careersPage },
   } = useQuerySubscription(subscription);
   const navigation = useLayoutQuery(subscription);
   const related = careersPage.related[0];
@@ -65,7 +62,7 @@ export default function Careers({ subscription }) {
     <Layout
       navigation={navigation}
       seo={careersPage.seo}
-      globalSeo={globalSeo}
+      site={site}
       hiddenPageHeading
     >
       <main className="bg-white">

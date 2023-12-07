@@ -79,7 +79,7 @@ export async function getStaticProps({ params, preview = false }) {
 export default function Posts({ subscription }) {
   const {
     data: {
-      _site: { globalSeo },
+      _site: site,
       post: { seo, title, mainImage, body },
     },
   } = useQuerySubscription(subscription);
@@ -95,13 +95,7 @@ export default function Posts({ subscription }) {
   }, [setNavContext]);
 
   return (
-    <Layout
-      navigation={navigation}
-      hideHeader
-      hideFooter
-      seo={seo}
-      globalSeo={globalSeo}
-    >
+    <Layout navigation={navigation} hideHeader hideFooter seo={seo} site={site}>
       <main className="bg-white">
         <CloseIcon
           onClick={() => router.push('/about-us/journal')}
