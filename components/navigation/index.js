@@ -54,7 +54,7 @@ export default function Navigation({
   };
 
   const animate = useMemo(() => {
-    if (!isMdScreen) return 'visible';
+    if (!isMdScreen && !hideHeader) return 'visible';
     if (loaded && (navVisibility === 'hidden' || hideHeader)) return 'hidden';
     if (loaded && navVisibility === 'visible') return 'visible';
     return 'visible';
