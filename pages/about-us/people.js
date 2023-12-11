@@ -29,7 +29,7 @@ export async function getStaticProps({ preview = false }) {
               name
               phone
               image {
-                responsiveImage(imgixParams: {fm: jpg, fit: crop, w: 600, h: 800 }) {
+                responsiveImage(imgixParams: {auto: format, fit: crop, w: 600, h: 800 }) {
                   ...responsiveImageFragment
                 }
               }

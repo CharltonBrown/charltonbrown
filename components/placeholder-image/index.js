@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import Image from 'next/image';
+import { Image } from 'react-datocms';
+
 import clsx from 'clsx';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 
@@ -18,9 +19,9 @@ const brandColors = [
 export default function PlaceholderImage({
   image,
   className,
-  fill,
   hoverEffect,
   overlappingTarget,
+  layout,
 }) {
   const ref = useRef();
   const isInView = useInView(ref);
@@ -43,20 +44,27 @@ export default function PlaceholderImage({
       ref={ref}
       className={clsx(
         'relative w-full flex justify-center items-center overflow-hidden group',
-        overlappingTarget && 'overlappingTarget',
         className,
       )}
     >
       <Image
-        className={clsx('w-full', className)}
+        data={image}
+        className={clsx(
+          'w-full',
+          className,
+          overlappingTarget && 'overlappingTarget',
+        )}
+        pictureClassName={clsx(
+          'w-full',
+          className,
+          overlappingTarget && 'overlappingTarget',
+        )}
         alt={image.alt || ''}
-        width={fill ? 0 : image.width}
-        height={fill ? 0 : image.height}
-        src={image.src}
-        sizes={image.sizes}
-        fill={fill}
-        onLoadingComplete={() => setLoadingComplete(true)}
+        layout={layout}
+        objectFit={layout === 'fill' && 'cover'}
+        onLoad={() => setLoadingComplete(true)}
         priority
+        usePlaceholder
       />
       <div
         className={clsx(

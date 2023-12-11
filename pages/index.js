@@ -29,7 +29,7 @@ export async function getStaticProps({ preview = false }) {
               }
               sliderImages {
                 id
-                responsiveImage(imgixParams: {fm: jpg, w: 4000 }) {
+                responsiveImage(imgixParams: { w: 4000, auto: format  }) {
                   ...responsiveImageFragment
                 }
               }
