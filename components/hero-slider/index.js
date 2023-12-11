@@ -31,7 +31,8 @@ export default function HeroSlider({ images, hideHero }) {
     <div key={image.id} className="relative w-full">
       <PlaceholderImage
         image={image.responsiveImage}
-        className="w-full h-screen object-cover"
+        className="w-screen h-screen object-cover"
+        layout="responsive"
       />
     </div>
   ));
@@ -53,6 +54,13 @@ export default function HeroSlider({ images, hideHero }) {
         disableDotsControls
         disableButtonsControls
       />
+      {/* <div className="relative w-full">
+        <PlaceholderImage
+          image={images[2].responsiveImage}
+          className="w-screen h-screen object-cover"
+          layout="responsive"
+        />
+      </div> */}
       <div className="absolute w-full h-[400px] top-0 bg-gradient-to-b from-black/90 z-10" />
     </div>
   );

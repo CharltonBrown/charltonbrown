@@ -33,7 +33,7 @@ export async function getStaticProps({ params, preview = false }) {
               slug
               title
               mainImage {
-                responsiveImage(imgixParams: {fm: jpg, w: 1000 }) {
+                responsiveImage(imgixParams: {auto: format, w: 1000 }) {
                   ...responsiveImageFragment
                 }
               }

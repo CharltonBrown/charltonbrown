@@ -3,7 +3,7 @@ const relatedFragment = `
     title
     url
     image {
-      responsiveImage(imgixParams: {fm: jpg, w: 1500 }) {
+      responsiveImage(imgixParams: {auto: format, w: 1500 }) {
         ...responsiveImageFragment
       }
     }

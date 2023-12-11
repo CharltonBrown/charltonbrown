@@ -24,7 +24,7 @@ export async function getStaticProps({ preview = false }) {
                 title
               }
               image {
-                responsiveImage(imgixParams: {fm: jpg, w: 2000 }) {
+                responsiveImage(imgixParams: {auto: format, w: 2000 }) {
                   ...responsiveImageFragment
                 }
               }
@@ -80,14 +80,14 @@ export default function Contact({ subscription }) {
     <Layout navigation={navigation} site={site} seo={contact.seo} hideFooter>
       <main className="bg-white">
         <div className="flex flex-col lg:flex-row">
-          <div className="relative h-[70vw] md:h-screen md:grow">
+          <div className="relative h-[70vh] lg:h-screen lg:grow">
             <PlaceholderImage
               image={contact.image.responsiveImage}
-              className="object-cover h-full"
-              fill
+              className="object-cover w-full h-full"
+              layout="fill"
               overlappingTarget
             />
-            <div className="absolute w-full h-[400px] top-0 bg-gradient-to-b from-black/90 z-10" />
+            <div className="absolute w-full h-[50vh] top-0 bg-gradient-to-b from-black/90 z-10" />
           </div>
           <div
             className="w-5xl py-20 px-10 lg:w-[700px] lg:h-screen lg:flex lg:items-center lg:pl-12"
@@ -97,7 +97,7 @@ export default function Contact({ subscription }) {
               animate={contentIsInView && 'visible'}
               initial="hidden"
               variants={variants}
-              className="pt-24 md:grid md:grid-cols-2 gap-12 lg:gap-16 items-start"
+              className="md:grid md:grid-cols-2 gap-12 lg:gap-16 items-start"
             >
               {contact.blocks.map((block) => (
                 <FooterBlock

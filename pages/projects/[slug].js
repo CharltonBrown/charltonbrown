@@ -47,13 +47,13 @@ export async function getStaticProps({ params, preview = false }) {
               slug
               title
               mainImage {
-                responsiveImage(imgixParams: {fm: jpg, w: 3000 }) {
+                responsiveImage(imgixParams: { auto: format, w: 3000 }) {
                   ...responsiveImageFragment
                 }
               }
               images {
                 id
-                responsiveImage(imgixParams: {fm: jpg, w: 3000 }) {
+                responsiveImage(imgixParams: { auto: format, w: 3000 }) {
                   ...responsiveImageFragment
                 }
               }
@@ -61,7 +61,7 @@ export async function getStaticProps({ params, preview = false }) {
                 title
                 slug
                 mainImage {
-                  responsiveImage(imgixParams: {fm: jpg, w: 3000 }) {
+                  responsiveImage(imgixParams: { auto: format, w: 3000 }) {
                     ...responsiveImageFragment
                   }
                 }
@@ -104,12 +104,12 @@ export default function Project({ subscription }) {
 
   const imageOrientationClass = (aspectRatio) => {
     if (imageOrientation(aspectRatio) === 'portrait') {
-      return 'object-cover w-full md:object-none md:w-[calc(100vh*0.7)] md:h-full';
+      return 'object-cover w-full h-full md:w-auto';
     }
     if (imageOrientation(aspectRatio) === 'sqaure') {
-      return 'object-cover w-full md:object-none md:w-[calc(100vh/2)] md:h-full';
+      return 'object-cover w-full h-full md:w-auto';
     }
-    return 'object-cover w-full md:w-full md:h-full';
+    return 'object-cover w-full md:h-full';
   };
 
   return (
@@ -140,7 +140,6 @@ export default function Project({ subscription }) {
                 ),
               )}
               image={project.mainImage.responsiveImage}
-              fill
               overlappingTarget
             />
           </ScrollSnap.Child>
@@ -154,7 +153,6 @@ export default function Project({ subscription }) {
                   imageOrientationClass(image.responsiveImage.aspectRatio),
                 )}
                 image={image.responsiveImage}
-                fill
                 overlappingTarget
               />
             </ScrollSnap.Child>
