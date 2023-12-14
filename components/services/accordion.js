@@ -52,12 +52,12 @@ function AccordionItem({ item, index, open, onClick }) {
         <button
           type="button"
           onClick={() => handleClick()}
-          className="flex w-full justify-between items-center hover:opacity-50 transition"
+          className="flex w-full justify-between items-center hover:opacity-50 transition text-left"
         >
           {index + 1}. {item.heading}
           <PlusIcon
             className={clsx(
-              'w-6 h-6 border rounded-full transition',
+              'shrink-0 w-6 h-6 ml-4 border rounded-full transition',
               open && 'rotate-45',
             )}
           />

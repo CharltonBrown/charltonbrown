@@ -133,7 +133,7 @@ export default function ServiceItem({
             <button
               type="button"
               onClick={handleClick}
-              className="flex w-full justify-between items-center hover:opacity-50 transition"
+              className="flex w-full justify-between items-center hover:opacity-50 transition text-left"
             >
               {title}
               <PlusIcon
