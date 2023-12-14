@@ -138,7 +138,7 @@ export default function ServiceItem({
               {title}
               <PlusIcon
                 className={clsx(
-                  'w-6 h-6 border rounded-full transition',
+                  'shrink-0 w-6 h-6 ml-4 border rounded-full transition',
                   open && 'rotate-45',
                 )}
               />
