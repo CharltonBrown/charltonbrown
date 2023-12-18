@@ -24,7 +24,7 @@ export async function getStaticProps({ preview = false }) {
               id
               jobTitle
               qualification
-              bio
+              bio(markdown: true)
               mobile
               name
               phone
