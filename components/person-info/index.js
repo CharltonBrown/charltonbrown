@@ -1,8 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
 import { EnvelopeIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 
 import PlaceholderImage from '@/components/placeholder-image';
+import richTextStyles from '@/components/rich-text/rich-text.module.css';
 
 export default function PersonInfo({ person }) {
   return (
@@ -39,7 +41,10 @@ export default function PersonInfo({ person }) {
           {person.email}
         </a>
         <div
-          className="max-w-prose font-sans text-sm"
+          className={clsx(
+            richTextStyles.richText,
+            'max-w-prose font-sans text-sm',
+          )}
           dangerouslySetInnerHTML={{
             __html: person.bio,
           }}
