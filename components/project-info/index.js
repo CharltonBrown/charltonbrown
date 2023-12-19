@@ -87,7 +87,7 @@ export default function ProjectInfo({ title, intro, body, hide }) {
           <div
             ref={ref}
             className={clsx(
-              'float-left p-5 md:p-8 lg:p-10 transition-colors duration-500',
+              'float-left m-5 !mr-0 md:m-8 lg:m-10 transition-colors duration-500',
               isOverlapping && 'text-white',
               open && '!text-black',
             )}
