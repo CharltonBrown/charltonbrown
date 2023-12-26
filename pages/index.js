@@ -7,15 +7,13 @@ import request from '@/lib/datocms';
 import { responsiveImageFragment } from '@/lib/fragments';
 import Layout from '@/components/layout';
 import HeroSlider from '@/components/hero-slider';
-import FadeInBlock from '@/components/fade-in-block';
 import MotifNavigation from '@/components/motif-navigation';
-import FootnoteOne from '@/components/icons/footnotes/footnote-1';
-import Container from '@/components/container';
 import ScrollPrompt from '@/components/scroll-prompt';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import navigationFragment from '@/lib/fragments/navigation-fragment';
 import globalSeoFragment from '@/lib/fragments/global-seo';
+import HomepageBlock from '@/components/homepage-block';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -99,77 +97,55 @@ export default function Home({ subscription }) {
             <ScrollPrompt className="absolute bottom-0 left-1/2 -translate-x-1/2" />
           </div>
           <div className="bg-bone text-center">
-            <div className="relative h-screen flex items-center justify-center py-8">
-              <Container>
-                <FadeInBlock>
-                  <div className="max-w-3xl mx-auto py-8 px-5 md:px-7 lg:px-10">
-                    <h2 className="text-3xl lg:text-5xl">{introLabel}</h2>
-                    <div
-                      className="text-3xl lg:text-5xl font-savoyItalic"
-                      dangerouslySetInnerHTML={{
-                        __html: quote,
-                      }}
-                    />
-                  </div>
-                  <div className="max-w-3xl mx-auto py-8 px-5 md:px-7 lg:px-10">
-                    <h2 className="uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
-                      {blockOneLabel}
-                    </h2>
-                    <div
-                      className="text-xl lg:text-2xl"
-                      dangerouslySetInnerHTML={{
-                        __html: widont(blockOneBody),
-                      }}
-                    />
-                  </div>
-                </FadeInBlock>
-                <div className="absolute bottom-0 w-full inset-x-0">
-                  <FadeInBlock>
-                    <FootnoteOne className="absolute left-1/2 -translate-y-1/2 bottom-16 w-4" />
-                  </FadeInBlock>
-                </div>
-              </Container>
-            </div>
-            <div className="relative h-screen flex items-center justify-center">
-              <Container>
-                <FadeInBlock>
-                  <div className="max-w-3xl mx-auto py-8 px-5 md:px-7 lg:px-10">
-                    <h2 className="uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
-                      {blockTwoLabel}
-                    </h2>
-                    <div
-                      className="text-xl lg:text-2xl"
-                      dangerouslySetInnerHTML={{
-                        __html: widont(blockTwoBody),
-                      }}
-                    />
-                  </div>
-                </FadeInBlock>
-                <div className="absolute bottom-0 w-full inset-x-0">
-                  <FadeInBlock>
-                    <FootnoteOne className="absolute left-1/2 -translate-y-1/2 bottom-16 w-4" />
-                  </FadeInBlock>
-                </div>
-              </Container>
-            </div>
-            <div className="h-screen flex items-center justify-center">
-              <Container>
-                <FadeInBlock>
-                  <div className="max-w-3xl mx-auto py-8 px-5 md:px-7 lg:px-10">
-                    <h2 className="mx-auto uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
-                      {blockThreeLabel}
-                    </h2>
-                    <div
-                      className="mx-auto text-xl lg:text-2xl"
-                      dangerouslySetInnerHTML={{
-                        __html: widont(blockThreeBody),
-                      }}
-                    />
-                    <MotifNavigation links={navigation.mainNavigation} />
-                  </div>
-                </FadeInBlock>
-              </Container>
-            </div>
+            <HomepageBlock includeFootnote>
+              <HomepageBlock.Inner>
+                <h2 className="text-3xl lg:text-5xl">{introLabel}</h2>
+                <div
+                  className="text-3xl lg:text-5xl font-savoyItalic"
+                  dangerouslySetInnerHTML={{
+                    __html: quote,
+                  }}
+                />
+              </HomepageBlock.Inner>
+              <HomepageBlock.Inner>
+                <h2 className="uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
+                  {blockOneLabel}
+                </h2>
+                <div
+                  className="text-xl lg:text-2xl"
+                  dangerouslySetInnerHTML={{
+                    __html: widont(blockOneBody),
+                  }}
+                />
+              </HomepageBlock.Inner>
+            </HomepageBlock>
+            <HomepageBlock includeFootnote>
+              <HomepageBlock.Inner>
+                <h2 className="uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
+                  {blockTwoLabel}
+                </h2>
+                <div
+                  className="text-xl lg:text-2xl"
+                  dangerouslySetInnerHTML={{
+                    __html: widont(blockTwoBody),
+                  }}
+                />
+              </HomepageBlock.Inner>
+            </HomepageBlock>
+            <HomepageBlock>
+              <HomepageBlock.Inner>
+                <h2 className="mx-auto uppercase text-xl lg:text-2xl mb-4 font-savoyBold tracking-wider">
+                  {blockThreeLabel}
+                </h2>
+                <div
+                  className="mx-auto text-xl lg:text-2xl"
+                  dangerouslySetInnerHTML={{
+                    __html: widont(blockThreeBody),
+                  }}
+                />
+                <MotifNavigation links={navigation.mainNavigation} />
+              </HomepageBlock.Inner>
+            </HomepageBlock>
           </div>
         </div>
       </main>
