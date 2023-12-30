@@ -38,7 +38,7 @@ export default function MotifNavigation({ links }) {
     'group-hover:bg-oldBrick/50',
   ];
 
-  const isInView = useInView(ref);
+  const isInView = useInView(ref, { once: true });
 
   const animate = () => {
     if (isInView) return 'visible';
