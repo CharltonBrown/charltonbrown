@@ -8,6 +8,7 @@ export default function ScrollPrompt({ className }) {
   const [lineScope, animateLine] = useAnimate();
 
   const show = useCallback(async () => {
+    if (!lineScope.current) return;
     await animateText(textScope.current, { opacity: 1 }, { duration: 0.25 });
     await animateLine(lineScope.current, { height: 120 }, { duration: 0.25 });
     await animateLine(
@@ -23,6 +24,7 @@ export default function ScrollPrompt({ className }) {
   }, [animateLine, animateText, lineScope, textScope]);
 
   const hide = useCallback(async () => {
+    if (!lineScope.current) return;
     await animateLine(lineScope.current, { height: 0 }, { duration: 0.25 });
     await animateLine(lineScope.current, { y: 0 });
     await animateText(textScope.current, { opacity: 0 }, { duration: 0.25 });
