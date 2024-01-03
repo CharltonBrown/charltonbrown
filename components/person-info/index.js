@@ -1,10 +1,10 @@
 import React from 'react';
-import Image from 'next/image';
 import { EnvelopeIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
 import PlaceholderImage from '@/components/placeholder-image';
 import richTextStyles from '@/components/rich-text/rich-text.module.css';
+import Motif from '@/components/motif';
 
 export default function PersonInfo({ person }) {
   return (
@@ -18,12 +18,9 @@ export default function PersonInfo({ person }) {
       <div>
         <div className="flex items-start mb-4">
           {person.motif && (
-            <Image
-              src={person.motif.svg.url}
-              width={44}
-              height={44}
-              alt={`${person.text} icon`}
-              className="border border-black mr-4 mb-4 shrink-0"
+            <Motif
+              className="w-11 h-11 mr-4 mb-4 shrink-0"
+              motifId={person.motif.motifId}
             />
           )}
           <div className="flex flex-col">

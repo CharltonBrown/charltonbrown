@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 
 import PlaceholderImage from '@/components/placeholder-image';
 import FadeInBlock from '@/components/fade-in-block';
 import FootnoteTwo from '@/components/icons/footnotes/footnote-2';
 import RichText from '@/components/rich-text';
+import Motif from '@/components/motif';
 
 export default function OddEvenGrid({ items, parentSlug, type }) {
   const chunkSize = 2;
@@ -56,13 +56,9 @@ export default function OddEvenGrid({ items, parentSlug, type }) {
                     />
                     <div className="mt-4">
                       {item.motif && (
-                        <Image
-                          src={item.motif.svg.url}
-                          width={60}
-                          height={60}
-                          role="img"
-                          alt=""
-                          className="float-left w-8 h-8 md:w-16 md:h-16 border border-black mr-4 shrink-0"
+                        <Motif
+                          className="float-left w-8 h-8 md:w-16 md:h-16 mr-4 shrink-0"
+                          motifId={item.motif.motifId}
                         />
                       )}
                       {type === 'journal' && (

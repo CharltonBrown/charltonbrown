@@ -34,9 +34,7 @@ export async function getStaticProps({ preview = false }) {
                 typeTitle
               }
               motif {
-                svg {
-                  url
-                }
+                motifId
               }
             }
             ${navigationFragment}

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 
 import Modal from '@/components/modal';
 import PersonInfo from '@/components/person-info';
 import FadeInBlock from '@/components/fade-in-block';
 import PlaceholderImage from '@/components/placeholder-image';
+import Motif from '@/components/motif';
 
 export default function PeopleGrid({ people }) {
   const [activePersonId, setActivePersonId] = useState('');
@@ -37,12 +37,9 @@ export default function PeopleGrid({ people }) {
             </div>
             <div className="flex items-start">
               {person.motif && (
-                <Image
-                  src={person.motif.svg.url}
-                  width={44}
-                  height={44}
-                  alt={`${person.text} icon`}
-                  className="border border-black mr-4 mb-4 shrink-0"
+                <Motif
+                  className="w-11 h-11 mr-4 mb-4 shrink-0"
+                  motifId={person.motif.motifId}
                 />
               )}
               <div className="flex flex-col">
