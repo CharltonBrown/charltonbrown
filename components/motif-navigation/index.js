@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import clsx from 'clsx';
 import { motion, useInView } from 'framer-motion';
 
 import { easing } from '@/components/fade-in-block/fadeVariants';
+import Motif from '@/components/motif';
 
 const variants = {
   visible: {
@@ -63,13 +63,7 @@ export default function MotifNavigation({ links }) {
           >
             <Link href={link.href} className="group">
               <div className="relative">
-                <Image
-                  src={link.motif.svg.url}
-                  width={96}
-                  height={96}
-                  alt=""
-                  className="border border-black"
-                />
+                <Motif className="w-24 h-24" motifId={link.motif.motifId} />
                 <div
                   className={clsx(
                     'absolute inset-0 transition',

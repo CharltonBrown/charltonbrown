@@ -45,9 +45,7 @@ export async function getStaticProps({ params, preview = false }) {
                 value
               }
               motif {
-                svg {
-                  url
-                }
+                motifId
               }
             }
             projectType(filter: {slug: {eq: $slug}}) {
