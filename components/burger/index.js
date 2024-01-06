@@ -3,7 +3,12 @@ import clsx from 'clsx';
 
 import useIsOverlapping from '@/hooks/useIsOverlapping';
 
-export default function Burger({ className, onClick, navTheme }) {
+export default function Burger({
+  className,
+  onClick,
+  navTheme,
+  disableOverlapping,
+}) {
   const ref = useRef();
   const { isOverlapping } = useIsOverlapping({
     rootRef: ref,
@@ -11,10 +16,10 @@ export default function Burger({ className, onClick, navTheme }) {
     inside: true,
   });
 
-  const genericHamburgerLine = `h-px w-6 my-1 ${
+  const line = `h-px w-6 my-1 ${
     navTheme === 'light' ? 'bg-white' : 'bg-black'
   } ${
-    isOverlapping ? 'bg-white' : 'bg-black'
+    isOverlapping && !disableOverlapping ? 'bg-white' : 'bg-black'
   } transition ease transform duration-300 opacity-50 group-hover:opacity-100`;
 
   const handleClick = () => {
@@ -31,9 +36,9 @@ export default function Burger({ className, onClick, navTheme }) {
       )}
       onClick={() => handleClick()}
     >
-      <div className={genericHamburgerLine} />
-      <div className={genericHamburgerLine} />
-      <div className={genericHamburgerLine} />
+      <div className={line} />
+      <div className={line} />
+      <div className={line} />
     </button>
   );
 }
