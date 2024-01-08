@@ -168,7 +168,8 @@ export default function MobileNavigation({
       {active && (
         <Dialog
           open={active}
-          onClose={onClick}
+          // Added as onClose was firing on the first handleSubNavClick
+          onClose={() => null}
           as="div"
           static
           className="fixed inset-0 z-40 flex items-center justify-center overflow-y-auto md:hidden"
