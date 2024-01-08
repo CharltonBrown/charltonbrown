@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import FootnoteThree from '@/components/icons/footnotes/footnote-3';
 import useIsOverlapping from '@/hooks/useIsOverlapping';
 
-export default function Logo() {
+export default function Logo({ disableOverlapping }) {
   const ref = useRef();
   const { isOverlapping } = useIsOverlapping({
     rootRef: ref,
@@ -18,7 +18,7 @@ export default function Logo() {
       href="/"
       className={clsx(
         'relative flex flex-col text-xl transition',
-        isOverlapping && 'text-white',
+        isOverlapping && !disableOverlapping && 'text-white',
       )}
       ref={ref}
     >

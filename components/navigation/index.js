@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useContextSelector } from 'use-context-selector';
 import clsx from 'clsx';
 import { motion, cubicBezier } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 import Logo from '@/components/logo';
 import Burger from '@/components/burger';
@@ -53,6 +54,11 @@ export default function Navigation({
     setActiveMobileNav(!activeMobileNav);
   };
 
+  // disable logo and burger overlapping text change if not on homepage
+  // and on small screen
+  const { pathname } = useRouter();
+  const disableOverlapping = pathname !== '/' && !isMdScreen;
+
   const animate = useMemo(() => {
     if (!isMdScreen && !hideHeader) return 'visible';
     if (loaded && (navVisibility === 'hidden' || hideHeader)) return 'hidden';
@@ -72,7 +78,7 @@ export default function Navigation({
     >
       <Container>
         <div className="flex justify-between">
-          <Logo />
+          <Logo disableOverlapping={disableOverlapping} />
           <MobileNavigation
             navigation={navigation}
             aboutUsNavigation={aboutUsNavigation}
@@ -84,6 +90,7 @@ export default function Navigation({
             className="md:hidden z-50 relative"
             onClick={handleClick}
             navTheme={linksTheme}
+            disableOverlapping={disableOverlapping}
           />
           <DesktopNavigation
             navTheme={linksTheme}
