@@ -22,6 +22,7 @@ export default function Services({ image, services }) {
       await animateImage(imageScope.current, {
         display: 'block',
       });
+      await timeout(500);
       await animateImage(
         imageScope.current,
         { y: '0', opacity: 1 },
