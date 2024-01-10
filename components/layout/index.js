@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useContextSelector } from 'use-context-selector';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
+import Script from 'next/script';
 
 import Navigation from '@/components/navigation';
 import Footer from '@/components/footer';
@@ -90,6 +91,16 @@ export default function Layout({
           legalNavigation={legalNavigation}
           hideFooter={hideFooter}
         />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-7W544HKPZK" />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+  
+            gtag('config', 'G-7W544HKPZK');
+          `}
+        </Script>
       </div>
     </>
   );
