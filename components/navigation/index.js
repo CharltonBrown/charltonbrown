@@ -54,10 +54,11 @@ export default function Navigation({
     setActiveMobileNav(!activeMobileNav);
   };
 
-  // disable logo and burger overlapping text change if not on homepage
+  // disable logo and burger overlapping text change if not on homepage or contact page
   // and on small screen
   const { pathname } = useRouter();
-  const disableOverlapping = pathname !== '/' && !isMdScreen;
+  const disableOverlapping =
+    pathname !== '/' && pathname !== '/contact' && !isMdScreen;
 
   const animate = useMemo(() => {
     if (!isMdScreen && !hideHeader) return 'visible';
