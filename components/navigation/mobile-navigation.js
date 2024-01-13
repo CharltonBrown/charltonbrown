@@ -141,11 +141,14 @@ const NavList = ({
                   </motion.div>
                 </>
               ) : (
-                <Link
-                  href={`/${link.href}`}
-                  className="block py-2 whitespace-nowrap"
-                >
-                  {link.text}
+                <Link href={`/${link.href}`} legacyBehavior passHref>
+                  <a
+                    href={`/${link.href}`}
+                    onClick={() => onClose()}
+                    className="block py-2 whitespace-nowrap"
+                  >
+                    {link.text}
+                  </a>
                 </Link>
               )}
             </motion.li>
