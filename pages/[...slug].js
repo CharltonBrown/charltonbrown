@@ -53,6 +53,7 @@ export async function getStaticProps({ params, preview = false }) {
           }
         `,
     preview,
+    includeDrafts: preview,
     variables: {
       slug: pageSlug,
     },
@@ -64,7 +65,7 @@ export async function getStaticProps({ params, preview = false }) {
         ? {
             ...graphqlRequest,
             initialData: await request(graphqlRequest),
-            token: process.env.CMS_DATOCMS_API_TOKEN,
+            token: process.env.NEXT_DATOCMS_API_TOKEN,
           }
         : {
             enabled: false,
@@ -81,10 +82,10 @@ export default function Page({ subscription }) {
       page: { seo, title, body },
     },
   } = useQuerySubscription(subscription);
-  const navigation = useLayoutQuery(subscription);
+  const { navigation, preview } = useLayoutQuery(subscription);
 
   return (
-    <Layout navigation={navigation} site={site} seo={seo}>
+    <Layout navigation={navigation} preview={preview} site={site} seo={seo}>
       <main className="bg-white">
         <Container>
           <ContentGutter>

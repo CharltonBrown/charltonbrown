@@ -35,6 +35,7 @@ export async function getStaticProps({ preview = false }) {
           ${responsiveImageFragment}
         `,
     preview,
+    includeDrafts: preview,
   };
 
   return {
@@ -43,7 +44,7 @@ export async function getStaticProps({ preview = false }) {
         ? {
             ...graphqlRequest,
             initialData: await request(graphqlRequest),
-            token: process.env.CMS_DATOCMS_API_TOKEN,
+            token: process.env.NEXT_DATOCMS_API_TOKEN,
           }
         : {
             enabled: false,
@@ -57,7 +58,7 @@ export default function Posts({ subscription }) {
   const {
     data: { _site: site, allPosts: posts },
   } = useQuerySubscription(subscription);
-  const navigation = useLayoutQuery(subscription);
+  const { navigation, preview } = useLayoutQuery(subscription);
 
   const seo = {
     title: 'Journal',
@@ -65,7 +66,13 @@ export default function Posts({ subscription }) {
   };
 
   return (
-    <Layout site={site} seo={seo} navigation={navigation} hiddenPageHeading>
+    <Layout
+      site={site}
+      seo={seo}
+      navigation={navigation}
+      preview={preview}
+      hiddenPageHeading
+    >
       <main className="bg-white">
         <Container>
           <ContentGutter>

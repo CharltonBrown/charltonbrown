@@ -56,6 +56,7 @@ export async function getStaticProps({ params, preview = false }) {
           ${responsiveImageFragment}
         `,
     preview,
+    includeDrafts: preview,
     variables: {
       slug: params.slug,
       id: params.id,
@@ -68,7 +69,7 @@ export async function getStaticProps({ params, preview = false }) {
         ? {
             ...graphqlRequest,
             initialData: await request(graphqlRequest),
-            token: process.env.CMS_DATOCMS_API_TOKEN,
+            token: process.env.NEXT_DATOCMS_API_TOKEN,
           }
         : {
             enabled: false,
@@ -82,7 +83,7 @@ export default function Projects({ subscription }) {
   const {
     data: { _site: site, allProjects: projects, projectType },
   } = useQuerySubscription(subscription);
-  const navigation = useLayoutQuery(subscription);
+  const { navigation, preview } = useLayoutQuery(subscription);
 
   const seo = {
     title: `${projectType.typeTitle} projects`,
@@ -90,7 +91,13 @@ export default function Projects({ subscription }) {
   };
 
   return (
-    <Layout navigation={navigation} site={site} seo={seo} hiddenPageHeading>
+    <Layout
+      navigation={navigation}
+      preview={preview}
+      site={site}
+      seo={seo}
+      hiddenPageHeading
+    >
       <main className="bg-white">
         <Container>
           <ContentGutter>

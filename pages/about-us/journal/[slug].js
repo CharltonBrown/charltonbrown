@@ -55,6 +55,7 @@ export async function getStaticProps({ params, preview = false }) {
           ${responsiveImageFragment}       
         `,
     preview,
+    includeDrafts: preview,
     variables: {
       slug: params.slug,
     },
@@ -66,7 +67,7 @@ export async function getStaticProps({ params, preview = false }) {
         ? {
             ...graphqlRequest,
             initialData: await request(graphqlRequest),
-            token: process.env.CMS_DATOCMS_API_TOKEN,
+            token: process.env.NEXT_DATOCMS_API_TOKEN,
           }
         : {
             enabled: false,
@@ -83,7 +84,7 @@ export default function Posts({ subscription }) {
       post: { seo, title, mainImage, body },
     },
   } = useQuerySubscription(subscription);
-  const navigation = useLayoutQuery(subscription);
+  const { navigation, preview } = useLayoutQuery(subscription);
   const setNavContext = useContextSelector(navContext, (v) => v[1]);
   const router = useRouter();
 
@@ -95,7 +96,14 @@ export default function Posts({ subscription }) {
   }, [setNavContext]);
 
   return (
-    <Layout navigation={navigation} hideHeader hideFooter seo={seo} site={site}>
+    <Layout
+      navigation={navigation}
+      preview={preview}
+      hideHeader
+      hideFooter
+      seo={seo}
+      site={site}
+    >
       <main className="bg-white">
         <CloseIcon
           onClick={() => router.push('/about-us/journal')}

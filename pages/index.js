@@ -45,6 +45,7 @@ export async function getStaticProps({ preview = false }) {
           ${responsiveImageFragment}
         `,
     preview,
+    includeDrafts: preview,
   };
 
   return {
@@ -53,7 +54,7 @@ export async function getStaticProps({ preview = false }) {
         ? {
             ...graphqlRequest,
             initialData: await request(graphqlRequest),
-            token: process.env.CMS_DATOCMS_API_TOKEN,
+            token: process.env.NEXT_DATOCMS_API_TOKEN,
           }
         : {
             enabled: false,
@@ -81,14 +82,20 @@ export default function Home({ subscription }) {
       },
     },
   } = useQuerySubscription(subscription);
-  const navigation = useLayoutQuery(subscription);
+  const { navigation, preview } = useLayoutQuery(subscription);
   const heroRef = useRef(null);
   const heroIsInView = useInView(heroRef, {
     margin: '-1px 0px 0px 0px',
   });
 
   return (
-    <Layout navigation={navigation} site={site} seo={seo} hiddenPageHeading>
+    <Layout
+      navigation={navigation}
+      preview={preview}
+      site={site}
+      seo={seo}
+      hiddenPageHeading
+    >
       <main>
         <HeroSlider images={sliderImages} hideHero={!heroIsInView} />
         <div className="relative z-30">

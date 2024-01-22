@@ -11,6 +11,8 @@ export default function useLayoutQuery(subscription) {
     },
   } = useQuerySubscription(subscription);
 
+  const { preview } = subscription;
+
   const projectTypesNav = projectTypes.map((type) => {
     return {
       id: type.id,
@@ -27,5 +29,5 @@ export default function useLayoutQuery(subscription) {
     projectTypesNav,
   };
 
-  return navigation;
+  return { navigation, preview };
 }
