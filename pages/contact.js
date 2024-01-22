@@ -37,6 +37,7 @@ export async function getStaticProps({ preview = false }) {
           ${responsiveImageFragment}
         `,
     preview,
+    includeDrafts: preview,
   };
 
   return {
@@ -45,7 +46,7 @@ export async function getStaticProps({ preview = false }) {
         ? {
             ...graphqlRequest,
             initialData: await request(graphqlRequest),
-            token: process.env.CMS_DATOCMS_API_TOKEN,
+            token: process.env.NEXT_DATOCMS_API_TOKEN,
           }
         : {
             enabled: false,
@@ -70,14 +71,20 @@ export default function Contact({ subscription }) {
   const {
     data: { _site: site, contact },
   } = useQuerySubscription(subscription);
-  const navigation = useLayoutQuery(subscription);
+  const { navigation, preview } = useLayoutQuery(subscription);
   const ref = useRef(null);
   const contentIsInView = useInView(ref, {
     margin: '0px 0px 0px 0px',
   });
 
   return (
-    <Layout navigation={navigation} site={site} seo={contact.seo} hideFooter>
+    <Layout
+      navigation={navigation}
+      preview={preview}
+      site={site}
+      seo={contact.seo}
+      hideFooter
+    >
       <main className="bg-white">
         <div className="flex flex-col lg:flex-row">
           <div className="relative h-[70vh] lg:h-screen lg:grow">

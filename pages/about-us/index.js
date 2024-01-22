@@ -33,6 +33,7 @@ export async function getStaticProps({ preview = false }) {
           ${responsiveImageFragment}
         `,
     preview,
+    includeDrafts: preview,
   };
 
   return {
@@ -41,7 +42,7 @@ export async function getStaticProps({ preview = false }) {
         ? {
             ...graphqlRequest,
             initialData: await request(graphqlRequest),
-            token: process.env.CMS_DATOCMS_API_TOKEN,
+            token: process.env.NEXT_DATOCMS_API_TOKEN,
           }
         : {
             enabled: false,
@@ -55,11 +56,16 @@ export default function About({ subscription }) {
   const {
     data: { _site: site, about },
   } = useQuerySubscription(subscription);
-  const navigation = useLayoutQuery(subscription);
+  const { navigation, preview } = useLayoutQuery(subscription);
   const related = about.related[0];
 
   return (
-    <Layout navigation={navigation} seo={about.seo} site={site}>
+    <Layout
+      navigation={navigation}
+      preview={preview}
+      seo={about.seo}
+      site={site}
+    >
       <main className="bg-white">
         <Container>
           <ContentGutter>

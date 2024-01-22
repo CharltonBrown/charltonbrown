@@ -55,6 +55,7 @@ export async function getStaticProps({ preview = false }) {
           ${responsiveImageFragment}
         `,
     preview,
+    includeDrafts: preview,
   };
 
   return {
@@ -63,7 +64,7 @@ export async function getStaticProps({ preview = false }) {
         ? {
             ...graphqlRequest,
             initialData: await request(graphqlRequest),
-            token: process.env.CMS_DATOCMS_API_TOKEN,
+            token: process.env.NEXT_DATOCMS_API_TOKEN,
           }
         : {
             enabled: false,
@@ -80,10 +81,16 @@ export default function ServicesPage({ subscription }) {
       servicesPage: { seo, image, services },
     },
   } = useQuerySubscription(subscription);
-  const navigation = useLayoutQuery(subscription);
+  const { navigation, preview } = useLayoutQuery(subscription);
 
   return (
-    <Layout navigation={navigation} site={site} seo={seo} hiddenPageHeading>
+    <Layout
+      navigation={navigation}
+      preview={preview}
+      site={site}
+      seo={seo}
+      hiddenPageHeading
+    >
       <main className="bg-white relative min-h-screen pb-24">
         <Container>
           <ContentGutter>

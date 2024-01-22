@@ -4,6 +4,7 @@ import { useContextSelector } from 'use-context-selector';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import Script from 'next/script';
+import Link from 'next/link';
 
 import Navigation from '@/components/navigation';
 import Footer from '@/components/footer';
@@ -29,6 +30,7 @@ export default function Layout({
   hideFooter,
   hideHeader,
   hideNavOnLoad,
+  preview,
   site,
   seo,
 }) {
@@ -102,6 +104,18 @@ export default function Layout({
           `}
         </Script>
       </div>
+      {preview && (
+        <div className="fixed z-50 bottom-0 left-0 right-0 bg-casablanca text-white p-4">
+          <p>
+            Preview mode is active. You can view real-time updates of draft
+            content. Exit preview mode{' '}
+            <Link href="/api/exit-preview" className="underline">
+              here
+            </Link>
+            .
+          </p>
+        </div>
+      )}
     </>
   );
 }
