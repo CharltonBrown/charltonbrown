@@ -4,16 +4,19 @@ import { useQuerySubscription } from 'react-datocms';
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import TextImageBlock from '@/components/text-image-block';
-import { responsiveImageFragment } from '@/lib/fragments';
 import textImageBlockFragment from '@/components/text-image-block/fragment';
 import Container from '@/components/container';
 import RelatedBlock from '@/components/related-block';
 import ContentGutter from '@/components/content-gutter';
 import relatedFragment from '@/components/related-block/fragment';
-import globalSeoFragment from '@/lib/fragments/global-seo';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
-import navigationFragment from '@/lib/fragments/navigation-fragment';
+import {
+  responsiveImageFragment,
+  metaTagsFragment,
+  navigationFragment,
+  globalSeoFragment,
+} from '@/lib/fragments';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -23,13 +26,13 @@ export async function getStaticProps({ preview = false }) {
             about {
               ${textImageBlockFragment}
               ${relatedFragment}
-              seo {
-                description
-                title
+              seo: _seoMetaTags {
+                ...metaTagsFragment
               }
             }
             ${navigationFragment}
           }
+          ${metaTagsFragment}
           ${responsiveImageFragment}
         `,
     preview,
@@ -54,7 +57,7 @@ export async function getStaticProps({ preview = false }) {
 
 export default function About({ subscription }) {
   const {
-    data: { _site: site, about },
+    data: { site, about },
   } = useQuerySubscription(subscription);
   const { navigation, preview } = useLayoutQuery(subscription);
   const related = about.related[0];

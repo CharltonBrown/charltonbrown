@@ -4,16 +4,19 @@ import { useInView } from 'framer-motion';
 import * as widont from 'widont';
 
 import request from '@/lib/datocms';
-import { responsiveImageFragment } from '@/lib/fragments';
 import Layout from '@/components/layout';
 import HeroSlider from '@/components/hero-slider';
 import MotifNavigation from '@/components/motif-navigation';
 import ScrollPrompt from '@/components/scroll-prompt';
+import HomepageBlock from '@/components/homepage-block';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
-import navigationFragment from '@/lib/fragments/navigation-fragment';
-import globalSeoFragment from '@/lib/fragments/global-seo';
-import HomepageBlock from '@/components/homepage-block';
+import {
+  responsiveImageFragment,
+  metaTagsFragment,
+  navigationFragment,
+  globalSeoFragment,
+} from '@/lib/fragments';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -21,9 +24,8 @@ export async function getStaticProps({ preview = false }) {
           query HomePageContent {
             ${globalSeoFragment}
             homepage {
-              seo {
-                description
-                title
+              seo: _seoMetaTags {
+                ...metaTagsFragment
               }
               sliderImages {
                 id
@@ -42,6 +44,7 @@ export async function getStaticProps({ preview = false }) {
             }
             ${navigationFragment}
           }
+          ${metaTagsFragment}
           ${responsiveImageFragment}
         `,
     preview,
@@ -67,7 +70,7 @@ export async function getStaticProps({ preview = false }) {
 export default function Home({ subscription }) {
   const {
     data: {
-      _site: site,
+      site,
       homepage: {
         seo,
         blockOneLabel,

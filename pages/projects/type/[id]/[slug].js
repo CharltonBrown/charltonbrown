@@ -3,14 +3,17 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import { responsiveImageFragment } from '@/lib/fragments';
 import Container from '@/components/container';
 import OddEvenGrid from '@/components/odd-even-grid';
 import ContentGutter from '@/components/content-gutter';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
-import navigationFragment from '@/lib/fragments/navigation-fragment';
-import globalSeoFragment from '@/lib/fragments/global-seo';
+import {
+  responsiveImageFragment,
+  metaTagsFragment,
+  navigationFragment,
+  globalSeoFragment,
+} from '@/lib/fragments';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allProjectTypes { slug, id } }' });
@@ -50,9 +53,13 @@ export async function getStaticProps({ params, preview = false }) {
             }
             projectType(filter: {slug: {eq: $slug}}) {
               typeTitle
+              seo: _seoMetaTags {
+                ...metaTagsFragment
+              }
             }
             ${navigationFragment}
           }
+          ${metaTagsFragment}
           ${responsiveImageFragment}
         `,
     preview,
@@ -81,21 +88,16 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Projects({ subscription }) {
   const {
-    data: { _site: site, allProjects: projects, projectType },
+    data: { site, allProjects: projects, projectType },
   } = useQuerySubscription(subscription);
   const { navigation, preview } = useLayoutQuery(subscription);
-
-  const seo = {
-    title: `${projectType.typeTitle} projects`,
-    description: `A selection of ${projectType.typeTitle.toLowerCase()} projects by Charlton Brown.`,
-  };
 
   return (
     <Layout
       navigation={navigation}
       preview={preview}
       site={site}
-      seo={seo}
+      seo={projectType.seo}
       hiddenPageHeading
     >
       <main className="bg-white">

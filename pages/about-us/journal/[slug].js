@@ -6,17 +6,20 @@ import { useRouter } from 'next/router';
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import RichText from '@/components/rich-text';
-import { responsiveImageFragment } from '@/lib/fragments';
-import globalSeoFragment from '@/lib/fragments/global-seo';
 
 import FadeInBlock from '@/components/fade-in-block';
 import Container from '@/components/container';
 import PlaceholderImage from '@/components/placeholder-image';
 import useLayoutQuery from '@/hooks/useLayoutQuery';
-import navigationFragment from '@/lib/fragments/navigation-fragment';
 import navContext from '@/lib/context/navContext';
 import CloseIcon from '@/components/close-icon';
 import ContentGutter from '@/components/content-gutter';
+import {
+  responsiveImageFragment,
+  metaTagsFragment,
+  navigationFragment,
+  globalSeoFragment,
+} from '@/lib/fragments';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allPosts(first: 100) { slug } }' });
@@ -33,9 +36,8 @@ export async function getStaticProps({ params, preview = false }) {
           query PostBySlug($slug: String) {
             ${globalSeoFragment}
             post(filter: {slug: {eq: $slug}}) {
-              seo {
-                description
-                title
+              seo: _seoMetaTags {
+                ...metaTagsFragment
               }
               id
               body {
@@ -51,7 +53,8 @@ export async function getStaticProps({ params, preview = false }) {
               id
             }
             ${navigationFragment}
-          }   
+          }
+          ${metaTagsFragment}
           ${responsiveImageFragment}       
         `,
     preview,
@@ -80,7 +83,7 @@ export async function getStaticProps({ params, preview = false }) {
 export default function Posts({ subscription }) {
   const {
     data: {
-      _site: site,
+      site,
       post: { seo, title, mainImage, body },
     },
   } = useQuerySubscription(subscription);

@@ -6,10 +6,13 @@ import Layout from '@/components/layout';
 import ContentGutter from '@/components/content-gutter';
 import Container from '@/components/container';
 import Services from '@/components/services';
-import { responsiveImageFragment } from '@/lib/fragments';
 import useLayoutQuery from '@/hooks/useLayoutQuery';
-import navigationFragment from '@/lib/fragments/navigation-fragment';
-import globalSeoFragment from '@/lib/fragments/global-seo';
+import {
+  responsiveImageFragment,
+  metaTagsFragment,
+  navigationFragment,
+  globalSeoFragment,
+} from '@/lib/fragments';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -17,9 +20,8 @@ export async function getStaticProps({ preview = false }) {
           query ServicesQuery {
             ${globalSeoFragment}
             servicesPage {
-              seo {
-                description
-                title
+              seo: _seoMetaTags {
+                ...metaTagsFragment
               }
               image {
                 responsiveImage(imgixParams: {auto: format, w: 1200 }) {
@@ -52,6 +54,7 @@ export async function getStaticProps({ preview = false }) {
             }
             ${navigationFragment}
           }
+          ${metaTagsFragment}
           ${responsiveImageFragment}
         `,
     preview,
@@ -77,7 +80,7 @@ export async function getStaticProps({ preview = false }) {
 export default function ServicesPage({ subscription }) {
   const {
     data: {
-      _site: site,
+      site,
       servicesPage: { seo, image, services },
     },
   } = useQuerySubscription(subscription);

@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import Script from 'next/script';
 import Link from 'next/link';
+import { renderMetaTags } from 'react-datocms';
 
 import Navigation from '@/components/navigation';
 import Footer from '@/components/footer';
@@ -45,29 +46,13 @@ export default function Layout({
     }));
   }, [setNavColor]);
 
-  const title = seo?.title
-    ? `${seo.title}${site.globalSeo.titleSuffix}`
-    : `${site.globalSeo.fallbackSeo.title}${site.globalSeo.titleSuffix}`;
-  const description =
-    seo?.description || site.globalSeo.fallbackSeo.description;
+  const title = seo.find((item) => item.tag === 'title').content;
 
   return (
     <>
       <Head>
-        <title>{title}</title>
-
-        <link rel="shortcut icon" href={site.favicon.url} />
-        {site.faviconMetaTags.map((tag) => (
-          <link
-            key={tag.attributes.href}
-            rel={tag.attributes.rel}
-            type="image/png"
-            sizes={tag.attributes.sizes}
-            href={tag.attributes.href}
-          />
-        ))}
-        <meta name="description" content={description} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        {renderMetaTags([...seo, ...site.favicon])}
       </Head>
       {hiddenPageHeading && <h1 className="sr-only">{title}</h1>}
       <div className={clsx(scrollSnap && 'overflow-hidden h-screen')}>
