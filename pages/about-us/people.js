@@ -6,19 +6,27 @@ import { useQuerySubscription } from 'react-datocms';
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import PeopleGrid from '@/components/people-grid';
-import { responsiveImageFragment } from '@/lib/fragments';
 import Container from '@/components/container';
 import ContentGutter from '@/components/content-gutter';
-import globalSeoFragment from '@/lib/fragments/global-seo';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
-import navigationFragment from '@/lib/fragments/navigation-fragment';
+import {
+  responsiveImageFragment,
+  metaTagsFragment,
+  navigationFragment,
+  globalSeoFragment,
+} from '@/lib/fragments';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query peoplePageContent {
             ${globalSeoFragment}
+            listPagesSeo(filter: {page: {eq: "People"}}) {
+              seo: _seoMetaTags {
+                ...metaTagsFragment
+              }
+            }
             allPeople(first: 100) {
               email
               id
@@ -39,6 +47,7 @@ export async function getStaticProps({ preview = false }) {
             }
             ${navigationFragment}
           }
+          ${metaTagsFragment}
           ${responsiveImageFragment}
         `,
     preview,
@@ -63,20 +72,15 @@ export async function getStaticProps({ preview = false }) {
 
 export default function People({ subscription }) {
   const {
-    data: { _site: site, allPeople: people },
+    data: { site, allPeople: people, listPagesSeo },
   } = useQuerySubscription(subscription);
   const { navigation, preview } = useLayoutQuery(subscription);
-
-  const seo = {
-    title: 'People',
-    description: 'We are a team of 20 passionate architects and designers.',
-  };
 
   return (
     <Layout
       navigation={navigation}
       preview={preview}
-      seo={seo}
+      seo={listPagesSeo.seo}
       site={site}
       hiddenPageHeading
     >

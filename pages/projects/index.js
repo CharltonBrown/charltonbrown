@@ -3,20 +3,28 @@ import { useQuerySubscription } from 'react-datocms';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import { responsiveImageFragment } from '@/lib/fragments';
 import Container from '@/components/container';
 import OddEvenGrid from '@/components/odd-even-grid';
 import ContentGutter from '@/components/content-gutter';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
-import navigationFragment from '@/lib/fragments/navigation-fragment';
-import globalSeoFragment from '@/lib/fragments/global-seo';
+import {
+  responsiveImageFragment,
+  metaTagsFragment,
+  navigationFragment,
+  globalSeoFragment,
+} from '@/lib/fragments';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query ProjectsQuery {
             ${globalSeoFragment}
+            listPagesSeo(filter: {page: {eq: "Projects"}}) {
+              seo: _seoMetaTags {
+                ...metaTagsFragment
+              }
+            }
             allProjects(first: 100) {
               id
               slug
@@ -39,6 +47,7 @@ export async function getStaticProps({ preview = false }) {
             }
             ${navigationFragment}
           }
+          ${metaTagsFragment}
           ${responsiveImageFragment}
         `,
     preview,
@@ -63,21 +72,16 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Projects({ subscription }) {
   const {
-    data: { _site: site, allProjects: projects },
+    data: { site, allProjects: projects, listPagesSeo },
   } = useQuerySubscription(subscription);
   const { navigation, preview } = useLayoutQuery(subscription);
-
-  const seo = {
-    title: 'Projects',
-    description: 'A selection of projects by Charlton Brown.',
-  };
 
   return (
     <Layout
       navigation={navigation}
       preview={preview}
       site={site}
-      seo={seo}
+      seo={listPagesSeo.seo}
       hiddenPageHeading
     >
       <main className="bg-white">

@@ -7,8 +7,11 @@ import Container from '@/components/container';
 import useLayoutQuery from '@/hooks/useLayoutQuery';
 import RichText from '@/components/rich-text';
 import ContentGutter from '@/components/content-gutter';
-import navigationFragment from '@/lib/fragments/navigation-fragment';
-import globalSeoFragment from '@/lib/fragments/global-seo';
+import {
+  metaTagsFragment,
+  globalSeoFragment,
+  navigationFragment,
+} from '@/lib/fragments';
 
 export async function getStaticPaths() {
   const data = await request({
@@ -44,13 +47,13 @@ export async function getStaticProps({ params, preview = false }) {
               slug
               title
               id
-              seo {
-                description
-                title
+              seo: _seoMetaTags {
+                ...metaTagsFragment
               }
             }
             ${navigationFragment}
           }
+          ${metaTagsFragment}
         `,
     preview,
     includeDrafts: preview,
@@ -78,7 +81,7 @@ export async function getStaticProps({ params, preview = false }) {
 export default function Page({ subscription }) {
   const {
     data: {
-      _site: site,
+      site,
       page: { seo, title, body },
     },
   } = useQuerySubscription(subscription);

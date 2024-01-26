@@ -6,16 +6,24 @@ import Layout from '@/components/layout';
 import OddEvenGrid from '@/components/odd-even-grid';
 import Container from '@/components/container';
 import ContentGutter from '@/components/content-gutter';
-import { responsiveImageFragment } from '@/lib/fragments';
 import useLayoutQuery from '@/hooks/useLayoutQuery';
-import navigationFragment from '@/lib/fragments/navigation-fragment';
-import globalSeoFragment from '@/lib/fragments/global-seo';
+import {
+  responsiveImageFragment,
+  metaTagsFragment,
+  navigationFragment,
+  globalSeoFragment,
+} from '@/lib/fragments';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
     query: `
           query journalContent {
             ${globalSeoFragment}
+            listPagesSeo(filter: {page: {eq: "Journal"}}) {
+              seo: _seoMetaTags {
+                ...metaTagsFragment
+              }
+            }
             allPosts(first: 100, orderBy: _createdAt_DESC) {
               id
               body {
@@ -32,6 +40,7 @@ export async function getStaticProps({ preview = false }) {
             }
             ${navigationFragment}
           }
+          ${metaTagsFragment}
           ${responsiveImageFragment}
         `,
     preview,
@@ -56,19 +65,14 @@ export async function getStaticProps({ preview = false }) {
 
 export default function Posts({ subscription }) {
   const {
-    data: { _site: site, allPosts: posts },
+    data: { site, allPosts: posts, listPagesSeo },
   } = useQuerySubscription(subscription);
   const { navigation, preview } = useLayoutQuery(subscription);
-
-  const seo = {
-    title: 'Journal',
-    description: 'Read about our about thoughts and insights here.',
-  };
 
   return (
     <Layout
       site={site}
-      seo={seo}
+      seo={listPagesSeo.seo}
       navigation={navigation}
       preview={preview}
       hiddenPageHeading

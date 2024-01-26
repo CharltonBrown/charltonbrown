@@ -4,14 +4,17 @@ import { motion, useInView } from 'framer-motion';
 
 import request from '@/lib/datocms';
 import Layout from '@/components/layout';
-import { responsiveImageFragment } from '@/lib/fragments';
 import footerBlockFragment from '@/components/footer-block/fragment';
 import FooterBlock from '@/components/footer-block';
 import PlaceholderImage from '@/components/placeholder-image';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
-import navigationFragment from '@/lib/fragments/navigation-fragment';
-import globalSeoFragment from '@/lib/fragments/global-seo';
+import {
+  responsiveImageFragment,
+  metaTagsFragment,
+  navigationFragment,
+  globalSeoFragment,
+} from '@/lib/fragments';
 
 export async function getStaticProps({ preview = false }) {
   const graphqlRequest = {
@@ -19,9 +22,8 @@ export async function getStaticProps({ preview = false }) {
           query contactPageContent {
             ${globalSeoFragment}
             contact {
-              seo {
-                description
-                title
+              seo: _seoMetaTags {
+                ...metaTagsFragment
               }
               image {
                 responsiveImage(imgixParams: {auto: format, w: 2000 }) {
@@ -34,6 +36,7 @@ export async function getStaticProps({ preview = false }) {
             }
             ${navigationFragment}
           }
+          ${metaTagsFragment}
           ${responsiveImageFragment}
         `,
     preview,
@@ -69,7 +72,7 @@ const variants = {
 
 export default function Contact({ subscription }) {
   const {
-    data: { _site: site, contact },
+    data: { site, contact },
   } = useQuerySubscription(subscription);
   const { navigation, preview } = useLayoutQuery(subscription);
   const ref = useRef(null);

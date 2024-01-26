@@ -11,12 +11,15 @@ import RelatedBlock from '@/components/related-block';
 import ProjectInfo from '@/components/project-info';
 import PlaceholderImage from '@/components/placeholder-image';
 import imageOrientation from '@/lib/utils/imageOrientation';
-import { responsiveImageFragment } from '@/lib/fragments';
 import CloseIcon from '@/components/close-icon';
 
 import useLayoutQuery from '@/hooks/useLayoutQuery';
-import navigationFragment from '@/lib/fragments/navigation-fragment';
-import globalSeoFragment from '@/lib/fragments/global-seo';
+import {
+  responsiveImageFragment,
+  metaTagsFragment,
+  navigationFragment,
+  globalSeoFragment,
+} from '@/lib/fragments';
 
 export async function getStaticPaths() {
   const data = await request({ query: '{ allProjects(first: 100) { slug } }' });
@@ -33,9 +36,8 @@ export async function getStaticProps({ params, preview = false }) {
           query ProjectBySlug($slug: String) {
             ${globalSeoFragment}
             project(filter: {slug: {eq: $slug}}) {
-              seo {
-                description
-                title
+              seo: _seoMetaTags {
+                ...metaTagsFragment
               }
               id
               intro {
@@ -69,6 +71,7 @@ export async function getStaticProps({ params, preview = false }) {
             }
             ${navigationFragment}
           }
+          ${metaTagsFragment}
           ${responsiveImageFragment}
         `,
     preview,
@@ -96,7 +99,7 @@ export async function getStaticProps({ params, preview = false }) {
 
 export default function Project({ subscription }) {
   const {
-    data: { _site: site, project },
+    data: { site, project },
   } = useQuerySubscription(subscription);
   const { navigation, preview } = useLayoutQuery(subscription);
   const router = useRouter();
