@@ -7,8 +7,8 @@ This is the website of Charlton Brown, an architecture firm based in North Londo
 ## Prerequisites
 
 - Node.js installed locally, I recommend at least v.14
-- A membership to the Crezco organisation on GitHub
-- A membership to the Crezco organisation on Vercel
+- A membership to the CharltonBrown organisation on GitHub
+- A membership to the CharltonBrown organisation on Vercel
 
 ## Install steps
 
