@@ -7,7 +7,6 @@ import Accordion from '@/components/services/accordion';
 import richTextStyles from '@/components/rich-text/rich-text.module.css';
 import { useBreakpoint } from '@/hooks/tailwind';
 import useScrollIntoView from '@/hooks/useScrollIntoView';
-import timeout from '@/lib/utils/timeout';
 
 export default function ServiceItem({
   title,
@@ -28,7 +27,7 @@ export default function ServiceItem({
     await animateIntro(
       introScope.current,
       { height: 'auto', opacity: 1 },
-      { duration: 0.25 },
+      { duration: 0.4, ease: 'easeOut' },
     );
   }, [animateIntro, introScope]);
 
@@ -36,7 +35,7 @@ export default function ServiceItem({
     await animateIntro(
       introScope.current,
       { height: 0, opacity: 0 },
-      { duration: 0.25, delay: 0.25 },
+      { duration: 0.4, ease: 'easeOut' },
     );
   }, [animateIntro, introScope]);
 
@@ -44,7 +43,7 @@ export default function ServiceItem({
     await animateBody(
       bodyScope.current,
       { height: 'auto', opacity: 1 },
-      { duration: 0.25 },
+      { duration: 0.4, ease: 'easeOut' },
     );
   }, [animateBody, bodyScope]);
 
@@ -52,7 +51,7 @@ export default function ServiceItem({
     await animateBody(
       bodyScope.current,
       { height: 0, opacity: 0 },
-      { duration: 0.25, delay: 0.25 },
+      { duration: 0.4, ease: 'easeOut' },
     );
   }, [animateBody, bodyScope]);
 
@@ -60,7 +59,7 @@ export default function ServiceItem({
     await animateBorder(
       borderScope.current,
       { width: '100%' },
-      { duration: 0.25 },
+      { duration: 0.4, ease: 'easeOut' },
     );
   }, [animateBorder, borderScope]);
 
@@ -68,32 +67,28 @@ export default function ServiceItem({
     await animateBorder(
       borderScope.current,
       { width: '50%' },
-      { duration: 0.25 },
+      { duration: 0.4, ease: 'easeOut' },
     );
   }, [animateBorder, borderScope]);
 
   const handleToggle = useCallback(async () => {
     if (isLgScreen && open) {
-      await showBorder();
-      await showIntro();
-      await showBody();
-      await timeout(500);
+      await Promise.all([showIntro(), showBorder()]);
       await setShouldScrollTo(true);
+      await showBody();
       return;
     }
 
     if (isLgScreen && !open) {
       await hideBody();
-      await hideBorder();
-      await hideIntro();
+      await Promise.all([hideIntro(), hideBorder()]);
       return;
     }
 
     if (open) {
       await showIntro();
-      await showBody();
-      await timeout(500);
       await setShouldScrollTo(true);
+      await showBody();
       return;
     }
 

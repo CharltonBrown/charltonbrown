@@ -13,22 +13,30 @@ function AccordionItem({ item, index, open, onClick }) {
   const [scrollRef, setShouldScrollTo] = useScrollIntoView();
   const [bodyScope, animateBody] = useAnimate();
 
+  const showBody = useCallback(async () => {
+    await animateBody(
+      bodyScope.current,
+      { height: 'auto', opacity: 1 },
+      { duration: 1, ease: 'easeOut' },
+    );
+  }, [animateBody, bodyScope]);
+
+  const hideBody = useCallback(async () => {
+    await animateBody(
+      bodyScope.current,
+      { height: 0, opacity: 0 },
+      { duration: 1, ease: 'easeOut' },
+    );
+  }, [animateBody, bodyScope]);
+
   const handleToggle = useCallback(async () => {
     if (open) {
-      await animateBody(
-        bodyScope.current,
-        { height: 'auto', opacity: 1 },
-        { duration: 0.25 },
-      );
+      await showBody();
       await setShouldScrollTo(true);
     } else {
-      await animateBody(
-        bodyScope.current,
-        { height: 0, opacity: 0 },
-        { duration: 0.25 },
-      );
+      await hideBody();
     }
-  }, [animateBody, bodyScope, open, setShouldScrollTo]);
+  }, [hideBody, open, setShouldScrollTo, showBody]);
 
   useEffect(() => {
     handleToggle();
@@ -41,14 +49,9 @@ function AccordionItem({ item, index, open, onClick }) {
   return (
     <div
       ref={scrollRef}
-      className="scroll-mt-10 md:scroll-mt-24 lg:scroll-mt-48 mb-8"
+      className="scroll-mt-10 md:scroll-mt-24 lg:scroll-mt-48 mb-12"
     >
-      <h3
-        className={clsx(
-          'text-xl transition-all delay-100 ease-out',
-          open ? 'mb-24 lg:mb-48' : 'mb-4',
-        )}
-      >
+      <h3 className="text-xl">
         <button
           type="button"
           onClick={() => handleClick()}
@@ -64,13 +67,15 @@ function AccordionItem({ item, index, open, onClick }) {
         </button>
       </h3>
       <div className="h-0 opacity-0 overflow-hidden" ref={bodyScope}>
-        <div className="mb-8 lg:hidden">
-          <PlaceholderImage
-            image={item.image.responsiveImage}
-            overlappingTarget
-          />
+        <div className="pt-24 lg:pt-96">
+          <div className="mb-8 lg:hidden">
+            <PlaceholderImage
+              image={item.image.responsiveImage}
+              overlappingTarget
+            />
+          </div>
+          <RichText text={item.body} />
         </div>
-        <RichText text={item.body} />
       </div>
     </div>
   );
@@ -90,7 +95,7 @@ export default function Accordion({
     await animateImage(
       imageScope.current,
       { x: -200, opacity: 0 },
-      { duration: 0.25 },
+      { duration: 0.4, ease: 'easeOut' },
     );
     await animateImage(imageScope.current, {
       display: 'none',
@@ -104,18 +109,18 @@ export default function Accordion({
     await animateImage(
       imageScope.current,
       { x: 0, opacity: 1 },
-      { duration: 0.25 },
+      { duration: 0.4, ease: 'easeOut' },
     );
   }, [animateImage, imageScope]);
 
   const handleClose = useCallback(async () => {
     if (isLgScreen && !openService) {
       await hideImage();
-      await setActiveItem(null);
+      setActiveItem(null);
       return;
     }
     if (!openService) {
-      await setActiveItem(null);
+      setActiveItem(null);
     }
   }, [hideImage, isLgScreen, openService]);
 
@@ -133,7 +138,7 @@ export default function Accordion({
     if (activeItem?.id === id) {
       await hideImage();
       await timeout(250);
-      await setActiveItem(null);
+      setActiveItem(null);
       await timeout(250);
       await showImage();
       return;
@@ -141,7 +146,7 @@ export default function Accordion({
 
     await hideImage();
     await timeout(250);
-    await setActiveItem(items.find((item) => item.id === id));
+    setActiveItem(items.find((item) => item.id === id));
     await timeout(250);
     await showImage();
   };
