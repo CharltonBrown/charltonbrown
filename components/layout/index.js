@@ -88,6 +88,12 @@ export default function Layout({
             gtag('config', 'G-7W544HKPZK');
           `}
         </Script>
+        {/* <Script
+          id="hs-script-loader"
+          async
+          defer
+          src="//js.hs-scripts.com/47875486.js"
+        /> */}
       </div>
       {preview && (
         <div className="fixed z-50 bottom-0 left-0 right-0 bg-casablanca text-white p-4">
