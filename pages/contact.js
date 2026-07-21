@@ -92,7 +92,10 @@ export default function Contact({ subscription }) {
   const projectTriggerRef = useRef(null);
   const pressTriggerRef = useRef(null);
 
-  const closeModal = () => setActiveModal(null);
+  const closeModal = () => {
+    setActiveModal(null);
+    setSubmitted(null);
+  };
 
   return (
     <Layout
