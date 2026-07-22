@@ -6,6 +6,7 @@ import request from '@/lib/datocms';
 import Layout from '@/components/layout';
 import footerBlockFragment from '@/components/footer-block/fragment';
 import FooterBlock from '@/components/footer-block';
+import fadeVariants from '@/components/fade-in-block/fadeVariants';
 import PlaceholderImage from '@/components/placeholder-image';
 import Modal from '@/components/contact/Modal';
 import ClientProjectForm from '@/components/contact/ClientProjectForm';
@@ -125,37 +126,41 @@ export default function Contact({ subscription }) {
                 animate={contentIsInView && 'visible'}
                 initial="hidden"
                 variants={variants}
-                className="md:grid md:grid-cols-2 gap-12 lg:gap-16 items-start"
               >
-                {contact.blocks.map((block) => (
-                  <FooterBlock
-                    key={block.id}
-                    heading={block.heading}
-                    body={block.body}
-                    className="mb-8 lg:mb-0"
-                  />
-                ))}
-              </motion.div>
+                <div className="md:grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
+                  {contact.blocks.map((block) => (
+                    <FooterBlock
+                      key={block.id}
+                      heading={block.heading}
+                      body={block.body}
+                      className="mb-8 lg:mb-0"
+                    />
+                  ))}
+                </div>
 
-              {/* Contact form triggers */}
-              <div className="mt-12 border-t border-gallery">
-                <button
-                  ref={projectTriggerRef}
-                  type="button"
-                  className={BUTTON_CLASS}
-                  onClick={() => setActiveModal('project')}
+                {/* Contact form triggers — animated last in the stagger sequence */}
+                <motion.div
+                  variants={fadeVariants}
+                  className="mt-12 border-t border-gallery"
                 >
-                  Contact Us About A Project
-                </button>
-                <button
-                  ref={pressTriggerRef}
-                  type="button"
-                  className={BUTTON_CLASS}
-                  onClick={() => setActiveModal('press')}
-                >
-                  Press &amp; Other Enquiries
-                </button>
-              </div>
+                  <button
+                    ref={projectTriggerRef}
+                    type="button"
+                    className={BUTTON_CLASS}
+                    onClick={() => setActiveModal('project')}
+                  >
+                    Contact Us About A Project
+                  </button>
+                  <button
+                    ref={pressTriggerRef}
+                    type="button"
+                    className={BUTTON_CLASS}
+                    onClick={() => setActiveModal('press')}
+                  >
+                    Press &amp; Other Enquiries
+                  </button>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </div>
