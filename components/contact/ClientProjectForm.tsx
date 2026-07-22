@@ -11,6 +11,8 @@ import {
   ClientProjectFormData,
   HEARD_ABOUT_OPTIONS,
   PROJECT_TYPES,
+  LISTED_STATUS_OPTIONS,
+  PROPERTY_DESCRIPTIONS,
   REGIONS,
   BUDGETS,
   TIMINGS,
@@ -155,24 +157,6 @@ export default function ClientProjectForm({ onSuccess }: Props) {
       </Field>
 
       <Field
-        label="How did you hear about Charlton Brown *"
-        error={errors.heardAbout?.message}
-      >
-        <select
-          {...register('heardAbout')}
-          className={selectClass}
-          defaultValue=""
-        >
-          <option value="" disabled />
-          {HEARD_ABOUT_OPTIONS.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-      </Field>
-
-      <Field
         label="What type of project do you have? *"
         error={errors.projectType?.message}
       >
@@ -190,9 +174,9 @@ export default function ClientProjectForm({ onSuccess }: Props) {
         </select>
       </Field>
 
-      {projectType === 'Refurbishment/Extension' && (
+      {projectType && projectType !== 'New build' && (
         <Field
-          label="Is it a listed property? *"
+          label="Does your property have listed status? *"
           error={errors.isListedProperty?.message}
         >
           <select
@@ -201,14 +185,35 @@ export default function ClientProjectForm({ onSuccess }: Props) {
             defaultValue=""
           >
             <option value="" disabled />
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
+            {LISTED_STATUS_OPTIONS.map((o) => (
+              <option key={o} value={o}>
+                {o}
+              </option>
+            ))}
           </select>
         </Field>
       )}
 
       <Field
-        label="Do you currently own the property? *"
+        label="What best describes your property? *"
+        error={errors.propertyDescription?.message}
+      >
+        <select
+          {...register('propertyDescription')}
+          className={selectClass}
+          defaultValue=""
+        >
+          <option value="" disabled />
+          {PROPERTY_DESCRIPTIONS.map((o) => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
+      </Field>
+
+      <Field
+        label="Do you (or your client) currently own the property?"
         error={errors.ownsProperty?.message}
       >
         <select
@@ -216,7 +221,7 @@ export default function ClientProjectForm({ onSuccess }: Props) {
           className={selectClass}
           defaultValue=""
         >
-          <option value="" disabled />
+          <option value="" />
           <option value="Yes">Yes</option>
           <option value="No">No</option>
         </select>
@@ -243,11 +248,11 @@ export default function ClientProjectForm({ onSuccess }: Props) {
       )}
 
       <Field
-        label="Do you have a proposed budget for your project?"
+        label="Do you have a proposed budget for your project? *"
         error={errors.budget?.message}
       >
         <select {...register('budget')} className={selectClass} defaultValue="">
-          <option value="" />
+          <option value="" disabled />
           {BUDGETS.map((o) => (
             <option key={o} value={o}>
               {o}
@@ -257,11 +262,11 @@ export default function ClientProjectForm({ onSuccess }: Props) {
       </Field>
 
       <Field
-        label="Please give an indication of the proposed timings for your project"
+        label="Please give an indication of the proposed timings for your project *"
         error={errors.timing?.message}
       >
         <select {...register('timing')} className={selectClass} defaultValue="">
-          <option value="" />
+          <option value="" disabled />
           {TIMINGS.map((o) => (
             <option key={o} value={o}>
               {o}
@@ -279,6 +284,24 @@ export default function ClientProjectForm({ onSuccess }: Props) {
           rows={4}
           className={`${inputClass} resize-none`}
         />
+      </Field>
+
+      <Field
+        label="How did you hear about Charlton Brown *"
+        error={errors.heardAbout?.message}
+      >
+        <select
+          {...register('heardAbout')}
+          className={selectClass}
+          defaultValue=""
+        >
+          <option value="" disabled />
+          {HEARD_ABOUT_OPTIONS.map((o) => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
       </Field>
 
       <div className="mb-7">
@@ -333,8 +356,19 @@ export default function ClientProjectForm({ onSuccess }: Props) {
             viewBox="0 0 24 24"
             aria-hidden="true"
           >
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
           </svg>
         )}
         {isSubmitting || uploading ? 'Sending…' : 'Submit'}

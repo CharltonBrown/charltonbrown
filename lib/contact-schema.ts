@@ -1,39 +1,50 @@
 import { z } from 'zod';
 
 export const HEARD_ABOUT_OPTIONS = [
-  'Existing client',
+  "I'm an existing client",
   'Referral',
-  'Architect',
-  'Consultant',
-  'Google',
-  'Instagram',
-  'Press',
-  'The List',
-  'Event',
+  'Social Media',
+  'Press or publication',
   'Other',
 ] as const;
 
 export const PROJECT_TYPES = [
   'New build',
   'Refurbishment/Extension',
-  'Built-in interiors only',
-  'Interior Design only',
-  'To be discussed',
+  'Architectural built-in interiors only',
+  'Interior Design; Furniture and furnishings',
 ] as const;
 
-export const REGIONS = ['UK', 'Europe', 'Rest of world'] as const;
-export const BUDGETS = [
-  'Less than £500k',
-  '£500k-£1m',
-  '£1-2m',
-  '£2m-£5m',
-  '£5m+',
+export const LISTED_STATUS_OPTIONS = [
+  "No, it's not Listed",
+  'Grade I Listed',
+  'Grade II* Listed',
+  'Grade II Listed',
+  'TBC / Not known',
 ] as const;
+
+export const PROPERTY_DESCRIPTIONS = [
+  'My main residence',
+  'An additional home',
+  'A residential investment or development project',
+  'A commercial project',
+  "I'm making an enquiry on behalf of a client",
+  'Other',
+] as const;
+
+export const REGIONS = ['UK', 'Europe', 'Rest of World'] as const;
+
+export const BUDGETS = [
+  'Up to £1m',
+  '£1-5m',
+  '£10m+',
+  'Not known / I prefer not to say',
+] as const;
+
 export const TIMINGS = [
   'Immediately',
-  '3 months',
-  '6 months',
-  '12 months',
+  '3-6 months',
+  '6-12 months',
   'Just exploring',
 ] as const;
 
@@ -47,25 +58,27 @@ export const clientProjectSchema = z
     lastName: req(),
     email: req().email('Please enter a valid email address.'),
     contactNumber: req(),
-    heardAbout: req(),
     projectType: req(),
-    // Note: isListedProperty is required only when projectType === 'Refurbishment/Extension'.
+    // Note: isListedProperty is required for all project types except 'New build'.
     // Zod's static type system cannot express this conditional requirement — it is marked
     // optional here and enforced at runtime via superRefine below.
     isListedProperty: z.string().optional(),
-    ownsProperty: req(),
+    propertyDescription: req(),
+    ownsProperty: z.string().optional(),
     region: req(),
     // Note: postcode is required only when region === 'UK'. Same caveat as isListedProperty above.
     postcode: z.string().optional(),
-    budget: z.string().optional(),
-    timing: z.string().optional(),
+    budget: req(),
+    timing: req(),
     additionalDetail: z.string().optional(),
+    heardAbout: req(),
     attachmentUrl: z.string().url().optional(),
     marketingConsent: z.boolean(),
   })
   .superRefine((data, ctx) => {
     if (
-      data.projectType === 'Refurbishment/Extension' &&
+      data.projectType &&
+      data.projectType !== 'New build' &&
       !data.isListedProperty
     ) {
       ctx.addIssue({

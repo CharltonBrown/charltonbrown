@@ -21,15 +21,16 @@ function formatProjectEmail(
     ['Last name', data.lastName],
     ['Email', data.email],
     ['Contact number', data.contactNumber],
-    ['How did you hear about us', data.heardAbout],
     ['Project type', data.projectType],
-    ['Is it a listed property?', data.isListedProperty],
-    ['Do they own the property?', data.ownsProperty],
+    ['Listed status', data.isListedProperty],
+    ['Property description', data.propertyDescription],
+    ['Owns property', data.ownsProperty],
     ['Country / region', data.region],
     ['Postcode', data.postcode],
     ['Budget', data.budget],
     ['Timings', data.timing],
     ['Additional detail', data.additionalDetail],
+    ['How did you hear about us', data.heardAbout],
     ['Attachment', attachmentValue],
     ['Marketing consent', data.marketingConsent ? 'Yes' : 'No'],
   ];
@@ -106,7 +107,9 @@ export default async function handler(
     >;
     if (projectData.attachmentUrl) {
       try {
-        const pathname = decodeURIComponent(new URL(projectData.attachmentUrl).pathname.slice(1));
+        const pathname = decodeURIComponent(
+          new URL(projectData.attachmentUrl).pathname.slice(1),
+        );
         const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
         const signedToken = await issueSignedToken({
           pathname,
