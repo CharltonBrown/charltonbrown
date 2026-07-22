@@ -93,7 +93,8 @@ export default function ClientProjectForm({ onSuccess }: Props) {
     if (file) {
       setUploading(true);
       try {
-        const blob = await upload(file.name, file, {
+        const safeName = file.name.replace(/\s+/g, '-');
+        const blob = await upload(safeName, file, {
           access: 'private',
           handleUploadUrl: '/api/contact-upload',
         });
