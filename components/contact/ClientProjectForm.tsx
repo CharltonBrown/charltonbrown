@@ -5,6 +5,7 @@ import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { upload } from '@vercel/blob/client';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 import {
   clientProjectSchema,
@@ -32,7 +33,16 @@ const inputClass =
   'w-full bg-transparent border-b border-silver py-2 text-black font-savoyRegular text-base focus:outline-none focus:border-black transition-colors';
 
 const selectClass =
-  'w-full bg-transparent border-b border-silver py-2 text-black font-savoyRegular text-base focus:outline-none focus:border-black transition-colors appearance-none';
+  'w-full bg-transparent border-b border-silver py-2 pr-6 text-black font-savoyRegular text-base focus:outline-none focus:border-black transition-colors appearance-none';
+
+function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
+  return (
+    <div className="relative">
+      <select {...props} className={selectClass} />
+      <ChevronDownIcon className="pointer-events-none absolute right-0 top-1/2 w-4 h-4 -translate-y-1/2 text-gray" />
+    </div>
+  );
+}
 
 // Wrapping the control inside <label> satisfies jsx-a11y/control-has-associated-label
 function Field({
@@ -161,18 +171,14 @@ export default function ClientProjectForm({ onSuccess }: Props) {
         label="What type of project do you have? *"
         error={errors.projectType?.message}
       >
-        <select
-          {...register('projectType')}
-          className={selectClass}
-          defaultValue=""
-        >
+        <Select {...register('projectType')} defaultValue="">
           <option value="" disabled />
           {PROJECT_TYPES.map((o) => (
             <option key={o} value={o}>
               {o}
             </option>
           ))}
-        </select>
+        </Select>
       </Field>
 
       {projectType && projectType !== 'New build' && (
@@ -180,18 +186,14 @@ export default function ClientProjectForm({ onSuccess }: Props) {
           label="Does your property have listed status? *"
           error={errors.isListedProperty?.message}
         >
-          <select
-            {...register('isListedProperty')}
-            className={selectClass}
-            defaultValue=""
-          >
+          <Select {...register('isListedProperty')} defaultValue="">
             <option value="" disabled />
             {LISTED_STATUS_OPTIONS.map((o) => (
               <option key={o} value={o}>
                 {o}
               </option>
             ))}
-          </select>
+          </Select>
         </Field>
       )}
 
@@ -199,47 +201,39 @@ export default function ClientProjectForm({ onSuccess }: Props) {
         label="What best describes your property? *"
         error={errors.propertyDescription?.message}
       >
-        <select
-          {...register('propertyDescription')}
-          className={selectClass}
-          defaultValue=""
-        >
+        <Select {...register('propertyDescription')} defaultValue="">
           <option value="" disabled />
           {PROPERTY_DESCRIPTIONS.map((o) => (
             <option key={o} value={o}>
               {o}
             </option>
           ))}
-        </select>
+        </Select>
       </Field>
 
       <Field
         label="Do you (or your client) currently own the property?"
         error={errors.ownsProperty?.message}
       >
-        <select
-          {...register('ownsProperty')}
-          className={selectClass}
-          defaultValue=""
-        >
+        <Select {...register('ownsProperty')} defaultValue="">
           <option value="" />
           <option value="Yes">Yes</option>
           <option value="No">No</option>
-        </select>
+        </Select>
       </Field>
 
       <Field
         label="Country or region of your project *"
         error={errors.region?.message}
       >
-        <select {...register('region')} className={selectClass} defaultValue="">
+        <Select {...register('region')} defaultValue="">
           <option value="" disabled />
           {REGIONS.map((o) => (
             <option key={o} value={o}>
               {o}
             </option>
           ))}
-        </select>
+        </Select>
       </Field>
 
       {region === 'UK' && (
@@ -252,28 +246,28 @@ export default function ClientProjectForm({ onSuccess }: Props) {
         label="Do you have a proposed budget for your project? *"
         error={errors.budget?.message}
       >
-        <select {...register('budget')} className={selectClass} defaultValue="">
+        <Select {...register('budget')} defaultValue="">
           <option value="" disabled />
           {BUDGETS.map((o) => (
             <option key={o} value={o}>
               {o}
             </option>
           ))}
-        </select>
+        </Select>
       </Field>
 
       <Field
         label="Please give an indication of the proposed timings for your project *"
         error={errors.timing?.message}
       >
-        <select {...register('timing')} className={selectClass} defaultValue="">
+        <Select {...register('timing')} defaultValue="">
           <option value="" disabled />
           {TIMINGS.map((o) => (
             <option key={o} value={o}>
               {o}
             </option>
           ))}
-        </select>
+        </Select>
       </Field>
 
       <Field
@@ -291,18 +285,14 @@ export default function ClientProjectForm({ onSuccess }: Props) {
         label="How did you hear about Charlton Brown *"
         error={errors.heardAbout?.message}
       >
-        <select
-          {...register('heardAbout')}
-          className={selectClass}
-          defaultValue=""
-        >
+        <Select {...register('heardAbout')} defaultValue="">
           <option value="" disabled />
           {HEARD_ABOUT_OPTIONS.map((o) => (
             <option key={o} value={o}>
               {o}
             </option>
           ))}
-        </select>
+        </Select>
       </Field>
 
       <div className="mb-7">
