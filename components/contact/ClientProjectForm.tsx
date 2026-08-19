@@ -35,12 +35,40 @@ const inputClass =
 const selectClass =
   'w-full bg-transparent border-b border-silver py-2 pr-6 text-black font-savoyRegular text-base focus:outline-none focus:border-black transition-colors appearance-none';
 
-function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
+const Select = React.forwardRef<
+  HTMLSelectElement,
+  React.SelectHTMLAttributes<HTMLSelectElement>
+>(function Select(props, ref) {
   return (
     <div className="relative">
-      <select {...props} className={selectClass} />
+      <select {...props} ref={ref} className={selectClass} />
       <ChevronDownIcon className="pointer-events-none absolute right-0 top-1/2 w-4 h-4 -translate-y-1/2 text-gray" />
     </div>
+  );
+});
+
+function CheckboxGroup({
+  legend,
+  helperText,
+  error,
+  children,
+}: {
+  legend: string;
+  helperText?: string;
+  error?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <fieldset className="mb-7">
+      <legend className={labelClass}>{legend}</legend>
+      {helperText && (
+        <p className="-mt-1 mb-3 text-xs text-gray font-savoyRegular">
+          {helperText}
+        </p>
+      )}
+      <div className="space-y-2">{children}</div>
+      <FieldError message={error} />
+    </fieldset>
   );
 }
 
@@ -86,12 +114,14 @@ export default function ClientProjectForm({ onSuccess }: Props) {
     resolver: zodResolver(clientProjectSchema),
     defaultValues: {
       formType: 'client-project' as const,
+      projectType: [],
       marketingConsent: false,
     },
   });
 
   const projectType = watch('projectType');
   const region = watch('region');
+  const heardAbout = watch('heardAbout');
 
   const onSubmit = async (data: ClientProjectFormData) => {
     setSubmitError(null);
@@ -167,21 +197,26 @@ export default function ClientProjectForm({ onSuccess }: Props) {
         />
       </Field>
 
-      <Field
-        label="What type of project do you have? *"
+      <CheckboxGroup
+        legend="What type of project do you have? *"
+        helperText="Please select all that apply"
         error={errors.projectType?.message}
       >
-        <Select {...register('projectType')} defaultValue="">
-          <option value="" disabled />
-          {PROJECT_TYPES.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </Select>
-      </Field>
+        {PROJECT_TYPES.map((o) => (
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          <label key={o} className="flex items-center gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              value={o}
+              {...register('projectType')}
+              className="shrink-0 accent-black"
+            />
+            <span className="text-base text-black font-savoyRegular">{o}</span>
+          </label>
+        ))}
+      </CheckboxGroup>
 
-      {projectType && projectType !== 'New build' && (
+      {projectType?.some((t) => t !== 'New build') && (
         <Field
           label="Does your property have listed status? *"
           error={errors.isListedProperty?.message}
@@ -294,6 +329,19 @@ export default function ClientProjectForm({ onSuccess }: Props) {
           ))}
         </Select>
       </Field>
+
+      {heardAbout === 'Referral' && (
+        <Field
+          label="Please let us know who referred you *"
+          error={errors.referralSource?.message}
+        >
+          <input
+            type="text"
+            {...register('referralSource')}
+            className={inputClass}
+          />
+        </Field>
+      )}
 
       <div className="mb-7">
         <span className={labelClass}>

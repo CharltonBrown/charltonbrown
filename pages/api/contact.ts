@@ -21,7 +21,7 @@ function formatProjectEmail(
     ['Last name', data.lastName],
     ['Email', data.email],
     ['Contact number', data.contactNumber],
-    ['Project type', data.projectType],
+    ['Project type', data.projectType.join(', ')],
     ['Listed status', data.isListedProperty],
     ['Property description', data.propertyDescription],
     ['Owns property', data.ownsProperty],
@@ -31,6 +31,7 @@ function formatProjectEmail(
     ['Timings', data.timing],
     ['Additional detail', data.additionalDetail],
     ['How did you hear about us', data.heardAbout],
+    ['Referred by', data.referralSource],
     ['Attachment', attachmentValue],
     ['Marketing consent', data.marketingConsent ? 'Yes' : 'No'],
   ];

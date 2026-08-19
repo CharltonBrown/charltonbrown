@@ -36,7 +36,8 @@ export const REGIONS = ['UK', 'Europe', 'Rest of World'] as const;
 
 export const BUDGETS = [
   'Up to £1m',
-  '£1-5m',
+  '£1.5-£5m',
+  '£5m-£10m',
   '£10m+',
   'Not known / I prefer not to say',
 ] as const;
@@ -58,8 +59,10 @@ export const clientProjectSchema = z
     lastName: req(),
     email: req().email('Please enter a valid email address.'),
     contactNumber: req(),
-    projectType: req(),
-    // Note: isListedProperty is required for all project types except 'New build'.
+    projectType: z
+      .array(z.string())
+      .min(1, 'Please select at least one option.'),
+    // Note: isListedProperty is required whenever a selected project type is not 'New build'.
     // Zod's static type system cannot express this conditional requirement — it is marked
     // optional here and enforced at runtime via superRefine below.
     isListedProperty: z.string().optional(),
@@ -72,13 +75,15 @@ export const clientProjectSchema = z
     timing: req(),
     additionalDetail: z.string().optional(),
     heardAbout: req(),
+    // Note: referralSource is required only when heardAbout === 'Referral'. Same caveat as
+    // isListedProperty above.
+    referralSource: z.string().optional(),
     attachmentUrl: z.string().url().optional(),
     marketingConsent: z.boolean(),
   })
   .superRefine((data, ctx) => {
     if (
-      data.projectType &&
-      data.projectType !== 'New build' &&
+      data.projectType.some((t) => t !== 'New build') &&
       !data.isListedProperty
     ) {
       ctx.addIssue({
@@ -91,6 +96,13 @@ export const clientProjectSchema = z
       ctx.addIssue({
         code: 'custom',
         path: ['postcode'],
+        message: 'Please complete this required field.',
+      });
+    }
+    if (data.heardAbout === 'Referral' && !data.referralSource?.trim()) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['referralSource'],
         message: 'Please complete this required field.',
       });
     }

@@ -74,8 +74,9 @@ const variants = {
   hidden: { opacity: 0 },
 };
 
-const BUTTON_CLASS =
-  'block w-full text-left border-b border-gallery py-4 text-sm font-savoyBold uppercase tracking-widest text-black hover:text-gray transition-colors';
+const BUTTON_CLASS = `block w-auto text-center border border-gallery py-4 px-4 text-sm
+  font-savoyBold uppercase tracking-widest text-black hover:text-gray
+  transition-colors`;
 
 export default function Contact({ subscription }) {
   const {
@@ -104,6 +105,7 @@ export default function Contact({ subscription }) {
       preview={preview}
       site={site}
       seo={contact.seo}
+      hiddenPageHeading
       hideFooter
     >
       <main className="bg-white">
@@ -127,6 +129,32 @@ export default function Contact({ subscription }) {
                 initial="hidden"
                 variants={variants}
               >
+                <motion.div variants={fadeVariants}>
+                  <p className="text-lg">
+                    We would love to hear from you and understand more about
+                    your project. Please get in touch by submitting a contact
+                    form providing as much information as you are able, and we
+                    will respond within two working days.
+                  </p>
+                  <div className="mt-6 mb-20 flex gap-4">
+                    <button
+                      ref={projectTriggerRef}
+                      type="button"
+                      className={BUTTON_CLASS}
+                      onClick={() => setActiveModal('project')}
+                    >
+                      Contact Us About A Project
+                    </button>
+                    <button
+                      ref={pressTriggerRef}
+                      type="button"
+                      className={BUTTON_CLASS}
+                      onClick={() => setActiveModal('press')}
+                    >
+                      Press &amp; Other Enquiries
+                    </button>
+                  </div>
+                </motion.div>
                 <div className="md:grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
                   {contact.blocks.map((block) => (
                     <FooterBlock
@@ -137,29 +165,6 @@ export default function Contact({ subscription }) {
                     />
                   ))}
                 </div>
-
-                {/* Contact form triggers — animated last in the stagger sequence */}
-                <motion.div
-                  variants={fadeVariants}
-                  className="mt-12 border-t border-gallery"
-                >
-                  <button
-                    ref={projectTriggerRef}
-                    type="button"
-                    className={BUTTON_CLASS}
-                    onClick={() => setActiveModal('project')}
-                  >
-                    Contact Us About A Project
-                  </button>
-                  <button
-                    ref={pressTriggerRef}
-                    type="button"
-                    className={BUTTON_CLASS}
-                    onClick={() => setActiveModal('press')}
-                  >
-                    Press &amp; Other Enquiries
-                  </button>
-                </motion.div>
               </motion.div>
             </div>
           </div>
