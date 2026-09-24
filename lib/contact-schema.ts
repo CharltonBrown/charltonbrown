@@ -100,6 +100,8 @@ export const clientProjectSchema = z
     region: req(),
     // Note: postcode is required only when region === 'UK'. Same caveat as isListedProperty above.
     postcode: z.string().optional(),
+    // Note: addressLine1 is required only when region === 'UK'. Same caveat as isListedProperty above.
+    addressLine1: z.string().optional(),
     budget: req(),
     timing: req(),
     additionalDetail: z.string().optional(),
@@ -146,6 +148,13 @@ export const clientProjectSchema = z
           // eslint-disable-next-line no-param-reassign -- deliberate, see comment above
           data.postcode = normalizedPostcode;
         }
+      }
+      if (!data.addressLine1?.trim()) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['addressLine1'],
+          message: 'Please complete this required field.',
+        });
       }
     }
     if (data.heardAbout === 'Referral' && !data.referralSource?.trim()) {

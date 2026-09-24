@@ -290,6 +290,16 @@ export default function ClientProjectForm({ onSuccess }: Props) {
         </Field>
       )}
 
+      {region === 'UK' && (
+        <Field label="Address line 1 *" error={errors.addressLine1?.message}>
+          <input
+            type="text"
+            {...register('addressLine1')}
+            className={inputClass}
+          />
+        </Field>
+      )}
+
       <Field
         label="Do you have a proposed budget for your project? *"
         error={errors.budget?.message}

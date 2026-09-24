@@ -27,6 +27,7 @@ function formatProjectEmail(
     ['Owns property', data.ownsProperty],
     ['Country / region', data.region],
     ['Postcode', data.postcode],
+    ['Address line 1', data.addressLine1],
     ['Budget', data.budget],
     ['Timings', data.timing],
     ['Additional detail', data.additionalDetail],
