@@ -9,6 +9,7 @@ import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 import {
   clientProjectSchema,
+  normalizeUKPostcode,
   ClientProjectFormData,
   HEARD_ABOUT_OPTIONS,
   PROJECT_TYPES,
@@ -109,6 +110,7 @@ export default function ClientProjectForm({ onSuccess }: Props) {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ClientProjectFormData>({
     resolver: zodResolver(clientProjectSchema),
@@ -233,7 +235,7 @@ export default function ClientProjectForm({ onSuccess }: Props) {
       )}
 
       <Field
-        label="What best describes your property? *"
+        label="Which of these options best describes your property? *"
         error={errors.propertyDescription?.message}
       >
         <Select {...register('propertyDescription')} defaultValue="">
@@ -273,7 +275,18 @@ export default function ClientProjectForm({ onSuccess }: Props) {
 
       {region === 'UK' && (
         <Field label="Postcode *" error={errors.postcode?.message}>
-          <input type="text" {...register('postcode')} className={inputClass} />
+          <input
+            type="text"
+            {...register('postcode', {
+              onBlur: (e: React.FocusEvent<HTMLInputElement>) => {
+                const normalized = normalizeUKPostcode(e.target.value);
+                if (normalized) {
+                  setValue('postcode', normalized, { shouldValidate: true });
+                }
+              },
+            })}
+            className={inputClass}
+          />
         </Field>
       )}
 
