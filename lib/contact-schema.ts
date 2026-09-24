@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+// Static label for the current field shape of these schemas — bump manually
+// whenever a field is added, removed, or renamed. Sent to CB intake so it can
+// track which shape a given submission was sent in.
+export const FORM_VERSION = '2026-09';
+
 export const HEARD_ABOUT_OPTIONS = [
   "I'm an existing client",
   'Referral',

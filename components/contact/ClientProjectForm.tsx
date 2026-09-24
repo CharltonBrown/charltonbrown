@@ -19,6 +19,8 @@ import {
   BUDGETS,
   TIMINGS,
 } from '@/lib/contact-schema';
+import getHubspotutkCookie from '@/lib/hubspot';
+import TurnstileWidget from '@/components/contact/TurnstileWidget';
 
 // ── Shared field primitives ──────────────────────────────────────────────────
 
@@ -105,6 +107,7 @@ export default function ClientProjectForm({ onSuccess }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const {
     register,
@@ -149,7 +152,13 @@ export default function ClientProjectForm({ onSuccess }: Props) {
       setUploading(false);
     }
 
-    const payload: ClientProjectFormData = { ...data, attachmentUrl };
+    const hubspotutk = getHubspotutkCookie();
+    const payload = {
+      ...data,
+      attachmentUrl,
+      turnstileToken,
+      ...(hubspotutk ? { hubspotutk } : {}),
+    };
 
     const res = await fetch('/api/contact', {
       method: 'POST',
@@ -400,6 +409,8 @@ export default function ClientProjectForm({ onSuccess }: Props) {
           with the content and support requested.
         </p>
       </div>
+
+      <TurnstileWidget onVerify={setTurnstileToken} />
 
       {submitError && (
         <p className="mb-5 text-sm text-oldBrick">{submitError}</p>

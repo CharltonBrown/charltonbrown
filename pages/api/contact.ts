@@ -1,15 +1,96 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { randomUUID } from 'crypto';
 import { Resend } from 'resend';
 import { issueSignedToken, presignUrl } from '@vercel/blob';
 
-import { contactFormSchema, ContactFormData } from '@/lib/contact-schema';
+import {
+  contactFormSchema,
+  ContactFormData,
+  FORM_VERSION,
+} from '@/lib/contact-schema';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 type ApiResponse = { success: true } | { error: string };
 
+/* eslint-disable no-console -- deliberate server-side error logging for the
+   Turnstile and CB intake failure paths below, matching lib/datocms.js */
+
+const CB_INTAKE_TIMEOUT_MS = 5000;
+
+// Cloudflare Turnstile isn't provisioned for this site yet (see
+// components/contact/TurnstileWidget.tsx). Without TURNSTILE_SECRET_KEY set,
+// verification is skipped entirely so submissions keep working as before;
+// once the secret is set, this starts enforcing automatically.
+async function verifyTurnstileToken(
+  token: unknown,
+  remoteIp: string | undefined,
+): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true;
+  if (typeof token !== 'string' || !token) return false;
+
+  try {
+    const body = new URLSearchParams({ secret, response: token });
+    if (remoteIp) body.append('remoteip', remoteIp);
+
+    const res = await fetch(
+      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+      { method: 'POST', body },
+    );
+    const result = (await res.json()) as { success?: boolean };
+    return result.success === true;
+  } catch (err) {
+    console.error('Turnstile verification request failed:', err);
+    return false;
+  }
+}
+
+// Best-effort forward to CB's intake endpoint. Never throws and never
+// delays the response beyond CB_INTAKE_TIMEOUT_MS — the Resend email below
+// is the source of truth and must always send regardless of what happens here.
+async function postToCBIntake(payload: Record<string, unknown>) {
+  if (process.env.CB_INTAKE_ENABLED !== 'true') return;
+
+  const url = process.env.CB_INTAKE_URL;
+  if (!url) {
+    console.error(
+      `CB_INTAKE_ENABLED is 'true' but CB_INTAKE_URL is not set — skipping intake POST for submission ${payload.submissionId}`,
+    );
+    return;
+  }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), CB_INTAKE_TIMEOUT_MS);
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CB-Secret': process.env.CB_INTAKE_SECRET ?? '',
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      console.error(
+        `CB intake POST returned ${res.status} for submission ${payload.submissionId}`,
+      );
+    }
+  } catch (err) {
+    console.error(
+      `CB intake POST failed for submission ${payload.submissionId}:`,
+      err,
+    );
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function formatProjectEmail(
   data: Extract<ContactFormData, { formType: 'client-project' }>,
+  submissionId: string,
   signedAttachmentUrl?: string,
 ): string {
   const attachmentValue = signedAttachmentUrl
@@ -17,6 +98,7 @@ function formatProjectEmail(
     : undefined;
 
   const rows: [string, string | undefined][] = [
+    ['Submission ID', submissionId],
     ['First name', data.firstName],
     ['Last name', data.lastName],
     ['Email', data.email],
@@ -50,8 +132,10 @@ function formatProjectEmail(
 
 function formatPressEmail(
   data: Extract<ContactFormData, { formType: 'press-enquiry' }>,
+  submissionId: string,
 ): string {
   const rows: [string, string | undefined][] = [
+    ['Submission ID', submissionId],
     ['First name', data.firstName],
     ['Last name', data.lastName],
     ['Email', data.email],
@@ -81,12 +165,34 @@ export default async function handler(
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const parsed = contactFormSchema.safeParse(req.body);
+  const body = (req.body ?? {}) as Record<string, unknown>;
+  const { turnstileToken, hubspotutk } = body;
+
+  // a. Verify Turnstile
+  const forwardedFor = req.headers['x-forwarded-for'];
+  const remoteIp = (
+    Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor
+  )
+    ?.split(',')[0]
+    ?.trim();
+
+  const turnstileOk = await verifyTurnstileToken(turnstileToken, remoteIp);
+  if (!turnstileOk) {
+    return res
+      .status(400)
+      .json({ error: 'Verification failed. Please try again.' });
+  }
+
+  const parsed = contactFormSchema.safeParse(body);
   if (!parsed.success) {
     return res.status(400).json({ error: 'Invalid form data.' });
   }
 
   const { data } = parsed;
+  const submissionId = randomUUID();
+  const submittedAt = new Date().toISOString();
+  const pageUri = req.headers.referer ?? 'unknown';
+
   const { CONTACT_FORM_RECIPIENT, CONTACT_FORM_FROM } = process.env;
   const recipient = CONTACT_FORM_RECIPIENT ?? 'office@charltonbrown.com';
   const from =
@@ -96,6 +202,17 @@ export default async function handler(
   const subject = isProject
     ? `New Project Enquiry — ${data.firstName} ${data.lastName}`
     : `New Press Enquiry — ${data.firstName} ${data.lastName}`;
+
+  // b. Forward to CB intake (best-effort, only when explicitly enabled).
+  // Every existing field is sent under its current name, unchanged.
+  await postToCBIntake({
+    ...data,
+    submissionId,
+    formVersion: FORM_VERSION,
+    ...(typeof hubspotutk === 'string' && hubspotutk ? { hubspotutk } : {}),
+    submittedAt,
+    pageUri,
+  });
 
   // Generate a signed URL for the private blob attachment so it is clickable
   // in the email. Vercel Blob private URLs require authentication; a signed URL
@@ -133,12 +250,16 @@ export default async function handler(
   const html = isProject
     ? formatProjectEmail(
         data as Extract<ContactFormData, { formType: 'client-project' }>,
+        submissionId,
         signedAttachmentUrl,
       )
     : formatPressEmail(
         data as Extract<ContactFormData, { formType: 'press-enquiry' }>,
+        submissionId,
       );
 
+  // c. Always send the email — the intake POST above can never block or
+  // prevent this, regardless of whether it succeeded, failed, or was skipped.
   const { error } = await resend.emails.send({
     from,
     to: recipient,
@@ -150,11 +271,6 @@ export default async function handler(
   if (error) {
     return res.status(500).json({ error: 'Failed to send email.' });
   }
-
-  // Phase 2: sendToHubSpot(data) would slot in here once the HubSpot
-  // integration is built. Field names already match the CRM property keys
-  // described in the brief (projectType, isListedProperty, budget, timing,
-  // additionalDetail, attachmentUrl, heardAbout).
 
   return res.status(200).json({ success: true });
 }

@@ -11,6 +11,8 @@ import {
   PressEnquiryFormData,
   HEARD_ABOUT_OPTIONS,
 } from '@/lib/contact-schema';
+import getHubspotutkCookie from '@/lib/hubspot';
+import TurnstileWidget from '@/components/contact/TurnstileWidget';
 
 // ── Shared field primitives ──────────────────────────────────────────────────
 
@@ -66,6 +68,7 @@ interface Props {
 
 export default function PressEnquiryForm({ onSuccess }: Props) {
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const {
     register,
@@ -81,10 +84,17 @@ export default function PressEnquiryForm({ onSuccess }: Props) {
   const onSubmit = async (data: PressEnquiryFormData) => {
     setSubmitError(null);
 
+    const hubspotutk = getHubspotutkCookie();
+    const payload = {
+      ...data,
+      turnstileToken,
+      ...(hubspotutk ? { hubspotutk } : {}),
+    };
+
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
     });
 
     if (!res.ok) {
@@ -157,6 +167,8 @@ export default function PressEnquiryForm({ onSuccess }: Props) {
           className={`${inputClass} resize-none`}
         />
       </Field>
+
+      <TurnstileWidget onVerify={setTurnstileToken} />
 
       {submitError && (
         <p className="mb-5 text-sm text-oldBrick">{submitError}</p>
