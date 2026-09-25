@@ -40,7 +40,7 @@ export const PROPERTY_DESCRIPTIONS = [
 export const REGIONS = ['UK', 'Europe', 'Rest of World'] as const;
 
 export const BUDGETS = [
-  'Up to £1m',
+  'Up to £1.5m',
   '£1.5-£5m',
   '£5m-£10m',
   '£10m+',
@@ -105,7 +105,6 @@ export const clientProjectSchema = z
     region: req(),
     // Note: postcode is required only when region === 'UK'. Same caveat as isListedProperty above.
     postcode: z.string().optional(),
-    // Note: addressLine1 is required only when region === 'UK'. Same caveat as isListedProperty above.
     addressLine1: z.string().optional(),
     budget: req(),
     timing: req(),
@@ -153,13 +152,6 @@ export const clientProjectSchema = z
           // eslint-disable-next-line no-param-reassign -- deliberate, see comment above
           data.postcode = normalizedPostcode;
         }
-      }
-      if (!data.addressLine1?.trim()) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['addressLine1'],
-          message: 'Please complete this required field.',
-        });
       }
     }
     if (data.heardAbout === 'Referral' && !data.referralSource?.trim()) {

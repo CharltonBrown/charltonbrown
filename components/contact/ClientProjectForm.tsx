@@ -300,7 +300,7 @@ export default function ClientProjectForm({ onSuccess }: Props) {
       )}
 
       {region === 'UK' && (
-        <Field label="Address line 1 *" error={errors.addressLine1?.message}>
+        <Field label="Address line 1" error={errors.addressLine1?.message}>
           <input
             type="text"
             {...register('addressLine1')}
