@@ -12,7 +12,9 @@ import {
   HEARD_ABOUT_OPTIONS,
 } from '@/lib/contact-schema';
 import getHubspotutkCookie from '@/lib/hubspot';
-import TurnstileWidget from '@/components/contact/TurnstileWidget';
+import TurnstileWidget, {
+  isTurnstileConfigured,
+} from '@/components/contact/TurnstileWidget';
 
 // ── Shared field primitives ──────────────────────────────────────────────────
 
@@ -176,7 +178,7 @@ export default function PressEnquiryForm({ onSuccess }: Props) {
 
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={isSubmitting || (isTurnstileConfigured && !turnstileToken)}
         className="w-full sm:w-auto inline-flex items-center gap-3 px-10 py-3 bg-black text-white font-savoyBold uppercase tracking-widest text-xs hover:bg-nandor transition-colors disabled:opacity-50"
       >
         {isSubmitting && (

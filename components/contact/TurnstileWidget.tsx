@@ -18,6 +18,13 @@ declare global {
   }
 }
 
+// So forms can gate their submit button on turnstileToken only when a
+// widget is actually going to render — otherwise submit would stay
+// permanently disabled while Turnstile is unconfigured (site key unset).
+export const isTurnstileConfigured = Boolean(
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+);
+
 interface Props {
   onVerify: (token: string) => void;
 }

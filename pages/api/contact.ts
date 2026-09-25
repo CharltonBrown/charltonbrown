@@ -20,14 +20,31 @@ const CB_INTAKE_TIMEOUT_MS = 5000;
 
 // Cloudflare Turnstile isn't provisioned for this site yet (see
 // components/contact/TurnstileWidget.tsx). Without TURNSTILE_SECRET_KEY set,
-// verification is skipped entirely so submissions keep working as before;
-// once the secret is set, this starts enforcing automatically.
+// verification is skipped by default so submissions keep working as before;
+// once the secret is set, this starts enforcing automatically. In
+// production (VERCEL_ENV === 'production'), a missing secret instead
+// REJECTS submissions rather than silently skipping — so a deleted/forgotten
+// key degrades loudly there, not silently. Locally and in previews,
+// VERCEL_ENV isn't 'production', so this has no effect on your workflow.
 async function verifyTurnstileToken(
   token: unknown,
   remoteIp: string | undefined,
 ): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return true;
+
+  if (!secret) {
+    if (process.env.VERCEL_ENV === 'production') {
+      console.error(
+        'Turnstile verification failed: running in production but TURNSTILE_SECRET_KEY is not set',
+      );
+      return false;
+    }
+    console.error(
+      'Turnstile verification skipped: TURNSTILE_SECRET_KEY not set',
+    );
+    return true;
+  }
+
   if (typeof token !== 'string' || !token) return false;
 
   try {
@@ -204,14 +221,17 @@ export default async function handler(
     : `New Press Enquiry — ${data.firstName} ${data.lastName}`;
 
   // b. Forward to CB intake (best-effort, only when explicitly enabled).
-  // Every existing field is sent under its current name, unchanged.
+  // Enquirer-submitted fields are nested under `fields`, as siblings of the
+  // envelope — Jonathan's endpoint only reads recognized envelope keys at the
+  // top level, so a flat spread was silently dropping every enquiry field.
+  // Field names inside `fields` are unchanged.
   await postToCBIntake({
-    ...data,
     submissionId,
-    formVersion: FORM_VERSION,
-    ...(typeof hubspotutk === 'string' && hubspotutk ? { hubspotutk } : {}),
     submittedAt,
+    formVersion: FORM_VERSION,
     pageUri,
+    ...(typeof hubspotutk === 'string' && hubspotutk ? { hubspotutk } : {}),
+    fields: data,
   });
 
   // Generate a signed URL for the private blob attachment so it is clickable
