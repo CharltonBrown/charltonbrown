@@ -26,6 +26,8 @@ vercel env pull
 
 Key variable: `NEXT_DATOCMS_API_TOKEN` — used in `lib/datocms.js` for all GraphQL requests.
 
+Contact form variables (see `.env` for the full stub list): `RESEND_API_KEY`, `BLOB_READ_WRITE_TOKEN`, `CONTACT_FORM_RECIPIENT`, `CONTACT_FORM_FROM`, `TURNSTILE_SECRET_KEY` / `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `CB_INTAKE_URL` / `CB_INTAKE_SECRET` / `CB_INTAKE_ENABLED`. All are designed to degrade gracefully when unset locally — see the contact form section below.
+
 ## Architecture
 
 ### Data fetching pattern
@@ -66,6 +68,17 @@ Navigation has four parts, all fetched via `navigationFragment`:
 - `pages/contact.js` — contact page
 - `pages/[...slug].js` — catch-all for CMS-managed pages (simple rich text body)
 - `pages/sitemap.xml.js` — dynamically generated sitemap
+- `pages/api/contact.ts`, `pages/api/contact-upload.ts` — contact form API routes (see below)
+
+### Contact form
+
+`pages/contact.js` opens two modals (`components/contact/ClientProjectForm.tsx`, `PressEnquiryForm.tsx`) built with `react-hook-form` + `zodResolver`, validated against schemas in `lib/contact-schema.ts` (a discriminated union on `formType`, shared option constants, conditional `superRefine` rules e.g. UK postcode required only when region is UK). This is a distinct data flow from the rest of the site — it does not go through DatoCMS or `getStaticProps`; the form posts client-side to `pages/api/contact.ts`.
+
+On submit, `pages/api/contact.ts`:
+1. Verifies the Cloudflare Turnstile token (widget in `components/contact/TurnstileWidget.tsx`). **Unconfigured behavior differs by environment**: with no `TURNSTILE_SECRET_KEY`, verification is skipped (logged) everywhere except when `VERCEL_ENV === 'production'`, where a missing secret instead rejects the submission. Locally/in previews this never blocks you; don't "fix" the production fail-closed check without understanding why it's there.
+2. Optionally forwards the submission to CB's intake endpoint (`postToCBIntake`) — best-effort, 5s-timeout-bounded, and gated behind `CB_INTAKE_ENABLED` (currently `false`/unset everywhere; the capability is built but not activated). This can never block or fail the email send below. Enquirer fields must stay nested under a `fields` key in that payload, sibling to the envelope (`submissionId`, `formVersion`, etc.) — CB's endpoint only reads recognized top-level envelope keys, so a flat spread silently drops every form field.
+3. For file attachments (client-project form only), signs a 7-day private Vercel Blob URL (`issueSignedToken`/`presignUrl`) so it's clickable in the email — signing failures are swallowed and the email still sends without the link.
+4. Sends the notification email via Resend, whitelisting fields into HTML rows explicitly (adding a schema field means adding a row here too).
 
 ### Styling
 
@@ -77,7 +90,7 @@ Tailwind CSS with a custom design system defined in `tailwind.config.js`:
 ### Component conventions
 
 - Components live in `components/<name>/index.js`
-- Mix of JS and JSX — no TypeScript in components despite `tsconfig.json` being present
+- Mostly JS/JSX, but `components/contact/*.tsx` and `lib/contact-schema.ts` are TypeScript — `.tsx` is the convention for new form/validation-heavy code, `tsconfig.json` isn't just vestigial
 - Framer Motion used for page transitions (in `_app.js` via `AnimatePresence`) and scroll-triggered animations
 - `clsx` for conditional class names
 - `react-datocms`'s `Image` (via `PlaceholderImage` wrapper) for all DatoCMS images
