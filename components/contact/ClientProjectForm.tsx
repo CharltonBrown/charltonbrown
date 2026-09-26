@@ -312,6 +312,17 @@ export default function ClientProjectForm({ onSuccess }: Props) {
       )}
 
       <Field
+        label="Approximate floor area"
+        error={errors.approximateFloorArea?.message}
+      >
+        <input
+          type="text"
+          {...register('approximateFloorArea')}
+          className={inputClass}
+        />
+      </Field>
+
+      <Field
         label="Do you have a proposed budget for your project? *"
         error={errors.budget?.message}
       >
