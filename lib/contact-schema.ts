@@ -106,7 +106,12 @@ export const clientProjectSchema = z
     // Note: postcode is required only when region === 'UK'. Same caveat as isListedProperty above.
     postcode: z.string().optional(),
     addressLine1: z.string().optional(),
-    approximateFloorArea: z.string().optional(),
+    approximateFloorArea: z
+      .string()
+      .optional()
+      .refine((val) => !val || /^\d+(\.\d+)?$/.test(val), {
+        message: 'Please enter a number.',
+      }),
     budget: req(),
     timing: req(),
     additionalDetail: z.string().optional(),

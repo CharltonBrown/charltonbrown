@@ -127,7 +127,7 @@ function formatProjectEmail(
     ['Country / region', data.region],
     ['Postcode', data.postcode],
     ['Address line 1', data.addressLine1],
-    ['Approximate floor area', data.approximateFloorArea],
+    ['Approximate floor area (sq ft)', data.approximateFloorArea],
     ['Budget', data.budget],
     ['Timings', data.timing],
     ['Additional detail', data.additionalDetail],

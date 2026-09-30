@@ -312,11 +312,13 @@ export default function ClientProjectForm({ onSuccess }: Props) {
       )}
 
       <Field
-        label="Approximate floor area"
+        label="Approximate floor area (sq ft)"
         error={errors.approximateFloorArea?.message}
       >
         <input
-          type="text"
+          type="number"
+          min="0"
+          step="any"
           {...register('approximateFloorArea')}
           className={inputClass}
         />
