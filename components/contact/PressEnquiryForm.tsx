@@ -11,7 +11,6 @@ import {
   PressEnquiryFormData,
   HEARD_ABOUT_OPTIONS,
 } from '@/lib/contact-schema';
-import getHubspotutkCookie from '@/lib/hubspot';
 import TurnstileWidget, {
   isTurnstileConfigured,
 } from '@/components/contact/TurnstileWidget';
@@ -29,14 +28,17 @@ const inputClass =
 const selectClass =
   'w-full bg-transparent border-b border-silver py-2 pr-6 text-black font-savoyRegular text-base focus:outline-none focus:border-black transition-colors appearance-none';
 
-function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
+const Select = React.forwardRef<
+  HTMLSelectElement,
+  React.SelectHTMLAttributes<HTMLSelectElement>
+>(function Select(props, ref) {
   return (
     <div className="relative">
-      <select {...props} className={selectClass} />
+      <select {...props} ref={ref} className={selectClass} />
       <ChevronDownIcon className="pointer-events-none absolute right-0 top-1/2 w-4 h-4 -translate-y-1/2 text-gray" />
     </div>
   );
-}
+});
 
 // Wrapping the control inside <label> satisfies jsx-a11y/control-has-associated-label
 function Field({
@@ -86,12 +88,7 @@ export default function PressEnquiryForm({ onSuccess }: Props) {
   const onSubmit = async (data: PressEnquiryFormData) => {
     setSubmitError(null);
 
-    const hubspotutk = getHubspotutkCookie();
-    const payload = {
-      ...data,
-      turnstileToken,
-      ...(hubspotutk ? { hubspotutk } : {}),
-    };
+    const payload = { ...data, turnstileToken };
 
     const res = await fetch('/api/contact', {
       method: 'POST',

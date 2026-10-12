@@ -19,7 +19,6 @@ import {
   BUDGETS,
   TIMINGS,
 } from '@/lib/contact-schema';
-import getHubspotutkCookie from '@/lib/hubspot';
 import TurnstileWidget, {
   isTurnstileConfigured,
 } from '@/components/contact/TurnstileWidget';
@@ -154,13 +153,7 @@ export default function ClientProjectForm({ onSuccess }: Props) {
       setUploading(false);
     }
 
-    const hubspotutk = getHubspotutkCookie();
-    const payload = {
-      ...data,
-      attachmentUrl,
-      turnstileToken,
-      ...(hubspotutk ? { hubspotutk } : {}),
-    };
+    const payload = { ...data, attachmentUrl, turnstileToken };
 
     const res = await fetch('/api/contact', {
       method: 'POST',
@@ -419,9 +412,18 @@ export default function ClientProjectForm({ onSuccess }: Props) {
           You may unsubscribe from these communications at any time. For more
           information on how to unsubscribe, our privacy practices, and our
           commitment to protecting and respecting your privacy, please review
-          our Privacy Policy. By clicking submit, you consent to allow Charlton
-          Brown to store and process your personal information to provide you
-          with the content and support requested.
+          our{' '}
+          <a
+            href="/privacy-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-black"
+          >
+            Privacy Policy
+          </a>
+          . By clicking submit, you consent to allow Charlton Brown to store and
+          process your personal information to provide you with the content and
+          support requested.
         </p>
       </div>
 

@@ -184,7 +184,7 @@ export default async function handler(
   }
 
   const body = (req.body ?? {}) as Record<string, unknown>;
-  const { turnstileToken, hubspotutk } = body;
+  const { turnstileToken } = body;
 
   // a. Verify Turnstile
   const forwardedFor = req.headers['x-forwarded-for'];
@@ -231,7 +231,6 @@ export default async function handler(
     submittedAt,
     formVersion: FORM_VERSION,
     pageUri,
-    ...(typeof hubspotutk === 'string' && hubspotutk ? { hubspotutk } : {}),
     fields: data,
   });
 

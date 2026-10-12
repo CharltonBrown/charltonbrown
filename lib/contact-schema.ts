@@ -150,7 +150,7 @@ export const clientProjectSchema = z
             message: 'Please enter a valid UK postcode.',
           });
         } else {
-          // Normalize in place so downstream consumers (email, HubSpot) see a
+          // Normalize in place so downstream consumers (email, CB intake) see a
           // consistent format. superRefine doesn't clone `data`, so this mutation
           // is reflected in the parsed result without altering the schema's
           // inferred type the way a field-level .transform() would (which broke
