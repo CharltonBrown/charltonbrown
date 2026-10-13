@@ -11,6 +11,7 @@ import {
   PressEnquiryFormData,
   HEARD_ABOUT_OPTIONS,
 } from '@/lib/contact-schema';
+import PrivacyNotice from '@/components/contact/PrivacyNotice';
 import TurnstileWidget, {
   isTurnstileConfigured,
 } from '@/components/contact/TurnstileWidget';
@@ -203,6 +204,8 @@ export default function PressEnquiryForm({ onSuccess }: Props) {
         )}
         {isSubmitting ? 'Sending…' : 'Submit'}
       </button>
+
+      <PrivacyNotice />
     </form>
   );
 }

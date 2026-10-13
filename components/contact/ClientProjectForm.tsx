@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 // Controls are wrapped inside <label> elements via the Field component.
 // ESLint's static analysis cannot trace through the component boundary.
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { upload } from '@vercel/blob/client';
@@ -21,7 +21,9 @@ import {
 } from '@/lib/contact-schema';
 import TurnstileWidget, {
   isTurnstileConfigured,
+  TurnstileHandle,
 } from '@/components/contact/TurnstileWidget';
+import PrivacyNotice from '@/components/contact/PrivacyNotice';
 
 // ── Shared field primitives ──────────────────────────────────────────────────
 
@@ -109,6 +111,35 @@ export default function ClientProjectForm({ onSuccess }: Props) {
   const [uploading, setUploading] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState('');
+  const turnstileRef = useRef<TurnstileHandle>(null);
+  const tokenWaiters = useRef<((token: string) => void)[]>([]);
+
+  const handleTurnstileVerify = useCallback((token: string) => {
+    setTurnstileToken(token);
+    if (token) {
+      tokenWaiters.current.forEach((resolve) => resolve(token));
+      tokenWaiters.current = [];
+    }
+  }, []);
+
+  // Turnstile tokens are single-use and the upload route consumes one, so a
+  // fresh token is needed for the /api/contact POST. Resolves null on timeout.
+  const getFreshTurnstileToken = () => {
+    setTurnstileToken('');
+    turnstileRef.current?.reset();
+    return new Promise<string | null>((resolve) => {
+      let timer: ReturnType<typeof setTimeout>;
+      const waiter = (token: string) => {
+        clearTimeout(timer);
+        resolve(token);
+      };
+      timer = setTimeout(() => {
+        tokenWaiters.current = tokenWaiters.current.filter((w) => w !== waiter);
+        resolve(null);
+      }, 15000);
+      tokenWaiters.current.push(waiter);
+    });
+  };
 
   const {
     register,
@@ -133,6 +164,7 @@ export default function ClientProjectForm({ onSuccess }: Props) {
     setSubmitError(null);
 
     let attachmentUrl: string | undefined;
+    let submitToken = turnstileToken;
 
     // Upload attachment to Vercel Blob before POSTing the form
     const file = fileRef.current?.files?.[0];
@@ -143,6 +175,7 @@ export default function ClientProjectForm({ onSuccess }: Props) {
         const blob = await upload(safeName, file, {
           access: 'private',
           handleUploadUrl: '/api/contact-upload',
+          clientPayload: JSON.stringify({ turnstileToken }),
         });
         attachmentUrl = blob.url;
       } catch {
@@ -150,10 +183,24 @@ export default function ClientProjectForm({ onSuccess }: Props) {
         setUploading(false);
         return;
       }
+
+      if (isTurnstileConfigured) {
+        const fresh = await getFreshTurnstileToken();
+        if (!fresh) {
+          setSubmitError('Verification failed. Please try again.');
+          setUploading(false);
+          return;
+        }
+        submitToken = fresh;
+      }
       setUploading(false);
     }
 
-    const payload = { ...data, attachmentUrl, turnstileToken };
+    const payload = {
+      ...data,
+      attachmentUrl,
+      turnstileToken: submitToken,
+    };
 
     const res = await fetch('/api/contact', {
       method: 'POST',
@@ -332,7 +379,7 @@ export default function ClientProjectForm({ onSuccess }: Props) {
       </Field>
 
       <Field
-        label="Please give an indication of the proposed timings for your project *"
+        label="When do you anticipate the project starting? *"
         error={errors.timing?.message}
       >
         <Select {...register('timing')} defaultValue="">
@@ -408,26 +455,9 @@ export default function ClientProjectForm({ onSuccess }: Props) {
             I agree to receive other communications from Charlton Brown
           </span>
         </label>
-        <p className="mt-4 text-xs text-gray font-savoyRegular leading-relaxed">
-          You may unsubscribe from these communications at any time. For more
-          information on how to unsubscribe, our privacy practices, and our
-          commitment to protecting and respecting your privacy, please review
-          our{' '}
-          <a
-            href="/privacy-policy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:text-black"
-          >
-            Privacy Policy
-          </a>
-          . By clicking submit, you consent to allow Charlton Brown to store and
-          process your personal information to provide you with the content and
-          support requested.
-        </p>
       </div>
 
-      <TurnstileWidget onVerify={setTurnstileToken} />
+      <TurnstileWidget ref={turnstileRef} onVerify={handleTurnstileVerify} />
 
       {submitError && (
         <p className="mb-5 text-sm text-oldBrick">{submitError}</p>
@@ -467,6 +497,8 @@ export default function ClientProjectForm({ onSuccess }: Props) {
         )}
         {isSubmitting || uploading ? 'Sending…' : 'Submit'}
       </button>
+
+      <PrivacyNotice />
     </form>
   );
 }

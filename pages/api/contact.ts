@@ -8,6 +8,7 @@ import {
   ContactFormData,
   FORM_VERSION,
 } from '@/lib/contact-schema';
+import { verifyTurnstileToken, getRemoteIp } from '@/lib/turnstile';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -17,51 +18,6 @@ type ApiResponse = { success: true } | { error: string };
    Turnstile and CB intake failure paths below, matching lib/datocms.js */
 
 const CB_INTAKE_TIMEOUT_MS = 5000;
-
-// Cloudflare Turnstile isn't provisioned for this site yet (see
-// components/contact/TurnstileWidget.tsx). Without TURNSTILE_SECRET_KEY set,
-// verification is skipped by default so submissions keep working as before;
-// once the secret is set, this starts enforcing automatically. In
-// production (VERCEL_ENV === 'production'), a missing secret instead
-// REJECTS submissions rather than silently skipping — so a deleted/forgotten
-// key degrades loudly there, not silently. Locally and in previews,
-// VERCEL_ENV isn't 'production', so this has no effect on your workflow.
-async function verifyTurnstileToken(
-  token: unknown,
-  remoteIp: string | undefined,
-): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-
-  if (!secret) {
-    if (process.env.VERCEL_ENV === 'production') {
-      console.error(
-        'Turnstile verification failed: running in production but TURNSTILE_SECRET_KEY is not set',
-      );
-      return false;
-    }
-    console.error(
-      'Turnstile verification skipped: TURNSTILE_SECRET_KEY not set',
-    );
-    return true;
-  }
-
-  if (typeof token !== 'string' || !token) return false;
-
-  try {
-    const body = new URLSearchParams({ secret, response: token });
-    if (remoteIp) body.append('remoteip', remoteIp);
-
-    const res = await fetch(
-      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-      { method: 'POST', body },
-    );
-    const result = (await res.json()) as { success?: boolean };
-    return result.success === true;
-  } catch (err) {
-    console.error('Turnstile verification request failed:', err);
-    return false;
-  }
-}
 
 // Best-effort forward to CB's intake endpoint. Never throws and never
 // delays the response beyond CB_INTAKE_TIMEOUT_MS — the Resend email below
@@ -129,7 +85,7 @@ function formatProjectEmail(
     ['Address line 1', data.addressLine1],
     ['Approximate floor area (sq ft)', data.approximateFloorArea],
     ['Budget', data.budget],
-    ['Timings', data.timing],
+    ['Anticipated start date', data.timing],
     ['Additional detail', data.additionalDetail],
     ['How did you hear about us', data.heardAbout],
     ['Referred by', data.referralSource],
@@ -187,12 +143,7 @@ export default async function handler(
   const { turnstileToken } = body;
 
   // a. Verify Turnstile
-  const forwardedFor = req.headers['x-forwarded-for'];
-  const remoteIp = (
-    Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor
-  )
-    ?.split(',')[0]
-    ?.trim();
+  const remoteIp = getRemoteIp(req);
 
   const turnstileOk = await verifyTurnstileToken(turnstileToken, remoteIp);
   if (!turnstileOk) {
