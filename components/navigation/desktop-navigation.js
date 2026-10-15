@@ -9,7 +9,7 @@ import useIsOverlapping from '@/hooks/useIsOverlapping';
 const SubNavLink = ({ link, isActive, navTheme, isOverlapping }) => (
   <Link
     href={`/${link.href}`}
-    className="block text-sm px-2 py-0 whitespace-nowrap group/border last:pr-3"
+    className="block text-sm px-3 py-0 whitespace-nowrap group/border"
   >
     {link.text}
     <span

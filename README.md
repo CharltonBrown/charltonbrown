@@ -13,7 +13,7 @@ This is the website of Charlton Brown, an architecture firm based in North Londo
 ## Install steps
 
 1. Clone the repo `git clone git@github.com:CharltonBrown/charltonbrown.git`
-2. Once within the repo you’ll need some env vars to set the API keys to connect with DatoCMS
+2. Once within the repo you’ll need some env vars — API keys for DatoCMS plus a few others (Resend, Vercel Blob, Turnstile) used by the contact form
 
 - Install the Vercel CLI `npm i -g vercel`
 - Authenicate with `vercel login`
