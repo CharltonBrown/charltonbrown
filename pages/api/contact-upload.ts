@@ -35,6 +35,10 @@ export default async function handler(
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
           ],
           maximumSizeInBytes: 20 * 1024 * 1024, // 20 MB
+          // Two enquirers sending `plans.pdf` must not collide: without this
+          // the second upload fails with a 400 permanently, and the stored
+          // path stops being guessable.
+          addRandomSuffix: true,
         };
       },
       onUploadCompleted: async () => {
