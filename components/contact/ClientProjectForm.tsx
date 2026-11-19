@@ -178,9 +178,15 @@ export default function ClientProjectForm({ onSuccess }: Props) {
           clientPayload: JSON.stringify({ turnstileToken }),
         });
         attachmentUrl = blob.url;
-      } catch {
+      } catch (error) {
+        // The upload consumed the Turnstile token. Without a reset, the retry
+        // this message invites fails verification, so it cannot work.
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
         setSubmitError('File upload failed. Please try again.');
         setUploading(false);
+        // eslint-disable-next-line no-console
+        console.error('Attachment upload failed:', error);
         return;
       }
 
